@@ -1,0 +1,11 @@
+<modal-dialog id-name="'agentAuthorityDlg'" title-name='"账户权限设置"' width-class='"investor-authority-edit-win"'
+              confirm-btn-name='"确定"'
+              confirm-handler="confirmFunc()"
+              hidden-func="closeFunc()">
+    <div style="margin: 10px 0">
+        <span>当前 IAS 账户：{{agent_account_name}}</span>
+        <br />
+        <input ng-model="search.filter" ng-change="search.handleChange()" style="margin-top: 3px;" placeholder="请输入账户名称">
+    </div>
+    <div class="ias-ui-grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection></div>
+</modal-dialog>

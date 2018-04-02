@@ -1,0 +1,11 @@
+<ias-tabs style-name="ias-secondary-tabs" style="margin: 10px 0;">
+    <ias-pane tab-title='敏感度分析' on-select="handleMarketRiskTabSelected('sensitivity')">
+        <div ng-include="'src/account/marketRisk/sensitivity/sensitivity.html'" ng-controller="sensitivityCtrl"></div>
+    </ias-pane>
+    <ias-pane tab-title='VaR值' on-select="handleMarketRiskTabSelected('vaR')">
+        <div ng-include="'src/account/marketRisk/var/var.html'" ng-controller="vaRCtrl"></div>
+    </ias-pane>
+    <ias-pane-component tab-title="情景分析">
+        <scenario-analysis accounts="winStatus.cur_account_list"></scenario-analysis>
+    </ias-pane-component>
+</ias-tabs>

@@ -1,0 +1,45 @@
+<div ng-controller="exportExcelCtrl">
+    <div class="modal fade" id="exportExcelDlg"  role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 400px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">导出Excel</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div style="text-align: center;margin-bottom: 10px">
+                        <btn-li-group btn-group="settleTypeGroup" ng-model="exportType"></btn-li-group>
+                    </div>
+                    <div ng-show="exportType == 0">
+                        <div class="ias-form-group">
+                            <label class="ias-control-label">日期：</label>
+                            <input readonly="readonly" class="ias-date-input"
+                                   datetimepicker config="timePickerConfig" ng-model="valuation_date">
+                        </div>
+
+                        <div class="ias-form-group">
+                            <label class="ias-control-label">账户：</label>
+                            <account-multi-select selected-val="selected_accounts" ng-model="selected_account_clears"></account-multi-select>
+                        </div>
+                    </div>
+                    <div ng-show="exportType == 1">
+                        <div class="ias-form-group">
+                            <label class="ias-control-label">日期区间：</label>
+                            <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="weekReport.startDate" change-date-handler="weekReport.handleDateChange()">
+                            <label>&nbsp;至&nbsp;</label>
+                            <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="weekReport.endDate" change-date-handler="weekReport.handleDateChange()">
+                        </div>
+
+                        <div class="ias-form-group">
+                            <label class="ias-control-label">账户：</label>
+                            <account-multi-select selected-val="weekReport.accounts" ng-model="selected_account_clears"></account-multi-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button type="button"   ng-click="exportClick()">确认</button>
+                    <button type="button" class="ias-dismiss-btn" ng-click="dismissClick()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div>
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">交易类型：</label>
+        <btn-li-group btn-group="typeGroup" is_disabled="!showBtnList" ng-model="trade.direction"> </btn-li-group>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList" ng-change="accountChange()"
+                ng-options="account.id as account.name for account in myAccounts">
+        </select>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">发生日期：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" ng-change="getSettlementDate()" datetimepicker config="timePickerConfig" ng-model="trade.start_date" onblur="value=this.value.match(/\d{4}-\d{2}-\d{2}/) ?  this.value.match(/\d{4}-\d{2}-\d{2}/)[0] : ''">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">结算日期：</label>
+            <label>{{trade.settlement_date}}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">清算速度：</label>
+        <select class="ias-163-select" ng-model="trade.settlement_days" ng-change="getSettlementDate()">
+            <option value=0>T+0</option>
+            <option value=1>T+1</option>
+            <option value=2>T+2</option>
+        </select>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">金额(元)：</label>
+        <input limit-format-number number-point="2" min="0" output-number="trade.amount" change-value="valueChange()">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">客户：</label>
+        <input type="text" ng-model="trade.customer">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">备注：</label><!--
+     --><textarea type="text" ng-model="trade.comment"></textarea>
+    </div>
+</div>

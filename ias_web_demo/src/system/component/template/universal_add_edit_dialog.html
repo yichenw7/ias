@@ -1,0 +1,36 @@
+<md-dialog md-theme="ssAvalonUi" class="universal_add_edit_dialog ss_bg_secondary" aria-label="dialog" role="dialog" ng-cloak>
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h5 ng-bind="$ctrl.dialogTitle"></h5>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content layout="column" layout-padding>
+        
+        <form flex layout="column" layout-padding>
+            <div class="form-row" layout="row" layout-align="start center" ng-repeat="define in $ctrl.viewModelDefine" ng-switch="define.type" ng-class="{'layout-no-padding': !define.type}">
+                <label style="text-align:left;width:50px" ng-switch-when="string||readonlystring||select||date" ng-switch-when-separator="||" 
+                       class="form-label" flex="{{$ctrl.labelFlex}}" ng-class="{'required-field': define.isRequire}" ng-bind="define.label" ></label>
+                <input ng-switch-when="string" ng-disabled="define.disabled"
+                       class="ss-input-text ss-input-text-sm" flex="{{$ctrl.inputFlex}}" type="text" ng-model="define.ngModel">
+
+                <label ng-switch-when="readonlystring" flex="{{$ctrl.inputFlex}}" ng-bind="define.ngModel"></label>
+
+                <md-select ng-switch-when="select" ng-model="define.ngModel" class="md-no-underline" ng-disabled="define.disabled">
+                    <md-option ng-repeat="item in define.itemSource" ng-value="item.value">{{item.displayName}}</md-option>
+                </md-select>
+                <md-datepicker ng-switch-when="date" md-open-on-focus ng-model="define.ngModel" md-placeholder="{{define.placeholder}}" ng-disabled="define.disabled"/>
+            </div>  
+        </form>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="column" layout-align="center stretch">
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickOk($event)" ng-disabled="$ctrl.isOkButtonDisabled">{{$ctrl.okButtonLabel}}</md-button>
+            <md-button class="md-raised md-primary ias-dismiss-btn" ng-click="$ctrl.$onClickCancel($event)">{{$ctrl.cancelButtonLabel}}</md-button>
+        </div>
+    </md-dialog-actions>
+
+
+</md-dialog>

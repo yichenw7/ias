@@ -1,0 +1,19 @@
+<modal-dialog id-name="'agentManageDlg'" title-name='"投资顾问信息管理"' width-class='"add-user-win"'
+              confirm-btn-name='"保存"' confirm-handler="confirmBtnClick()"
+              hidden-func="closeBeforeFunc()">
+    <div class="ias-form-group">
+        <label class="ias-control-label">ias账号：</label>
+        <label class="ias-info-label" ng-if="isEdit">{{agent.account_name}}</label>
+        <input type="text" ng-model="agent.account_name" ng-if="!isEdit">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">姓名：</label>
+        <input type="text" ng-model="agent.user_name">
+        <label style="margin-left: 10px">(可选)</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">所属机构：</label>
+        <input type="text" ng-model="agent.company_name">
+        <label style="margin-left: 10px">(可选)</label>
+    </div>
+</modal-dialog>

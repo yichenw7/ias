@@ -1,0 +1,91 @@
+<div class="notify-bar" layout="row" layout-align="start center" layout-padding>
+    <span>{{$ctrl.dateOfSelectedDatas}}</span>
+
+    <div flex></div>
+
+    <div class="layout-no-padding" ng-show="$ctrl.issueDataCount === 0" layout="row" layout-align="start center">
+        <i class="ss-icon ss-icon-dialog-success" />
+        <span class="normal">正常</span>
+    </div>
+
+    <div class="layout-no-padding" ng-show="$ctrl.issueDataCount > 0" layout="row" layout-align="start center">
+        <i class="ss-icon ss-icon-dialog-error" />
+        <span class="error">异常</span>
+    </div>
+
+    <div ng-if="$ctrl.valuationDetailTreeView.length > 0" class="layout-no-padding" style="display: flex;">
+        <md-button aria-label="展开全部" class="ss-btn md-raised md-primary" ng-click="$ctrl.onClickTreeViewExpandAll($ctrl.valuationDetailTreeView)">展开全部</md-button>
+        <md-button aria-label="折叠全部" class="ss-btn md-raised md-primary" ng-click="$ctrl.onClickTreeViewCollapseAll($ctrl.valuationDetailTreeView)">折叠全部</md-button>
+    </div>   
+
+    <div class="layout-no-padding">
+        <md-button aria-label="导出表格" class="ss-btn md-raised md-primary"
+                   ng-csv-utf8="$ctrl.onExportData()" filename="{{$ctrl.csvFileName}}" csv-header="$ctrl.getCsvHeader()">导出</md-button>
+    </div>
+</div>
+
+<div layout="column" flex layout-align>
+    <md-content class="show-scrollbar-y">
+        <md-list class="tree-view-list tree-view-list-header" ng-click="$ctrl.onClickTable($event)">
+            <md-subheader>
+                <div layout="column">
+                    <div class="tree-row header-group" layout="row">
+                        <span class="border-right" flex=45>估值表数据</span>
+                        <span flex=40>持仓数据</span>
+                        <span class="border-left" flex=15>差值</span>
+                    </div>
+                    <div class="tree-row" layout="row">
+                        <span flex=10>科目代码</span>
+                        <span flex=20>科目名称</span>
+                        <span class="border-right" flex=15>估值数据</span>
+
+                        <span flex=10>持仓代码</span>
+                        <span flex=15>持仓名称</span>
+                        <span flex=15>持仓数据</span>
+
+                        <span class="border-left" flex=15>差异</span>
+                    </div>
+                </div>
+            </md-subheader>
+        </md-list>
+    </md-content>
+    <md-content class="show-scrollbar-y" flex>
+        <md-list class="tree-view-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="parentNode in $ctrl.valuationDetailTreeView">
+            <md-subheader>
+                <div class="tree-row"
+                     ng-class="{'tree-row-collapse': parentNode.$$isCollapse, 'tree-row-expand': !parentNode.$$isCollapse, 'issue-data': parentNode.value_diff !== 0}"
+                     layout="row" layout-align="start center">
+                    <span class="parentNode" flex=10 layout="row" layout-align="start center">
+                        {{parentNode.father_course_code}}
+                        <i ng-show="parentNode.value_diff !== 0" class="ss-icon ss-icon-dialog-error" />
+                    </span>
+                    <span flex=20>{{parentNode.course_name}}</span>
+                    <span class="border-right number" flex=15>{{parentNode.val_value|currency:''}}</span>
+
+                    <span flex=10>{{parentNode.pos_code}}</span>
+                    <span flex=15>{{parentNode.pos_name}}</span>
+                    <span class="number" flex=15>{{parentNode.pos_value|currency:''}}</span>
+
+                    <span class="border-left number" flex=15>{{parentNode.value_diff|currency:''}}</span>
+                </div>
+            </md-subheader>
+            <div ng-hide="parentNode.$$isCollapse" class="tree-row" layout="row" layout-align="start center"
+                 ng-class="{'issue-data': child.value_diff !== 0, 'issue-name' : child.course_name !== child.pos_name}"
+                 ng-repeat="child in parentNode.$$childNodes" ng-selected="child === $ctrl.selectedValuationDetail">
+
+                <span class="line-wrap" flex=10>{{child.course_code}}</span>
+                <span flex=20>{{child.course_name}}</span>
+                <span class="border-right number" flex=15>{{child.val_value|currency:''}}</span>
+
+                <span class="line-wrap" flex=10>{{child.pos_code}}</span>
+                <span class="string" flex=15 layout="row" layout-align="start center" layout-wrap>
+                    {{child.pos_name}}
+                    <i ng-show="child.course_name !== child.pos_name" class="ss-icon ss-icon-dialog-confirm" />
+                </span>
+                <span class="number" flex=15>{{child.pos_value|currency:''}}</span>
+
+                <span class="border-left number" title="估值数据-持仓数据" flex=15>{{child.value_diff|currency:''}}</span>
+            </div>
+        </md-list>
+    </md-content>
+</div>

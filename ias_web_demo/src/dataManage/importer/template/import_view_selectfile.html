@@ -1,0 +1,36 @@
+<div layout="row">
+    <div layout="column">
+        <div class="select-file-btn input-file">
+            <span>选择文件</span>
+            <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().$ctrl.onSelectedFilesChange(this.files)"
+                   ng-model="files" ng-change="$ctrl.onSelectedFilesChange(files)" multiple accept=".xls, .xlsx" />
+        </div>
+    </div>
+    <div class="table-container" layout="column" flex ng-click="$ctrl.onClickTable($event)">
+        <md-content>
+            <md-list class="table-list">
+                <md-subheader>
+                    <div class="table-row" layout="row">
+                        <span flex="initial" style="width: 22px;"></span>
+                        <span flex>文件名称</span>
+                        <span flex="initial">文件大小</span>
+                        <span flex="initial" style="width: 45px;"></span>
+                    </div>
+                </md-subheader>
+            </md-list>
+        </md-content>
+        <md-content flex>
+            <md-list class="table-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="file in $ctrl.selectedFiles">
+                <div class="table-row" layout="row" layout-align="start center">
+                    <span flex="initial" style="width: 22px;"><i class="ss-icon ss-icon-text-comment-normal" /></span>
+                    <span flex>{{file.name}}</span>
+
+                    <span flex="initial">{{file.size|currency:'':0}}</span>
+                    <span flex="initial" style="width: 45px;" class="table-action">
+                        <md-button aria-label="删除" class="ss-btn md-raised ss-btn-danger" tag="remove"><i class="ss-icon ss-icon-delete-normal" /></md-button>
+                    </span>
+                </div>
+            </md-list>
+        </md-content>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<md-dialog md-theme="ssAvalonUi" class="image-dialog ss_bg_secondary" aria-label="dialog" role="dialog">
+    <md-dialog-content layout="column" layout-padding layout-align="start stretch">
+        <div class="image-container">
+            <img ng-src="{{$ctrl.image[0].url}}" alt="" />
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="column" layout-align="center stretch">
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickCancel($event)">关闭</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

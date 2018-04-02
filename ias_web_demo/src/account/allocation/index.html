@@ -1,0 +1,8 @@
+<ias-tabs style-name="ias-secondary-tabs" style="margin: 10px 0">
+    <ias-pane tab-title="债券" on-select="handleBondSelected()">
+        <div ng-include="'src/account/allocation/bond.html'"></div>
+    </ias-pane>
+    <ias-pane tab-title="申购资金" on-select="handlePurchaseSelected()" is-hide="winStatus.cur_account_list.length > 1">
+        <div ng-include="'src/account/allocation/purchase.html'"></div>
+    </ias-pane>
+</ias-tabs>

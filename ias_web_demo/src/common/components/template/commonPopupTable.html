@@ -1,0 +1,41 @@
+<div class="common_popup_table" layout="column" layout-align="start stretch" ng-switch="$ctrl.itemSourceType" md-colors="::{backgroundColor: 'ssAvalonUi-background-900'}">
+
+    <div layout="row" ng-switch-when="issuerBtn" layout-padding layout-wrap>
+        <div flex=50>
+            <span>发行人：</span>
+            <span>{{$ctrl.headData.issuer_name}}</span>
+        </div>
+        <div flex=50>
+            <span>所属行业：</span>
+            <span>{{$ctrl.headData.sector}}</span>
+        </div>
+    </div>
+
+    <table class="ias-table" ng-switch-when="issuerBtn">
+        <thead>
+            <tr ng-if="$first" ng-repeat="row in $ctrl.itemSource track by $index">
+                <th ng-repeat="col in row" ng-bind-template="{{col}}"></th>
+            </tr>
+        </thead>
+        <tbody ng-click="$ctrl.onClickListItem($event)">
+            <tr ng-if="!$first" ng-repeat="row in $ctrl.itemSource track by $index">
+                <td>{{row.title}}</td>
+                <td>{{row.org_name}}</td>
+                <td>{{row.pub_time}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="ias-table" ng-switch-default>
+        <thead>
+            <tr ng-if="$first" ng-repeat="row in $ctrl.itemSource track by $index">
+                <th ng-repeat="col in row" ng-bind-template="{{col}}"></th>
+            </tr>
+        </thead>
+        <tbody ng-switch-default>
+            <tr ng-if="$first" ng-repeat="row in $ctrl.itemSource track by $index">
+                <td ng-repeat="col in row"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

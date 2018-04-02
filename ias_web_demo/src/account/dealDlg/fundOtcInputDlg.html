@@ -1,0 +1,123 @@
+<div class="ias-form-group" ng-show="trade.show_alert">
+    <label class="ias-warning">{{ trade.alert_content }}</label>
+</div>
+
+<div class="ias-form-group">
+    <label class="ias-control-label">方向：</label>
+    <btn-li-group btn-group="directionGroup" is-disabled="!showBtnList" ng-model="trade.direction"></btn-li-group>
+</div>
+
+<div class="ias-form-group" ng-if="!trade.is_edit_mode">
+    <label class="ias-control-label ias-required-field">标的：</label>
+    <angucomplete-alt id="fundSearchBox" placeholder="代码、简称或拼音" pause="100"
+                        selected-object="handleFundOtcSelected"
+                        local-data="fundOtcList"
+                        search-fields="fund_code,fundsname,chi_abbr"
+                        title-field="fund_code,fundsname"
+                        input-show-fields="fund_code,fundsname"
+                        input-class="ias-angucomplete-input"
+                        match-result-length="10"
+                        minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+</div>
+
+<div class="inquiry-details" ng-if="!trade.is_edit_mode">
+    <div>
+        <label class="ias-control-label">代码：</label>
+        <label class="ias-info-label">{{ trade.fund_code }}</label>
+    </div>
+    <div>
+        <label class="ias-control-label">简称：</label>
+        <label class="ias-info-label">{{ trade.fund_name }}</label>
+    </div>
+    <div ng-if="!trade.isMoneyFund">
+        <label class="ias-control-label">交易日净值：</label>
+        <label class="ias-info-label">{{ trade.unit_net }}</label>
+    </div>
+    <div>
+        <label class="ias-control-label">持有份额：</label>
+        <label class="ias-info-label">{{ trade.available_volume | commafyConvert }}</label>
+    </div>
+</div>
+
+<div ng-if="trade.is_edit_mode">
+    <div class="ias-form-group">
+        <label class="ias-control-label">代码：</label>
+        <label class="ias-info-label">{{ trade.fund_code }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">简称：</label>
+        <label class="ias-info-label">{{ trade.fund_name }}</label>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.isMoneyFund">
+        <label class="ias-control-label">昨日净值：</label>
+        <label class="ias-info-label">{{ trade.unit_net }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">持有份额：</label>
+        <label class="ias-info-label">{{ trade.available_volume | commafyConvert}}</label>
+    </div>
+</div>
+
+<div class="ias-form-group">
+    <label class="ias-control-label">交易日：</label>
+    <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="trade.trade_date" ng-change="handleTradeDateChanged()">
+    <div class="ias-offset-1-3" ng-if="trade.isMoneyFund">
+        <label class="ias-control-label">到账日期：</label>
+        <select class="ias-163-select" ng-model="trade.settlement_days">
+            <option value=0>T+0</option>
+            <option value=1>T+1</option>
+            <option value=2>T+2</option>
+            <option value=3>T+3</option>
+            <option value=4>T+4</option>
+            <option value=5>T+5</option>
+            <option value=6>T+6</option>
+            <option value=7>T+7</option>
+        </select>
+    </div>
+</div>
+
+<div class="ias-form-group">
+    <label class="ias-control-label ias-required-field">账户：</label>
+    <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+            ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+            ng-change="handleAccountChanged(trade.account_id)">
+    </select>
+</div>
+
+<div class="ias-form-group" ng-if="!trade.isMoneyFund">
+    <label class="ias-control-label ias-required-field">{{ 1 == trade.direction ? "购买净值：":"赎回净值：" }}</label>
+    <input limit-format-number  output-number="trade.price" change-value="handlePriceChanged()">
+</div>
+
+<div class="ias-form-group" ng-if="trade.isMoneyFund">
+    <label class="ias-control-label">万份基金收益：</label>
+    <label class="ias-info-label">{{ trade.tenthou_unit_incm }}</label>
+</div>
+
+<div class="ias-form-group" ng-show="1 == trade.direction">
+    <label class="ias-control-label ias-required-field">购买金额：</label>
+    <input limit-format-number  output-number="trade.amount" change-value="handleAmountChanged()">
+</div>
+
+<div class="ias-form-group" ng-show="-1 == trade.direction">
+    <label class="ias-control-label ias-required-field" >赎回份额：</label>
+    <input limit-format-number output-number="trade.volume" ng-disabled="(trade.available_volume == 0)" change-value="handleVolumeChanged()">
+    <label class="ias-control-label">可赎回份额：</label>
+    <label class="ias-info-label">{{ trade.available_volume | commafyConvert }}</label>
+</div>
+
+<div class="ias-form-group" ng-if="!trade.isMoneyFund">
+    <label class="ias-control-label ias-required-field">{{ 1 == trade.direction ? "购买费率：":"赎回费率：" }}</label>
+    <input limit-format-number output-number="trade.fee_value" change-value="handleFeeChanged()">
+    <label ng-if="trade.fee_type == 'rate'" class="ias-info-label">%</label>
+    <label ng-if="trade.fee_type == 'fix'" class="ias-info-label">元</label>
+
+    <div class="ias-offset-1-3">
+        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.fee_type == 'rate']">
+            <input type="radio" name="feeType" value='rate' ng-model="trade.fee_type">百分比
+        </label>
+        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.fee_type == 'fix']">
+            <input type="radio" name="feeType" value='fix' ng-model="trade.fee_type">固定值
+        </label>
+    </div>
+</div>

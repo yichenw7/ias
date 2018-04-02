@@ -1,0 +1,56 @@
+<div class="notify-bar" layout="row" layout-align="start center" layout-padding>
+    <div ng-show="$ctrl.issueDataCount === 0" layout="row" layout-align="start center">
+        <i class="ss-icon ss-icon-dialog-success" />
+        <span class="normal">目前未发现异常</span>
+    </div>
+
+    <div ng-show="$ctrl.issueDataCount > 0" layout="row" layout-align="start center">
+        <i class="ss-icon ss-icon-dialog-error" />
+        <span class="error">有{{$ctrl.issueDataCount || '0'}}条估值表数据出现异常</span>
+    </div>
+</div>
+
+<div flex layout="column">
+    <md-content>
+        <md-list class="tree-view-list">
+            <md-subheader>
+                <div layout="column">
+                    <div class="tree-row" layout="row">
+                        <span flex>数据总览</span>
+                    </div>
+                    <div class="tree-row" layout="row">
+                        <span flex>账户名称</span>
+                        <span flex="initial">估值表日期</span>
+                        <span flex>估值净值</span>
+                        <span flex>持仓净值</span>
+                        <span flex>差异</span>
+                        <div class="icon-column"></div>
+                    </div>
+                </div>
+            </md-subheader>
+        </md-list>
+    </md-content>
+    <md-content flex>
+        <md-list class="tree-view-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="parentNode in $ctrl.valuationTreeView">
+            <md-subheader class="body-subheader">
+                <div class="tree-row" ng-class="{'tree-row-collapse': parentNode.$$isCollapse, 'tree-row-expand': !parentNode.$$isCollapse}"
+                     layout="row" layout-align="start center">
+                    <span flex="initial">{{parentNode.account_name || "(没有名称)"}}</span>
+                    <span flex></span>
+                </div>
+            </md-subheader>
+            <div ng-hide="parentNode.$$isCollapse" class="tree-row" layout="row" layout-align="start center"
+                 ng-repeat="child in parentNode.$$childNodes" ng-selected="child === $ctrl.ngModel"
+                 ng-class="{'issue-data': child.value_diff !== 0}">
+                <span flex></span>
+                <span flex="initial">{{child.date}}</span>
+                <span flex title="{{child.val_value|currency:''}}">{{child.val_value|currency:''}}</span>
+                <span flex title="{{child.pos_value|currency:''}}">{{child.pos_value|currency:''}}</span>
+                <span flex title="{{child.value_diff|currency:''}}">{{child.value_diff|currency:''}}</span>
+                <div class="icon-column">
+                    <img ng-show="child === $ctrl.ngModel" src="./images/list_fold.png" />
+                </div>
+            </div>
+        </md-list>
+    </md-content>
+</div>

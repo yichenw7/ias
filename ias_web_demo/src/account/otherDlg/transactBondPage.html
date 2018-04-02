@@ -1,0 +1,28 @@
+<div style="border: 8px solid #383B44; width: 760px" >
+    <table class="ias-table" ng-if="!isTrade">
+        <thead style="background-color: #000000">
+            <tr>
+                <th width="100px">交易日</th>
+                <th width="80px">成本净价</th>
+                <th width="80px">成本全价</th>
+                <th width="80px">收益率(%)</th>
+                <th width="100px">已实现收益</th>
+                <th width="100px">未实现收益</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ buy_tip.trade_date }}</td>
+                <td>{{ buy_tip.clean_price }}</td>
+                <td>{{ buy_tip.dirty_price }}</td>
+                <td>{{ buy_tip.yield }}</td>
+                <td>{{ buy_tip.realized_gain | commafyConvert}}</td>
+                <td>{{ buy_tip.unrealized_gain | commafyConvert}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div ng-if="isTrade">
+        <div ui-grid="tradeGridOptions" class="ias-ui-grid"
+             ui-grid-resize-columns ui-grid-auto-resize style="height: 180px"></div>
+    </div>
+</div>

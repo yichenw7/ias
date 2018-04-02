@@ -1,0 +1,31 @@
+<modal-dialog id-name="'addAssetDefineDlg'" title-name='"添加资产定义"' width-class='"add-asset-define-win"'
+              confirm-btn-name='"确定"'
+              confirm-handler="confirmFunc()"
+              hidden-func="dismiss()">
+
+    <angucomplete-alt placeholder="请输入资产名称" pause="100"
+                      selected-object="filterFunc"
+                      local-data="gridOptions.data"
+                      search-fields="name"
+                      title-field="name"
+                      input-show-fields="name"
+                      input-class="ias-angucomplete-input"
+                      match-result-length="10"
+                      minlength="1"
+                      auto-match="true"
+                      focus-first="true">
+    </angucomplete-alt>
+    <label class="ias-word-break" style="margin-top: 10px; color:#f9c66e;">已选资产名称：{{assetDefineFactory.theEditRowEntity.course_name}}</label>
+    <button   ng-click="getAssetValustion()" style="float: right;">刷新
+    </button>
+    <div class="clearfix"></div>
+    <div class="ias-ui-grid" ui-grid="gridOptions" style="text-align: center; margin-top: 10px;"
+         ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection>
+    </div>
+    <p style="margin-top: 10px; color:#f9c66e;">
+        <label class="ias-word-break" style="margin-right: 20px;" ng-show="assetDefineFactory.selectType == 1">匹配账户：{{assetDefineFactory.theEditRowEntity.account_name}}</label>
+        <label class="ias-word-break"  ng-show="assetDefineFactory.selectType == 2">非标资产：{{assetDefineFactory.theEditRowEntity.ref_asset_name}}</label>
+    </p>
+    <button type="button" class="  ng-binding" ng-click="bindAccount()" >选择 匹配账户/非标资产</button>
+
+</modal-dialog>

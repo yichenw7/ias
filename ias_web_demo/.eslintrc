@@ -1,0 +1,35 @@
+// https://eslint.org/docs/user-guide/configuring
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "eslint:recommended",
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "impliedStrict": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "globals": {
+        "module": true,
+        "require": true,
+        "AmCharts": true,
+        "angular": true // TODO: remove when we use `import angular` in all file
+    },
+    "env": {
+        "browser": true, // predefined browser global variables
+        "es6": true,
+        "jquery": true // TODO: remove jquery from ias, but now, we need it
+    },
+    "rules": {
+        "linebreak-style": "off",
+        "no-console": "off",
+        "object-curly-spacing": "off",
+        "require-jsdoc": "off",
+        "no-debugger": "warn",
+        "max-len": "off"
+    }
+}

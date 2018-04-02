@@ -1,0 +1,56 @@
+<div class="tab-template-wrap" ng-class="{true:'account-tab-template-wrap',false:''}[isAccountTab]">
+    <div class="tab-template-header has-feedback">
+        <ul class="tab-template-header-nav">
+            <li ng-repeat="pane in panes" role="presentation">
+                <a href="" ng-if="!isAccountTab" ng-click="select(pane)" ng-class="{true:'tab-template-active', false:'tab-template-default'}[pane.selected]">
+                    {{ pane.name }} <span class="counter-icon" ng-show="pane.updateTaskNum > 0">{{ pane.updateTaskNum }}</span></a>
+                <a href="" ng-if="isAccountTab" ng-click="select(pane)"
+                   ng-class="{true: 'account-active', false: 'account-default'}[pane.selected]">
+                    {{ pane.name }}
+                    <span ng-if="pane.isShowValuationIcon || pane.isShowValuationPlusIcon" class="valuation-icon">估</span>
+                    <span ng-if="pane.isShowValuationPlusIcon" class="valuation-icon" style="margin-left: 19px; width: 10px; line-height: 14px;">+</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-template-header-auto-flush" ng-if="showAutoFlush">
+            <div class="onoffswitch">
+                <input type="checkbox" class="onoffswitch-checkbox" id="onOff" ng-click="switchOn()" checked>
+                <label class="onoffswitch-label" for="onOff">
+                    <div class="onoffswitch-inner"></div>
+                    <div class="onoffswitch-switch"></div>
+                </label>
+            </div>
+            <label>{{flushLabelName}}</label>
+        </div>
+        <div class="tab-template-header-angucomplete" ng-if="showSearchBox">
+            <angucomplete-alt placeholder="代码、简称或拼音" pause="100"
+                              selected-object="bondSelectFun"
+                              local-data="bondList"
+                              search-fields="bond_id,pin_yin,short_name,pin_yin_full"
+                              title-field="bond_id,short_name"
+                              input-show-fields="bond_id,short_name"
+                              input-class="ias-angucomplete-input"
+                              match-result-length="10"
+                              minlength="1"
+                              auto-match="true"
+                              focus-first="true">
+            </angucomplete-alt>
+        </div>
+        <div class="tab-template-header-checkbox" ng-if="showCheckbox">
+            <label ng-class="{'interBank': 'radio-normal', 'exchange':'radio-select'}[marketType.value]">
+                <input type="radio" name="optionsRadios" ng-model="marketType.value" value="exchange" ng-change="newMarketType(true)">交易所
+            </label>
+            <label ng-class="{'interBank': 'radio-select', 'exchange':'radio-normal'}[marketType.value]">
+                <input type="radio" name="optionsRadios" ng-model="marketType.value" value="interBank" ng-change="newMarketType(false)">银行间
+            </label>
+        </div>
+        <div class="tab-template-header-item-filter" ng-if="showFilterBtn">
+            <button ng-click="onClickFunc()">
+                <span ng-class="{true: 'glyphicon glyphicon-triangle-right', false:'glyphicon glyphicon-triangle-left'}[selectTab.expanded]"></span>
+                {{selectTab.expanded ? '完成': '筛选'}}
+            </button>
+        </div>
+    </div>
+    <div class="panel-body" style="padding: 0;" ng-transclude></div>
+</div>

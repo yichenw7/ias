@@ -1,0 +1,34 @@
+@import './input_account_selector.less';
+
+import-view-tasklist {
+
+    md-progress-linear,
+    md-progress-linear > .md-mode-determinate {
+        height: 1px;
+    }
+
+    .search-item-bar {
+        .search-input-container {
+            .search-input-style();
+        }
+
+        > *,
+        input-account-selector> *{
+            margin-bottom: 0;
+        }
+
+        > button{
+            margin: 8px;
+        }
+    }
+
+    .table-list .table-row{
+
+        > .account-column{
+            width: 100px;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            overflow:hidden;
+        }
+    }
+}

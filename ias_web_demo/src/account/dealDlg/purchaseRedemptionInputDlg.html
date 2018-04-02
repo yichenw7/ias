@@ -1,0 +1,122 @@
+<div>
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">交易类型：</label>
+        <btn-li-group btn-group="typeGroup" is_disabled="!showBtnList" ng-model="trade.direction" change-btn="changeBtn(value)"> </btn-li-group>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList" ng-change="accountChange()"
+                ng-options="account.id as account.name for account in myAccounts">
+        </select>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">客户：</label>
+            <input type="text" ng-model="trade.customer">
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label ias-required-field">清算速度：</label>
+            <select class="ias-163-select" ng-model="trade.settlement_days" ng-change="getSettlementDate()">
+                <option value=0>T+0</option>
+                <option value=1>T+1</option>
+                <option value=2>T+2</option>
+            </select>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">发生日期：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" ng-change="dateCompare('purchaseStart')" datetimepicker config="timePickerConfig" ng-model="trade.start_date" onblur="value=this.value.match(/\d{4}-\d{2}-\d{2}/) ?  this.value.match(/\d{4}-\d{2}-\d{2}/)[0] : ''">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">起息日：</label>
+            <input readonly="readonly" type="text" class="ias-date-input"  ng-change="dateCompare('interestStart')" datetimepicker config="timePickerConfig" ng-model="trade.value_date">
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">结算日期：</label>
+            <label>{{trade.settlement_date}}</label>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-if="1 == trade.direction">
+        <label class="ias-control-label">计息天数：</label>
+        <input class="ias-rate-input" limit-format-number  regexp-str="[1-9]\d*" maxlength=6 output-number="trade.issuer_term" change-value="interestDaysChanged()">
+        <div class="ias-offset-1-3" >
+            <label class="ias-control-label">到期日期：</label>
+            <input readonly="readonly" type="text" size="16" class="ias-date-input input-not-edit" ng-change="maturityDateChanged()"
+                    datetimepicker="" config="timePickerConfig" ng-model="trade.maturity_date">
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">退出日期：</label>
+            <label>{{trade.exit_date}}</label>
+        </div>
+    </div>
+    <div ng-if="1 == trade.direction">
+        <div class="ias-form-group">
+            <label class="ias-control-label ias-required-field">金额(元)：</label>
+            <input limit-format-number number-point="2" min="0" output-number="trade.amount" change-value="valueChange()">
+            <div class="ias-offset-1-3">
+                <label class="ias-control-label">目标收益(%)：</label>
+                <input type="text" limit-format-number number-point="2" output-number="trade.target_cost" change-value="valueChange()">
+            </div>
+            <div class="ias-offset-2-3">
+                <label class="ias-control-label">发行结束日：</label>
+                <input readonly="readonly" type="text" size="16" class="ias-date-input input-not-edit" datetimepicker="" config="timePickerConfig" ng-model="trade.release_end_date">
+            </div>
+        </div>
+        <div class="ias-form-group" ng-if="trade.account.yield_calculation === 'share'">
+            <label class="ias-control-label">申购净值：</label>
+            <input limit-format-number output-number="trade.unit_asset_net" change-value="handleUnitNetChanged()">
+            <div class="ias-offset-1-3">
+                <label class="ias-control-label">申购份额：</label>
+                <label>{{ trade.shares | commafyConvert }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="1 != trade.direction">
+        <div class="ias-form-group" ng-if="trade.account.yield_calculation !== 'share'">
+            <label class="ias-control-label ias-required-field">金额(元)：</label>
+            <input limit-format-number number-point="2" min="0" output-number="trade.amount">
+        </div>
+        <div class="ias-form-group" ng-if="trade.account.yield_calculation === 'share'">
+            <label class="ias-control-label ias-required-field">赎回份额：</label>
+            <input type="text" limit-format-number output-number="trade.shares" change-value="handleSharesChanged()">
+            <div class="ias-offset-1-3">
+                <label class="ias-control-label">赎回净值：</label>
+                <input limit-format-number output-number="trade.unit_asset_net" change-value="handleUnitNetChanged()">
+            </div>
+            <div class="ias-offset-2-3">
+                <label class="ias-control-label">金额(元)：</label>
+                <label>{{ trade.amount | commafyConvert }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="ias-form-group" ng-if="1 == trade.direction">
+        <label class="ias-control-label">是否滚存：</label>
+        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.is_rolling == '1']">
+            <input type="radio" name="isRolling" value='1' ng-model="trade.is_rolling">是
+        </label>
+        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.is_rolling == '0']">
+            <input type="radio" name="isRolling" value='0' ng-model="trade.is_rolling">否
+        </label>
+        <div class="ias-offset-1-3" ng-if="1 == trade.direction">
+            <label class="ias-control-label">到期金额(元)：</label>
+            <label>{{expiry_amount}}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">发行渠道：</label>
+        <input type="text" ng-model="trade.channel">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">类别：</label>
+            <input type="text" maxlength="20" ng-model="trade.custom_type">
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <div class="ias-note-wrap">
+            <label class="ias-control-label">备注：</label><!--
+         --><textarea ng-model="trade.comment"></textarea>
+        </div>
+    </div>
+</div>
+

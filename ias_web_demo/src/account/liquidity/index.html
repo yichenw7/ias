@@ -1,0 +1,13 @@
+<ias-tabs style-name="ias-secondary-tabs" style="margin: 10px 0;">
+    <ias-pane-component tab-title="现金流">
+        <div ng-include="'src/account/liquidity/cashflow/cashflow.html'"></div>
+    </ias-pane-component>
+    <ias-pane-component tab-title="头寸表" is-hide="winStatus.cur_account_list.length > 1 || !(cur_account_trade_option == ACCOUNT_TRADE_VIEW && winStatus.cur_account.source_type_position !== 'position')">
+        <div ng-controller="positionSheetCtrl">
+            <div ng-include="'src/account/liquidity/positionSheet/positionSheet.html'"></div>
+        </div>
+    </ias-pane-component>
+    <ias-pane-component tab-title="可用券">
+        <div ng-include="'src/account/liquidity/availableBonds/availableBonds.html'"></div>
+    </ias-pane-component>
+</ias-tabs>

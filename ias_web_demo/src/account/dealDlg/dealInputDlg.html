@@ -1,0 +1,85 @@
+<!--html版本1.17.1-->
+<div ng-controller="dealInputCtrl">
+    <div class="modal fade" id="dealInputWin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog deal-input-dialog" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title" id="myModalLabel">成交录入</h5>
+                </div>
+                <div class="modal-body ias-modal-body">
+                    <div class="left-content-tab" ng-if="showBtnList">
+                        <tab-tip-group nav-tab-style="'left-tab-wrap'" btn-group="inputGroup" ng-model="trade.tabType" change-btn="changeBtn(value)"></tab-tip-group>
+                    </div>
+                    <div class="right-content-wrap">
+                        <div ng-controller="cashInputCtrl">
+                            <div ng-include="'src/account/dealDlg/cashInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="depositInputCtrl">
+                            <div ng-include="'src/account/dealDlg/depositInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="bankLendingInputCtrl">
+                            <div ng-include="'src/account/dealDlg/bankLendingInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="financeInputCtrl">
+                            <div ng-include="'src/account/dealDlg/financeDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="bankRepoInputCtrl">
+                            <div ng-include="'src/account/dealDlg/bankRepoInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="buyoutRepoInputCtrl">
+                            <div ng-include="'src/account/dealDlg/buyoutRepoInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="exchangeRepoInputCtrl">
+                            <div ng-include="'src/account/dealDlg/exchangeRepoInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="protocolRepoInputCtrl">
+                            <div ng-include="'src/account/dealDlg/protocolRepoInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="exchangePledgeInputCtrl">
+                            <div ng-include="'src/account/dealDlg/exchangePledgeDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="stockFundInputCtrl">
+                            <div ng-include="'src/account/dealDlg/stockFundInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="purchaseRedemptionInputCtrl">
+                            <div ng-include="'src/account/dealDlg/purchaseRedemptionInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="dividendInputCtrl">
+                            <div ng-include="'src/account/dealDlg/dividendInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="exessReserveInputCtrl">
+                            <div ng-include="'src/account/dealDlg/exessReserveInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="primaryDealInputCtrl">
+                            <div ng-include="'src/account/dealDlg/primaryDealInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="custodyTransferCtrl">
+                            <div ng-include="'src/account/dealDlg/custodyTransferDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="feeInputCtrl">
+                            <div ng-include="'src/account/dealDlg/feeInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="fundOtcInputCtrl">
+                            <div ng-include="'src/account/dealDlg/fundOtcInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="treasuryFuturesInputCtrl">
+                            <div ng-include="'src/account/dealDlg/treasuryFuturesInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                        <div ng-controller="tfMarginInputCtrl">
+                            <div ng-include="'src/account/dealDlg/tfMarginInputDlg.html'" ng-if="display()"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer" onload="showDealDlg()">
+                    <button ng-click="apply()" ng-if="dealPage.isShowApply">试算</button>
+                    <button ng-click="confirm()">确定</button>
+                    <button class="ias-dismiss-btn" ng-click="dismiss()">取消</button>
+                    <button style="width:90px;float:right; margin-right:20px;" ng-if="showBtnList" ng-click="confirmContinue()">确定并继续</button>
+                </div>
+                <div ng-show="dealPage.isTrading" class="deal-input-loading">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>&nbsp;正在录入...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

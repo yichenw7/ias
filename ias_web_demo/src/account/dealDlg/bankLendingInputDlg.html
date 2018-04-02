@@ -1,0 +1,61 @@
+<div>
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" is_disabled="!showBtnList" ng-model="trade.direction"></btn-li-group>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">计息基准：</label>
+            <btn-li-group btn-group="dayCounterGroup" ng-model="trade.day_counter"></btn-li-group>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">发生日期：</label>
+        <input readonly class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="trade.initial_date" ng-change="maturityDateChanged(trade.term, trade.initial_date)">
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">到期日：</label>
+            <label class="ias-info-label">{{ bank_repos.maturity_date }}</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">期限：</label>
+        <input class="ias-rate-input" limit-format-number output-number="trade.term" regexp-str="[1-9]\d*" change-value="maturityDateChanged(trade.term, trade.initial_date)">
+        <label class="ias-info-label">D</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">利率：</label>
+        <input class="ias-rate-input" limit-format-number output-number="trade.lending_rate">
+        <label class="ias-info-label">%</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">金额：</label>
+        <input limit-format-number number-point="2" output-number="trade.amount">
+        <label class="ias-info-label">&nbsp;元</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">对手行：</label>
+        <input class="ias-long-input" ng-model="trade.counter_party_bank">
+    </div>
+
+    <div class="ias-note-wrap">
+        <label class="ias-control-label">备注：</label><!--
+     --><textarea ng-model="trade.comment"></textarea>
+    </div>
+</div>

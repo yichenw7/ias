@@ -1,0 +1,70 @@
+<div ng-controller="availableBondsPositionCtrl">
+    <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出</button>
+    <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+    <button ng-click="showPledgedBondsFilter()" style="margin-right:5px;float:right;margin-left:4px;margin-top:5px;">自动排券</button>
+    <div class="ias-form-group" style="float:right;margin-right:100px;margin-top:5px">
+        <angucomplete-alt placeholder="代码、简称或拼音" pause="100" selected-object="handleBondSelected" local-data="bondList" search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+            title-field="bond_id,short_name" input-show-fields="bond_id,short_name" input-class="ias-angucomplete-input" match-result-length="10"
+            minlength="1" auto-match="true" focus-first="true"> </angucomplete-alt>
+    </div>
+    <ias-tabs style-name="ias-third-tabs" style="display:inline-block">
+        <ias-pane tab-title="银行间" on-select="interbankSelect()"></ias-pane>
+        <ias-pane tab-title="交易所" on-select="exchangeSelect()"></ias-pane>
+    </ias-tabs>
+    <div style="margin-top:10px;display:inline-block">
+        <label class="ias-control-label">查询日期：</label>
+        <input readonly="readonly" type="text" class="ias-date-input input-not-edit" datetimepicker config="timePickerConfig"
+            ng-model="inquiry_date" ng-change="init()" ng-init="getAccountDate()">
+        <select ng-show="interbankIsSelected" style="margin-left:10px;width:120px" ng-model="interbankMarket" ng-change="toColumn(allMarketData)"
+            ng-init="interbankMarket='all'">
+            <option value="all">所有托管机构</option>
+            <option value="sch">上清</option>
+            <option value="cdc">中债</option>
+        </select>
+        <select ng-show="!interbankIsSelected" style="margin-left:10px;width:120px" ng-model="exchangeMarket" ng-change="toColumn(allMarketData);formate(allNormalizedBondsData)"
+            ng-init="exchangeMarket='all'">
+            <option value="all">所有交易场所</option>
+            <option value="sse">上交所</option>
+            <option value="sze">深交所</option>
+        </select>
+    </div>
+    <div ng-if="interbankIsSelected">
+        <div style="margin-left:10px;margin-top:5px">
+            <div style="display:inline-block">银行间可用券：</div>
+            <div style="display:inline-block" class="sum-data">{{ total_available_volume | toWanYuan | thousandthNum }}</div>
+            <div style="display:inline-block"> 万</div>
+        </div>
+        <div class="account-ui-grid-position grid ias-ui-grid" style="top: 135px;left:0;right:0;" ui-grid="gridOptions" ui-grid-move-columns
+            ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter> </div>
+    </div>
+    <div ng-if="!interbankIsSelected">
+        <div style="margin-left:10px;margin-top:5px;display:inline-block;overflow:auto">
+            <div style="display:inline-block;width:250px">
+                <div style="display:inline-block">交易所可提交标准券：</div>
+                <div style="display:inline-block" class="sum-data">{{ total_normalized_bond_available_volume | thousandthNum }}</div>
+                <div style="display:inline-block"> 张</div>
+            </div>
+            <div style="display:inline-block">
+                <div style="display:inline-block">交易所可用标准券：</div>
+                <div style="display:inline-block" class="sum-data">{{ volume_available | thousandthNum }}</div>
+                <div style="display:inline-block"> 张</div>
+            </div>
+            <div style="display:inline-block">
+                <div style="display:inline-block">(已入库标准券：</div>
+                <div style="display:inline-block" class="sum-data">{{ volume | thousandthNum }}</div>
+                <div style="display:inline-block"> 张</div>
+            </div>
+            <div style="display:inline-block">
+                <div style="display:inline-block">/已使用标准券：</div>
+                <div style="display:inline-block" class="sum-data">{{ volume_occupied | thousandthNum }}</div>
+                <div style="display:inline-block"> 张)</div>
+            </div>
+        </div>
+        <div style="display:inline-block">
+            <detail-tip-btn tip-view-id="'pledgeBondDetailPage'" ng-if="occupiedData.length>0" show-detail-func="showPledgeBondDetail(list)"
+                bond-list="occupiedData" tip-left="675" tip-top="90"> </detail-tip-btn>
+        </div>
+        <div class="account-ui-grid-position grid ias-ui-grid" style="top: 135px;left:0;right:0;" ui-grid="gridOptions" ui-grid-resize-columns
+            ui-grid-auto-resize ui-grid-selection ui-grid-exporter> </div>
+    </div>
+</div>

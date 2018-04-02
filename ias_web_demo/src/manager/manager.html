@@ -1,0 +1,33 @@
+<div style="width: 100%; height:100%;display: inline-block; position: relative;" id="dataSection">
+    <div role="tabpanel" class="tab-pane active" id="managerMarketPage">
+        <div ng-controller="marketCtrl">
+            <tab-template id="marketTable" tab-width='"col-md-5"' search-box-indexs="searchBoxIndexs"
+                            regist-toggle-click="true" auto-flush="true" show-filter-btn="true"
+                            active-tab-name="activeTabName" filter-btn-click="filterSetting(param)" show-index="interBankExchangeIndex">
+                <panel-template tab-name='"二级"' selected-func="marketTabSelect(1, 'bond')">
+                    <div id='bondMarketGrid' ng-controller="bondDataCtrl">
+                        <div ui-grid="gridOptions" ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize
+                                ui-grid-selection ui-grid-pinning class="grid ias-ui-grid win-adapt man-max">
+                        </div>
+                    </div>
+                </panel-template>
+                <panel-template tab-name='"二级成交"' selected-func="marketTabSelect(2, 'deal')">
+                    <div ng-controller="dealDataCtrl">
+                        <div ui-grid="gridOptions" ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize
+                                ui-grid-selection ui-grid-pinning class="grid ias-ui-grid win-adapt man-max">
+                        </div>
+                    </div>
+                </panel-template>
+            </tab-template>
+        </div>
+    </div>
+    <style id='panelStyle'></style>
+    <div id="positionBondPage" ng-include="'src/templates/positionBondTable.html'" style="display: none"></div>
+</div>
+
+<div class="filter-bg-color" style="width: 0%; position: fixed; z-index:100; top:0; bottom:0; right:0;" id="setSection">
+    <div style="overflow-y:auto;display:none;height:100%" id="setSectionDiv">
+        <bond-filter-widget ng-if="selectTab.index == 1" is-show-position="true"></bond-filter-widget>
+        <deal-filter-widget ng-if="selectTab.index == 2" is-show-position="true"></deal-filter-widget>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<ias-tabs style-name="ias-secondary-tabs" style="margin: 10px 0;" user-defined-fun="tabTemplateInitFun(theScope)">
+    <ias-pane tab-title='业绩分析' on-select="handlePerformanceTabSelected('leverage')">
+        <div ng-include="'src/account/performance/leverage/performanceLeverage.html'" ng-controller="leverageCtrl"></div>
+    </ias-pane>
+    <ias-pane tab-title='业绩分布' on-select="handlePerformanceTabSelected('allocation')">
+        <div ng-include="'src/account/performance/performanceAttributionTable.html'" ng-controller="allocationCtrl"></div>
+    </ias-pane>
+    <ias-pane tab-title="业绩趋势" on-select="handlePerformanceTabSelected('tendency')">
+        <div ng-include="'src/account/performance/tendency/tendency.html'" ng-controller="tendencyCtrl"></div>
+    </ias-pane>
+    <ias-pane tab-title='损益明细' on-select="handlePerformanceTabSelected('details')">
+        <div ng-include="'src/account/performance/incomeStatementList.html'" ng-controller="detailsCtrl"></div>
+    </ias-pane>
+</ias-tabs>

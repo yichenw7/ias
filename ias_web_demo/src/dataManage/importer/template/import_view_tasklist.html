@@ -1,0 +1,110 @@
+<div layout="column" flex class="table-container" style="height: 100%;">
+    <h3 flex="none">导入中:</h3>
+    <md-content flex="none">
+        <md-list class="table-list">
+            <md-subheader>
+                <div class="table-row" layout="row">
+                    <span flex="initial" style="width: 22px;"></span>
+                    <span flex="initial" style="min-width: 100px;">账户</span>
+
+                    <span flex>文件</span>
+
+                    <span flex="initial" style="min-width: 200px;text-align:center;">提交时间</span>
+                    <span flex="initial" style="min-width: 200px;text-align:center;">导入时间</span>
+                    <span flex="initial" style="min-width: 200px;text-align:center;">状态</span>
+                </div>
+            </md-subheader>
+        </md-list>
+    </md-content>
+    <md-progress-linear flex="none" md-mode="determinate" ng-value="$ctrl.timerValue"></md-progress-linear>
+    <md-content>
+        <span ng-if="$ctrl.taskListMessage" ng-bind="$ctrl.taskListMessage"></span>
+        <md-list class="table-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="task in $ctrl.taskList">
+            <div class="table-row" layout="row" layout-align="start center">
+                <span flex="initial" style="width: 22px;"><i class="ss-icon ss-icon-text-comment-normal" title="{{task.import_result_msg}}"></i></span>
+                <span flex="initial" style="min-width: 100px;">{{task.account_names.join(',')}}</span>
+                <span flex>{{task.file_name}}</span>
+
+                <span flex="initial" style="min-width: 200px;text-align:center;">{{task.request_time}}</span>
+                <span flex="initial" style="min-width: 200px;text-align:center;">{{task.import_time}}</span>
+                <span flex="initial" style="min-width: 200px;text-align:center;" title="{{task.status.displayName}}" ng-class="task.status.tag">{{task.status.displayName}}</span>
+            </div>
+        </md-list>
+    </md-content>
+    <div flex="none" layout="row" layout-align="start center" style="align-items: baseline;">
+        <h3>任务列表:</h3>
+        <div layout="row" layout-align="start end" layout-padding layout-wrap class="search-item-bar">
+            <label>账户搜索：</label>
+            <input-account-selector style="min-width: 200px;" ng-model="$ctrl.vm.account" multiple="true"></input-account-selector>
+
+            <label>状态搜索：</label>
+            <md-input-container>
+                <label>选择状态</label>
+                <md-select ng-model="$ctrl.vm.status"
+                            style="min-width: 150px;"
+                            data-md-container-class="input-taskstatus-selector">
+                    <md-option ng-value="undefined">所有</md-option>
+                    <md-option ng-value="status" ng-repeat="status in $ctrl.vm.statusItemsource" ng-hide="status.NOT_SELECT">{{status.displayName}}</md-option>
+                </md-select>
+            </md-input-container>
+
+            <div class="search-input-container" layout="row" layout-align="start center">
+                <span class="ss-icon ss-icon-search-normal search-icon"></span>
+                <md-autocomplete class="search-input input-account-selector" md-items="item in []"
+                                    placeholder="输入账户名或文件名检索"
+                                    md-select-on-focus
+                                    md-search-text="$ctrl.vm.accountSearchText" />
+            </div>
+
+            <md-checkbox ng-model="$ctrl.vm.isAutoRefresh">自动更新</md-checkbox>
+
+            <md-button class="ss-btn md-raised md-primary layout-no-padding" ng-click="$ctrl.onClickSearch($event)">检索</md-button>
+        </div>
+    </div>
+    <md-content flex="none">
+        <md-list class="table-list">
+            <md-subheader>
+                <div class="table-row" layout="row">
+                    <span flex="initial" style="width: 22px;"></span>
+                    <span class="account-column" flex="nogrow" >账户</span>
+                    <span flex>文件</span>
+
+                    <span flex="initial" style="min-width: 200px;text-align:center;">提交时间</span>
+                    <span flex="initial" style="min-width: 200px;text-align:center;">导入时间</span>
+                    <span flex="initial" style="min-width: 200px;text-align:center;">状态</span>
+                    <span flex="initial" style="min-width: 135px;">操作</span>
+                </div>
+            </md-subheader>
+        </md-list>
+    </md-content>
+    <md-content flex layout="column" style="background-color: #202124; height: 100%;">
+        <span ng-if="$ctrl.completedListMessage" ng-bind="$ctrl.completedListMessage"></span>
+        <md-list class="table-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="task in $ctrl.completedList">
+            <div class="table-row" layout="row" layout-align="start center">
+                <span flex="initial" style="width: 22px;"><i class="ss-icon ss-icon-text-comment-normal" title="{{task.import_result_msg}}"></i></span>
+                <span class="account-column" flex="nogrow" >{{task.account_names.join(',')}}</span>
+                <span flex>{{task.file_name}}</span>
+
+                <span flex="initial" style="min-width: 200px;text-align:center;">{{task.request_time}}</span>
+                <span flex="initial" style="min-width: 200px;text-align:center;">{{task.import_time}}</span>
+                <span flex="initial" style="min-width: 200px;text-align:center;" title="{{task.status.displayName}}">{{task.status.displayName}}</span>
+
+                <span ng-if="task.status.tag !== 'waiting'" flex="initial" style="min-width: 135px;"></span>
+                <span ng-if="task.status.tag === 'waiting'" flex="initial" style="min-width: 135px;" class="table-action">
+                    <!-- 需要当前队列位置才能实现插队功能 -->
+                    <md-button ng-if="false" aria-label="插队" class="ss-btn md-raised md-primary" tag="jump_queue"><i class="ss-icon ss-icon-upward-normal" /></md-button>
+
+                    <md-button ng-show="task.$isBusy" aria-label="busy" class="ss-btn md-raised md-primary" tag="busy">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    </md-button>
+                    <md-button ng-show="!task.$isBusy" aria-label="插队到顶部" title="插队到顶部" class="ss-btn md-raised md-primary" tag="jump_queue_top">
+                        <i class="ss-icon ss-icon-upward-fold-normal" />
+                    </md-button>
+                    <md-button ng-show="!task.$isBusy" aria-label="删除" title="删除" class="ss-btn md-raised ss-btn-danger" tag="remove">
+                        <i class="ss-icon ss-icon-delete-normal" />
+                    </md-button>
+                </span>
+            </div>
+        </md-list>
+    </md-content>
+</div>

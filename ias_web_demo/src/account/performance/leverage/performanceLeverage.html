@@ -1,0 +1,110 @@
+<div style="margin-top:-28px;height: 24px;margin-left: 400px">
+    <label class="ias-control-label">日期区间：</label>
+    <input readonly="readonly" type="text" class="ias-date-input input-not-edit" datetimepicker config="endTodayTimePickerConfig"
+        ng-model="selectedDate.startDate" ng-change="LeverageDateChange()">
+    <label>至</label>
+    <input readonly="readonly" type="text" class="ias-date-input input-not-edit" datetimepicker config="endTodayTimePickerConfig"
+        ng-model="selectedDate.endDate" ng-change="LeverageDateChange()">
+</div>
+<div style="position:absolute;top:80px;left:10px;right:0;bottom:0;overflow:auto">
+    <div>
+        <div style="display:inline-block">
+            <div style="display:inline-block">账户平均杠杆率: </div>
+            <div style="display:inline-block" class="sum-data">{{ leverageData.average_leverage | toFixed4 | columnNullValue }}</div>
+        </div>
+        <div style="display:inline-block;margin-left:50px">
+            <div style="display:inline-block">账户平均融资成本: </div>
+            <div style="display:inline-block" class="sum-data">{{ leverageData.average_cost | toYield }}</div>
+        </div>
+        <div style="display:inline-block;margin-left:50px">
+            <div style="display:inline-block">账户平均负债久期: </div>
+            <div style="display:inline-block" class="sum-data">{{ leverageData.average_liability_duration | toFixed4 | columnNullValue }}</div>
+        </div>
+        <table class="ias-table has-caption" style="width:1250px;margin-top:10px">
+            <caption>杠杆前后</caption>
+            <thead>
+                <tr>
+                    <th rowspan="2" class="ias-text-center">类型</th>
+                    <th colspan="2" class="ias-text-center">账户成本</th>
+                    <th colspan="3" class="ias-text-center">账户估值</th>
+                    <th colspan="3" class="ias-text-center">账户久期</th>
+                </tr>
+                <tr>
+                    <th>成本收益率(%)</th>
+                    <th>成本收益率-行权(%)</th>
+                    <th>估值收益率(%)</th>
+                    <th>估值收益率-到期(%)</th>
+                    <th>估值收益率-行权(%)</th>
+                    <th style="width:120px">修正久期</th>
+                    <th>修正久期(到期)</th>
+                    <th>修正久期(行权)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>杠杆前</td>
+                    <td>{{ leverageData.yield_cost | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e_cost | columnNullValue }}</td>
+                    <td>{{ leverageData.yield | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2m | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e | columnNullValue }}</td>
+                    <td>{{ leverageData.duration | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2m | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2e | columnNullValue }}</td>
+                </tr>
+                <tr>
+                    <td>杠杆后</td>
+                    <td>{{ leverageData.yield_cost_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e_cost_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2m_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2m_leverage | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2e_leverage | columnNullValue }}</td>
+                </tr>
+                <tr>
+                    <td>比率</td>
+                    <td>{{ leverageData.yield_cost_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e_cost_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2m_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.yield_2e_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2m_ratio | columnNullValue }}</td>
+                    <td>{{ leverageData.duration_2e_ratio | columnNullValue }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="width:1250px;height:200px">
+        <div id="yieldChart" style="width:750px;height:200px;display:inline-block"></div>
+        <div id="durationChart" style="width:450px;height:200px;float:right;display:inline-block"></div>
+    </div>
+    <!-- <div>
+        <table class="ias-table has-caption" style="width:1250px;margin-top:10px">
+            <caption>收益分解</caption>
+            <thead>
+                <tr>
+                    <th colspan="3" class="ias-text-center" style="width:557px">持有收益-年化(%)</th>
+                    <th rowspan="2" class="ias-text-center">资本利得-年化(%)</th>
+                    <th rowspan="2" class="ias-text-center">总收益-年化(%)</th>
+                </tr>
+                <tr>
+                    <th>票息收益</th>
+                    <th>收敛收益</th>
+                    <th>杠杆收益</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ leverageData.coupon_yield }}</td>
+                    <td>{{ leverageData.amortizing_yield }}</td>
+                    <td>{{ leverageData.leverage_yield }}</td>
+                    <td>{{ leverageData.capital_yield }}</td>
+                    <td>{{ leverageData.annualized_acc_yield }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="annualizedIncomeChart" ng-if="leverageData!==null" style="height:200px;width:1250px"></div> -->
+</div>

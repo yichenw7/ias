@@ -1,0 +1,13 @@
+<div class="admin-grid-pagination" layout="row" layout-align="space-between center">
+    <div>总共<span layout-padding>{{gridOptions.totalItems}}</span>条记录</div>
+    <div>总页数<span layout-padding>{{gridApi.pagination.getTotalPages()}}</span>页</div>
+    <div>当前第<span layout-padding>{{gridApi.pagination.getPage()}}</span>页</div>
+
+    <div flex></div>
+
+    <input type="number" style="width:24px;text-align:center" ng-model="gridOptions.paginationCurrentPage" /> / {{gridApi.pagination.getTotalPages()}}
+    <button ng-click="gridApi.pagination.seek(1)">首页</button>
+    <button ng-click="gridApi.pagination.previousPage()">上一页</button>
+    <button ng-click="gridApi.pagination.nextPage()">下一页</button>
+    <button ng-click="gridApi.pagination.seek(gridApi.pagination.getTotalPages())">尾页</button>
+</div>

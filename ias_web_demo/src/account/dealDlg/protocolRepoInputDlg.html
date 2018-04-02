@@ -1,0 +1,119 @@
+<div class="deal-input-long-field">
+    <div class="ias-form-group" ng-show="protocolRepoTrade.isAlert">
+        <label class="ias-warning">{{ protocolRepoTrade.alertContent }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" ng-model="protocolRepoTrade.direction" change-btn="changeBtn(value)" is_disabled="!showBtnList"></btn-li-group>
+        <div class="ias-offset-2-3" ng-if="protocolRepoTrade.isContinue">
+            <label class="ias-control-label" style="font-size:20px;color:cyan">续做</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">本方账户：</label>
+        <select class="ias-163-select" ng-model="protocolRepoTrade.accountId" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(protocolRepoTrade.accountId)">
+        </select>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">对方账户：</label>
+            <input type="text" ng-model="protocolRepoTrade.counterpartyAccount">
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">发生日期：</label>
+        <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig"
+            ng-model="protocolRepoTrade.initial_date"
+            ng-change="handleInitDateChanged()">
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">清算速度：</label>
+            <btn-li-group btn-group="settleType" is-disabled="true" ng-model="protocolRepoTrade.settlement_days" change-btn="handleDateChanged()"></btn-li-group>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">首期清算日期：</label>
+            <label class="ias-info-label">{{ protocolRepoTrade.initial_settlement_date }}</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">期限：</label>
+        <input class="ias-rate-input" limit-format-number regexp-str="[1-9]\d*" output-number="protocolRepoTrade.term" change-value="handleDateChanged()">
+        <label class="ias-info-label">D</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">到期日：</label>
+            <label class="ias-info-label">{{ protocolRepoTrade.maturity_date }}</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">实际占款天数：</label>
+            <label class="ias-info-label">{{ protocolRepoTrade.real_days }}</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">票面金额：</label>
+        <label class="ias-info-label">{{ protocolRepoTrade.faceAmount | commafyConvert }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">利率(%)：</label>
+            <input class="ias-rate-input" output-number="protocolRepoTrade.repoRate" limit-format-number>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">计息基准：</label>
+            <label class="ias-info-label">Act365</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">交易金额：</label>
+        <label class="ias-info-label">{{ protocolRepoTrade.repoAmount | commafyConvert }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">应计利息：</label>
+            <label class="ias-info-label">
+                {{ protocolRepoTrade.repoAmount * protocolRepoTrade.repoRate / 100 * protocolRepoTrade.real_days / 365 | commafyConvert }}
+            </label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">到期金额(元)：</label>
+            <label class="ias-info-label">
+                {{ protocolRepoTrade.repoAmount + protocolRepoTrade.repoAmount * protocolRepoTrade.repoRate / 100 * protocolRepoTrade.real_days / 365 | commafyConvert }}
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="protocolRepoTrade.direction == 1">
+        <div class="ias-ui-grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-auto-resize  ui-grid-selection style="height:245px;"></div>
+    </div>
+
+    <div class="form-group" ng-if="protocolRepoTrade.direction == -1">
+        <div class="ias-form-group">
+            <label class="ias-control-label">质押券：</label>
+            <angucomplete-alt id="protocolRepoBondSearchBox" placeholder="请输入质押劵代码" pause="100"
+                selected-object="handleBondSelected"
+                local-data="bondList"
+                search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                title-field="bond_id,short_name"
+                input-show-fields="bond_id,short_name"
+                input-class="ias-angucomplete-input"
+                match-result-length="10"
+                minlength="1" auto-match="true" focus-first="true">
+            </angucomplete-alt>
+            <label class="ias-info-label" style="color:#ff3b54">{{ protocolRepoTrade.bondErr }}</label>
+        </div>
+        <div class="ias-ui-grid" ui-grid="reverseGridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection style="height:250px;"></div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">银行间回购比例：</label>
+        <label class="ias-info-label">{{ singleAccountData.interbank_repo_to_net | toYield }} %</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">交易所回购比例：</label>
+            <label class="ias-info-label">{{ singleAccountData.exchange_repo_to_net | toYield }} %</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">该回购比例：</label>
+            <label class="ias-info-label">{{ protocolRepoTrade.repoAmount / singleAccountData.asset_net | toYield }} %</label>
+        </div>
+    </div>
+</div>

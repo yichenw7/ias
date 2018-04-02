@@ -1,0 +1,65 @@
+<div layout="column">
+    <div layout="row" layout-align="start center" layout-padding>
+        <label>选择账户：</label>
+        <input-account-selector style="min-width: 200px;" ng-model="$ctrl.selectedAccount" ng-change="$ctrl.onSelectedAccountChange()" multiple="true"></input-account-selector>
+
+        <label>选取文件：</label>
+        <!--  nv-file-drop="$ctrl.onDropFile()" filters="queueLimit, customFilter" -->
+        <div class="select-file-btn input-file">
+            <span>选择文件</span>
+            <!-- nv-file-select="" -->
+            <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().$ctrl.onSelectedFilesChange(this.files)"
+                   multiple accept=".xls, .xlsx" />
+        </div>
+
+        <md-button class="ss-btn md-raised md-primary layout-no-padding icon-button" ng-click="$ctrl.openTemplateDialog($event)">
+            <img class='template-library-icon'>台账模板
+        </md-button>
+
+        <md-radio-group ng-model="$ctrl.selectCoverMode" class="md-primary" layout="row" layout-align="start stretch">
+            <md-radio-button ng-repeat="item in $ctrl.coverModeItemSource"
+                             ng-value="item.value">
+                <span>{{item.displayName}}</span>
+            </md-radio-button>
+        </md-radio-group>
+
+        <md-button class="ss-btn md-raised md-primary layout-no-padding" ng-click="$ctrl.doUpload($event)"
+                   ng-disabled="!$ctrl.enableImport()">开始导入</md-button>
+    </div>
+
+    <div layout="row">
+        <div class="table-container" layout="column" flex ng-click="$ctrl.onClickTable($event)">
+            <md-content>
+                <md-list class="table-list">
+                    <md-subheader>
+                        <div class="table-row" layout="row">
+                            <span style="width: 30px;"></span>
+                            <span style="width: 22px;"></span>
+                            <span flex>文件名称</span>
+                            <span>文件大小</span>
+                            <span style="min-width: 145px;text-align:center;">状态</span>
+                            <span style="width: 80px;">操作</span>
+                        </div>
+                    </md-subheader>
+                </md-list>
+            </md-content>
+            <md-content flex>
+                <md-list class="table-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="task in $ctrl.uploadTask">
+                    <div class="table-row" layout="row" layout-align="start center">
+                        <span style="width: 30px;">{{$index + 1}}</span>
+                        <span style="width: 22px;"><i class="ss-icon ss-icon-text-comment-normal" /></span>
+                        <span flex>{{task.file.name}}</span>
+                        <span>{{task.file.size|currency:'':0}}</span>
+                        <span style="min-width: 145px;text-align:center;">{{task.status.displayName}}</span>
+                        <span style="width: 80px;" class="table-action">
+                            <md-button aria-label="删除" class="ss-btn md-raised ss-btn-danger" tag="remove"><i class="ss-icon ss-icon-delete-normal" /></md-button>
+                            <md-button aria-label="插队到顶部" class="ss-btn md-raised md-primary" tag="jump_queue_top"><i class="ss-icon ss-icon-upward-fold-normal" /></md-button>
+                        </span>
+                    </div>
+                </md-list>
+            </md-content>
+        </div>
+    </div>
+</div>
+
+

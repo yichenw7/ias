@@ -1,0 +1,11 @@
+<modal-dialog id-name="'authorityEdit'" title-name='"账户权限设置"' width-class='"account-authority-edit-win"'
+              confirm-btn-name='"确定"'
+              confirm-handler="confirmFunc()"
+              hidden-func="closeFunc()">
+
+    <p style="color: #D7DA69;font-weight: bold;" >{{accountAuthority.account_name}}</p>
+
+    <div class="ias-ui-grid" ui-grid="gridOptions"
+         ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection>
+    </div>
+</modal-dialog>

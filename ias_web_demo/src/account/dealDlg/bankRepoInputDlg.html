@@ -1,0 +1,131 @@
+<div class="deal-input-long-field">
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" ng-model="trade.direction" change-btn="handleDirectionChanged()" is-disabled="!showBtnList"></btn-li-group>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="handleAccountChange(trade.account_id)">
+        </select>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">对手账户：</label>
+            <input type="text" ng-model="trade.counter_party_account">
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">对方交易员：</label>
+            <input type="text" ng-model="trade.counter_party_trader">
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">发生日期：</label>
+        <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig"
+            ng-model="trade.initial_date"
+            ng-change="handleInitDateChange()">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">清算速度：</label>
+            <btn-li-group btn-group="settleType" is-disabled="true" ng-model="trade.settlement_days" change-btn="handleDateChanged()"></btn-li-group>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">首期清算日期：</label>
+            <label class="ias-info-label">{{ bank_repos.initial_settlement_date }}</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">期限：</label>
+        <input class="ias-rate-input" limit-format-number regexp-str="[1-9]\d*" output-number="trade.term" change-value="handleDateChanged()">
+        <label class="ias-info-label">D</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">到期日：</label>
+            <label class="ias-info-label">{{ bank_repos.maturity_date }}</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">实际占款天数：</label>
+            <label class="ias-info-label">{{ bank_repos.real_days }}</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">票面金额：</label>
+        <label class="ias-info-label">{{ trade.face_amount | commafyConvert }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">利率(%)：</label>
+            <input class="ias-rate-input" output-number="trade.repo_rate" limit-format-number>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">计息基准：</label>
+            <label class="ias-info-label">Act365</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">交易金额：</label>
+        <label class="ias-info-label">{{ trade.repo_amount | commafyConvert }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">应计利息：</label>
+            <label class="ias-info-label">{{ trade.repo_amount * trade.repo_rate / 100 * bank_repos.real_days / 365 | commafyConvert }}</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">到期金额(元)：</label>
+            <label class="ias-info-label">{{ trade.repo_amount + trade.repo_amount * trade.repo_rate / 100 * bank_repos.real_days / 365 | commafyConvert }}</label>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="trade.direction == 1">
+        <div class="ias-template-wrap" style="margin-left: 20px;">
+            <tab-tip-group nav-tab-style="'sub-tab-wrap'" btn-group="sourceGroup" has-number="true" has-sum="true" ng-model="trade.data_source" change-btn="changeDataSource(value)"></tab-tip-group>
+
+            <div class="bond-filter" ng-show="pledgedBonds.fromFilter" style="position: absolute;margin-left:5px;margin-top: 2px;">
+                自动排券结果
+                <span ng-click="clearFilter()" class="close-icon"></span>
+            </div>
+            <button ng-click="showPledgedBondsFilter()" style="float:right;">自动排券</button>
+        </div>
+        <div ng-show="0 == trade.data_source" class="ias-ui-grid" ui-grid="schGridOptions"  ui-grid-resize-columns ui-grid-auto-resize  ui-grid-selection style="height:250px;"></div>
+        <div ng-show="1 == trade.data_source" class="ias-ui-grid" ui-grid="cdcGridOptions" ui-grid-resize-columns ui-grid-auto-resize  ui-grid-selection style="height:250px;"></div>
+    </div>
+
+    <div class="form-group" ng-if="trade.direction == -1">
+        <div class="ias-form-group">
+            <label class="ias-control-label">质押券：</label>
+            <angucomplete-alt id="bankRepoBondSearchBox" placeholder="请输入质押劵代码" pause="100"
+                selected-object="handleBondSelected"
+                local-data="bondList"
+                search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                title-field="bond_id,short_name"
+                input-show-fields="bond_id,short_name"
+                input-class="ias-angucomplete-input"
+                match-result-length="10"
+                minlength="1" auto-match="true" focus-first="true">
+            </angucomplete-alt>
+            <label class="ias-info-label" style="color:#ff3b54">{{ trade.bondErr }}</label>
+        </div>
+        <div class="ias-ui-grid" ui-grid="reverseGridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection style="height:250px;"></div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">银行间回购比例：</label>
+        <label class="ias-info-label">{{ singleAccountData.interbank_repo_to_net | toYield }} %</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">交易所回购比例：</label>
+            <label class="ias-info-label">{{ singleAccountData.exchange_repo_to_net | toYield }} %</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">该回购比例：</label>
+            <label class="ias-info-label">{{ trade.repo_amount / singleAccountData.asset_net | toYield }} %</label>
+        </div>
+    </div>
+
+    <div class="ias-note-wrap">
+        <label class="ias-control-label">备注：</label><textarea type="text" class="ias-note-input" ng-model="trade.comment"></textarea>
+    </div>
+</div>
+

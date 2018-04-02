@@ -1,0 +1,5 @@
+<ul class="btn-li-group">
+    <li ng-repeat="btn in $ctrl.itemSource" style="cursor: pointer;" ng-class="{true:'btn-li-group-active',false:'btn-li-group-default'}[$ctrl.ngModel === btn.value]">
+        <a ng-click="$ctrl.onClickButton($event, btn)" ng-bind="btn.label"></a>
+    </li>
+</ul>

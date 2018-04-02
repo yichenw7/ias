@@ -1,0 +1,108 @@
+<md-dialog md-theme="ssAvalonUi" class="ias-modal-content ss_bg_secondary" ng-class="$ctrl.dialogCategory" aria-label="dialog" role="dialog" ng-cloak>
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h5 ng-bind="$ctrl.dialogTitle"></h5>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content layout="column" layout-padding layout-align="center stretch" ng-switch="$ctrl.dialogCategory">
+
+        <form ng-switch-when="assetDefine_add" layout="column" layout-padding layout-align="center stretch">
+            <div layout="row" class="label-font-main">
+                <label class="form-label no-colon">已选资产名称：{{vm.selectedAssetDefine}}</label>
+            </div>
+
+            <div layout="row" class="label-font-main">
+                <label class="form-label no-colon">已选匹配账户名称：{{vm.selectedMatch.name || vm.selectedMatch}}</label>
+            </div>
+
+            <div layout="row">
+                <div flex=50 class="ias-autocomplete-search-container" layout="row" layout-align="start center">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <input class="icon-input" ng-model="vm.searchTextAssetDefine" placeholder="输入资产名称查询" />
+                </div>
+                <div flex=50 class="ias-autocomplete-search-container" layout="row" layout-align="start center">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <input class="icon-input" ng-model="vm.searchTextMatch" placeholder="输入 匹配账户 查询" />
+                </div>
+            </div>
+
+            <div class="scroll-content" layout="row">
+                <div flex=50 layout="column" style="padding-right: 8px;">
+                    <md-content flex layout="column">
+                        <md-list>
+                            <md-subheader>资产名称</md-subheader>
+                            <div class="list-item" ng-repeat="assetDefine in assetDefineList | filter : vm.searchTextAssetDefine as defineResults" ng-class="{'row-odd': $odd}" ng-selected="vm.selectedAssetDefine === assetDefine"
+                                 ng-click="vm.selectedAssetDefine = assetDefine">
+                                <span ng-bind="assetDefine"></span>
+                            </div>
+                            <div class="list-item" ng-if="defineResults.length === 0" ng-class="{'row-odd': $odd}">
+                                <span>No Results Found</span>
+                            </div>
+                        </md-list>
+                    </md-content>
+                </div>
+                <div flex=50 layout="column">
+                    <md-content flex layout="column">
+                        <md-list>
+                            <md-subheader>匹配账户</md-subheader>
+                            <div class="list-item" ng-repeat="match in matchList | filter : $ctrl.matchListFilter as matchResults" ng-class="{'row-odd': $odd}" ng-selected="vm.selectedMatch === match"
+                                 ng-click="vm.selectedMatch = match">
+                                <span ng-bind="match.name || match"></span>
+                            </div>
+                            <div class="list-item" ng-if="matchResults.length === 0" ng-class="{'row-odd': $odd}">
+                                <span>No Results Found</span>
+                            </div>
+                        </md-list>
+                    </md-content>
+                </div>
+            </div>
+        </form>
+
+        <form ng-switch-when="customBond_add" layout="row" layout-wrap layout-padding layout-align="center center">
+            <label class="form-label ias-required-field" flex=40>代码</label>
+            <div class="input-container" flex=60 layout="row" layout-align="start center">
+                <span>IAS-</span>
+                <input flex type="text" ng-model="vm.bond_code">
+            </div>
+
+            <label class="ias-required-field form-label" flex=40>简称</label>
+            <input flex=60 type="text" ng-model="vm.short_name">
+
+            <label class="ias-required-field form-label" flex=40>票面利率</label>
+            <input flex=60 type="text" ng-model="vm.coupon_rate">
+
+            <label class="ias-required-field form-label" flex=40>起息日</label>
+            <input flex=60 datetimepicker config="timePickerConfig" ng-model="vm.interest_start_date">
+
+            <label class="ias-required-field form-label" flex=40>到期日</label>
+            <input flex=60 datetimepicker config="timePickerConfig" ng-model="vm.maturity_date">
+
+            <label class="form-label" flex=40>首次付息日</label>
+            <input flex=60 datetimepicker config="timePickerConfig" ng-model="vm.first_coupon_date">
+
+            <label class="form-label" flex=40>付息频率</label>
+            <md-select md-theme="ssAvalonUi" flex=60 ng-model="vm.coupon_frequency">
+                <md-option ng-repeat="item in vm.coupon_frequencyItemSource" ng-value="item">
+                    {{item.displayName}}
+                </md-option>
+            </md-select>
+
+            <label class="form-label" flex=40>备注</label>
+            <input flex=60 type="text" ng-model="vm.comment">
+        </form>
+
+        <label ng-switch-when="customBond_add" flex=100 class="information">注：此功能用于定义未上市的债券，上市后需要手动修改成交记录为真实代码</label>
+
+    </md-dialog-content>
+
+    <md-dialog-actions ng-switch="$ctrl.dialogType" layout="column" layout-align="center stretch">
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickOk($event)">确定</md-button>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickCancel($event)">取消</md-button>
+        </div>
+    </md-dialog-actions>
+
+
+</md-dialog>

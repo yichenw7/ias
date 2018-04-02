@@ -1,0 +1,97 @@
+<div ng-controller="checkFailedPositionCtrl">
+    <div class="modal fade" id="checkPositionDlg"  role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document"  style="width:400px;">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">校对</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="ias-form-group">
+                        <label>科目代码：</label>
+                        <div class="ias-offset-1-3">
+                            <label class="ias-info-label">{{check_position.course_code}}</label>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group">
+                        <label>科目名称：</label>
+                        <div class="ias-offset-1-3">
+                            <label class="ias-info-label">{{check_position.course_name}}</label>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group" ng-show="check_position.byCode">
+                        <label>按代码校对：</label>
+                        <div class="ias-offset-1-3">
+                            <label ng-class="{true:'radio-select',false:'radio-normal'}[check_position.checkedType === '0']"
+                                   > {{check_position.byCode.name}}
+                                <input style="opacity: 0;" type="radio" ng-model="check_position.checkedType" value="0" ng-change="typeChanged()"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group"  ng-show="check_position.byName">
+                        <label>按名称校对：</label>
+                        <div class="ias-offset-1-3">
+                            <label ng-class="{true:'radio-select',false:'radio-normal'}[check_position.checkedType === '1']"
+                                  > {{check_position.byName.code}}
+                                <input style="opacity: 0" type="radio" ng-model="check_position.checkedType" value="1" ng-change="typeChanged()"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group">
+                        <label>手动校对：</label>
+
+                        <div class="ias-offset-1-3" ng-if="check_position.asset_type === '股票'">
+                            <angucomplete-alt id="checkStockSearchBox"
+                                              placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="check_position.stockFundChecked"
+                                              local-data="stockFundList"
+                                              search-fields="code,name,pinyin"
+                                              title-field="code,name"
+                                              input-show-fields="code,name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+                            </angucomplete-alt>
+                        </div>
+                        <div class="ias-offset-1-3" ng-if="check_position.asset_type !== '股票'">
+                            <angucomplete-alt id="checkBondSearchBox"
+                                              placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="check_position.bondChecked"
+                                              local-data="bondList"
+                                              search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                                              title-field="bond_id,short_name"
+                                              input-show-fields="bond_id,short_name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1"
+                                              auto-match="true"
+                                              focus-first="true">
+                            </angucomplete-alt>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group">
+                        <label>校对后代码：</label>
+                        <div class="ias-offset-1-3">
+                            <label class="ias-info-label">{{check_position.checkedObj.asset_code}}</label>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group">
+                        <label>校对后名称：</label>
+                        <div class="ias-offset-1-3">
+                            <label class="ias-info-label">{{check_position.checkedObj.asset_name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button type="button"   ng-click="apply_checked_position()">确定</button>
+                    <button type="button" class="ias-dismiss-btn" ng-click="close_checked_Dlg()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

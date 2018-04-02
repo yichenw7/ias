@@ -1,0 +1,29 @@
+<div class="ias-form-group" ng-show="trade.show_alert">
+    <label class="ias-warning">{{ trade.alert_content }}</label>
+</div>
+<div class="ias-form-group">
+    <label class="ias-control-label">方向：</label>
+    <btn-li-group btn-group="directionGroup" is-disabled="!showBtnList" ng-model="trade.direction"></btn-li-group>
+</div>
+<div class="ias-form-group">
+    <label class="ias-control-label ias-required-field">本方账户：</label>
+    <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+            ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+            ng-change="handleTradeChanged()">
+    </select>
+</div>
+<div class="ias-form-group">
+    <label class="ias-control-label ias-required-field">发生日期：</label>
+    <input readonly="readonly" type="text" class="ias-date-input"
+        datetimepicker config="timePickerConfig" ng-model="trade.trade_date" ng-change="handleTradeChanged()">
+</div>
+<div class="ias-form-group">
+    <label class="ias-control-label ias-required-field">金额(元)：</label>
+    <input limit-format-number number-point="2" output-number="trade.amount">
+</div>
+<div class="ias-form-group">
+    <div class="ias-note-wrap">
+        <label class="ias-control-label">备注：</label><!--
+        --><textarea ng-model="trade.comment"></textarea>
+    </div>
+</div>

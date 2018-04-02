@@ -1,0 +1,115 @@
+<div class="admin-page-panel-container" ng-controller flex layout="column" layout-align>
+    <div layout="row" layout-align="space-between center" ng-switch="ctrlName">
+        <!--用户管理-->
+        <angucomplete-alt ng-switch-when="userListCtrl" placeholder="请输入账号或用户名" pause="100" selected-object="userSelectFun" local-data="userList"
+            search-fields="account_name,user_name" title-field="user_name,account_name" input-show-fields="user_name" input-class="ias-angucomplete-input"
+            match-result-length="10" minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="userListCtrl" ng-click="addUser()">添加用户</button>
+        <!--用户管理-->
+
+        <!--账户管理-->
+        <angucomplete-alt ng-switch-when="accountAuthorityCtrl" placeholder="请输入投资经理" pause="100" selected-object="managerSelectFun"
+            local-data="userList" search-fields="account_name,user_name" title-field="user_name" input-show-fields="user_name"
+            input-class="ias-angucomplete-input" match-result-length="10" minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="accountAuthorityCtrl" ng-click="refreshData()">刷新账户列表</button>
+
+        <angucomplete-alt ng-switch-when="agentListCtrl" placeholder="请输入账号" pause="100" selected-object="investorSelectFun" local-data="agentList"
+            search-fields="agent_account_name" title-field="agent_account_name" input-show-fields="agent_account_name" input-class="ias-angucomplete-input"
+            match-result-length="10" minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="agentListCtrl" ng-click="$ctrl.onClickAdd($event)">添加</button>
+
+        <angucomplete-alt ng-switch-when="agentTradeCtrl" placeholder="请输入ias账号或账户" pause="100" selected-object="investorSelectFun"
+            local-data="agent_trade_list" search-fields="account_name,agent_account_name" title-field="account_name,agent_account_name"
+            input-show-fields="account_name,agent_account_name" input-class="ias-angucomplete-input" match-result-length="10"
+            minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="agentTradeCtrl" ng-disabled="disabled_save_btn" ng-click="update()">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 应用
+        </button>
+        <!--账户管理-->
+
+        <!--风控管理-->
+        <angucomplete-alt ng-switch-when="bondPoolCtrl" placeholder="代码、简称或拼音" pause="100" selected-object="bondSelectFun" local-data="gridOptions.data"
+            search-fields="bond_id,short_name,short_name_en,short_name_initial" title-field="bond_id,short_name" input-show-fields="short_name"
+            input-class="ias-angucomplete-input" match-result-length="10" minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <div ng-switch-when="bondPoolCtrl">
+            <button ng-click="exportBondPoolExcel()">导出Excel</button>
+            <button data-toggle="modal" data-target="#importBondDlg">导入</button>
+            <button ng-click="bond_add()">添加证券</button>
+        </div>
+
+        <angucomplete-alt ng-switch-when="investBondCtrl" placeholder="代码、简称或拼音" pause="100" selected-object="investBondSelectFun"
+            local-data="gridOptions.data" search-fields="bond_id,short_name,short_name_initial,short_name_en" title-field="bond_id,short_name"
+            input-show-fields="short_name" input-class="ias-angucomplete-input" match-result-length="10" minlength="1" auto-match="true"
+            focus-first="true">
+        </angucomplete-alt>
+        <div ng-switch-when="investBondCtrl">
+            <button ng-click="exportInvestBondExcel()">导出Excel</button>
+            <button data-toggle="modal" data-target="#importInvestBondDlg">导入</button>
+            <button ng-click="invest_bond_add()">添加证券</button>
+        </div>
+        <!--风控管理-->
+
+        <!--机构管理 START-->
+        <!--<angucomplete-alt ng-switch-when="rivalCtrl" placeholder="名称或拼音" pause="100" selected-object="libSelectFun" local-data="$ctrl.libList"
+            search-fields="name,name_en,name_initial" title-field="name" input-show-fields="name" input-class="ias-angucomplete-input"
+            match-result-length="10" minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <div ng-switch-when="rivalCtrl">
+            <button ng-click="exportCounterpartExcel()">导出Excel</button>
+            <button data-toggle="modal" data-target="#importLibDlg">导入</button>
+            <button ng-click="lib_add()">添加对手</button>
+        </div>-->
+
+        <angucomplete-alt ng-switch-when="assetDefineCtrl" placeholder="输入名称检索" pause="100" selected-object="filterFunc" local-data="gridOptions.data"
+            search-fields="course_name" title-field="course_name" input-show-fields="course_name" input-class="ias-angucomplete-input"
+            match-result-length="10" minlength="0" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="assetDefineCtrl" ng-click="add_asset_define()">添加</button>
+
+        <div ng-switch-when="valuationManageCtrl" layout="row" layout-align>
+            <angucomplete-alt placeholder="输入账户名称" pause="100" selected-object="accountSelectedFunc"
+                local-data="accounts" search-fields="name" title-field="name" input-show-fields="name" input-class="ias-angucomplete-input"
+                match-result-length="12" minlength="0" auto-match="true" focus-first="true">
+            </angucomplete-alt>
+            <angucomplete-alt placeholder="输入日期" style="margin-left: 30px;" pause="100" selected-object="dateSelectedFunc"
+                local-data="valuation_dates" search-fields="date" title-field="date" input-show-fields="date" input-class="ias-angucomplete-input"
+                match-result-length="100" minlength="0" auto-match="true" focus-first="true" id="valuation_date_input">
+            </angucomplete-alt>
+        </div>
+        <button ng-switch-when="valuationManageCtrl" ng-click="valuation_data_delete()">删除</button>
+
+        <angucomplete-alt ng-switch-when="cashPositionResetCtrl" placeholder="输入账户名称" pause="100" selected-object="accountSelectedFunc"
+            local-data="accounts" search-fields="name" title-field="name" input-show-fields="name" input-class="ias-angucomplete-input"
+            match-result-length="100" minlength="0" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <button ng-switch-when="cashPositionResetCtrl" ng-click="add()">新增</button>
+
+        <div ng-switch-when="customBondCtrl" class="ias-autocomplete-search-container" layout="row" layout-align="start center">
+            <span class="glyphicon glyphicon-search"></span>
+            <input class="icon-input" ng-change="onSearchTextChanged()" ng-model="input.searchText" placeholder="输入代码查询" />
+        </div>
+        <button ng-switch-when="customBondCtrl" ng-click="onClickAdd($event)">新增</button>
+
+        <button ng-switch-when="checkedAssetCtrl" ng-click="add_checked_asset()">添加</button>
+        <!--机构管理 END-->
+    </div>
+
+    <!-- 继承baseAdminCtrl的controller使用$ctrl.onClickTable($event)托管uigrid事件 -->
+    <div flex layout="column" layout-align ng-click="$ctrl.onClickTable($event)">
+        <div flex layout="column" layout-align class="ias-ui-grid" ui-grid="gridOptions" ng-click="onClickTable($event)"
+            ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter {{option.uiGridOptions}}>
+        </div>
+    </div>
+
+    <div layout="column" layout-align ng-switch="ctrlName">
+        <div ng-switch-when="checkedAssetCtrl|customBondCtrl" ng-switch-when-separator="|"></div>
+        <div ng-switch-default layout="column" layout-align>
+            <div ng-include="'src/system/gridPagination.html'"></div>
+        </div>
+    </div>
+</div>

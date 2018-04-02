@@ -1,0 +1,233 @@
+<div class="fund-main" ng-controller="traceFundCtrl">
+    <div class="modal fade" id="traceFund" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 1080px;" role="document">
+            <div class="modal-content ias-modal-content">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">普通基金</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="fund-detail">
+                        <div class="fund-basic">
+                            <div class="fund-title">
+                                <div class="fund-name"><input type="text" value={{fund_name}} class="ant-input" readonly>
+                                </div>
+                                <span>{{fund_code}}</span>
+                            </div>
+                            <div class="fund-info">
+                                <div class="info"><label style="width: 84px;">单位净值</label><span
+                                    class="info-content">{{fundInformation.unit_net | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 84px;">累计单位净值</label><span
+                                    class="info-content">{{fundInformation.accum_net | toNotApplicable}}</span>
+                                </div>
+
+                                <div class="info"><label style="width: 84px;">基金类型</label>
+                                    <span class="info-content">{{fundInformation.fundtype | toNotApplicable}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="fund-history">
+                        <div class="card fund-history-chart">
+                            <!--图标区域-->
+                            <div style="height: 400px; width: 100%">
+                                <div id="FundHistoryChart" style="height: 380px; width: 63%; float: left;"></div>
+                                <div style="width: 35%; float: right;margin: 5px 1%;">
+                                    <div style="float: right">
+                                        <button ng-csv-utf8="onExportData()" filename="{{fileName}}" csv-header="getCsvHeader()" lazy-load="true"
+                                                add-bom="true" style="float:right;margin-top: 10px;margin-bottom: 10px;">导出</button>
+                                    </div>
+                                    <div>
+                                        <table class="ias-table tooltip-table has-caption ng-scope">
+                                            <!--<caption></caption>-->
+                                            <thead>
+                                            <tr>
+                                                <th>日期</th>
+                                                <th>单位净值</th>
+                                                <th>累计净值</th>
+                                                <th>涨跌幅(%)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="ng-scope" ng-repeat="item in quotationData">
+                                                <td class="ng-binding">
+                                                    {{item.date}}
+                                                </td>
+                                                <td>
+                                                    {{item.unit_net}}
+                                                </td>
+                                                <td>
+                                                    {{item.accum_net}}
+                                                </td>
+                                                <td>
+                                                    {{item.chng_pct}}
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="traceExchangeFund" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 1080px;" role="document">
+            <div class="modal-content ias-modal-content">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">普通基金</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="fund-detail">
+                        <div class="fund-basic">
+                            <div class="fund-title">
+                                <div class="fund-name"><input type="text" value={{fund_name}} class="ant-input">
+                                </div>
+                                <span>{{fund_code}}</span>
+                            </div>
+                            <div class="fund-info">
+                                <div class="info"><label style="width: 84px;">单位净值</label><span
+                                    class="info-content">{{fundInformation.tclose | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 84px;">基金类型</label>
+                                    <span class="info-content">{{fundInformation.fundtype | toNotApplicable}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="fund-history">
+                        <div class="card fund-history-chart">
+                            <!--图标区域-->
+                            <div style="height: 400px; width: 100%">
+                                <div id="exchangeFundHistoryChart" style="height: 380px;float: left; width: 63%"></div>
+                                <div style="width: 35%;   float: right;margin: 5px 1%;">
+                                    <div style="float: right">
+                                        <button ng-csv-utf8="onExportData()" filename="{{fileName}}" csv-header="getCsvHeader()" lazy-load="true"
+                                                add-bom="true" style="float:right;margin-top: 10px;margin-bottom: 10px;">导出</button>
+
+                                    </div>
+                                    <div>
+                                        <table class="ias-table tooltip-table has-caption ng-scope">
+                                            <thead>
+                                            <tr>
+                                                <th>日期</th>
+                                                <th>单位净值</th>
+                                                <th>分红</th>
+                                                <th>涨跌幅(%)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="ng-scope" ng-repeat="item in quotationData">
+                                                <td class="ng-binding">
+                                                    {{item.date}}
+                                                </td>
+                                                <td>
+                                                    {{item.tclose}}
+                                                </td>
+                                                <td>
+                                                    {{item.div}}
+                                                </td>
+                                                <td>
+                                                    {{item.chng_pct}}
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="traceMoneyFund" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 1080px;" role="document">
+            <div class="modal-content ias-modal-content">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">货币基金</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="fund-detail">
+                        <div class="fund-basic">
+                            <div class="fund-title">
+                                <div class="fund-name"><input type="text" value={{fund_name}} class="ant-input">
+                                </div>
+                                <span>{{fund_code}}</span>
+                            </div>
+                            <div class="fund-info">
+                                <div class="info"><label style="width: 84px;">万份收益</label><span
+                                    class="info-content">{{fundInformation.tenthou_unit_incm | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 84px;">七日年化收益</label><span
+                                    class="info-content">{{fundInformation.year_yld | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 84px;">基金类型</label>
+                                    <span class="info-content">{{fundInformation.fundtype | toNotApplicable}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="fund-history">
+
+                        <div class="card fund-history-chart">
+                            <!--图标区域-->
+                            <div style="height: 400px; width: 100%">
+                                <div id="moneyFundHistoryChart" style="height: 380px;float: left; width: 63%"></div>
+                                <div style="width: 35%;  float: right;margin: 5px 1%;">
+                                    <div style="float: right">
+                                        <button ng-csv-utf8="onExportData()" filename="{{fileName}}" csv-header="getCsvHeader()" lazy-load="true"
+                                                add-bom="true" style="float:right;margin-top: 10px;margin-bottom: 10px;">导出</button>
+
+                                    </div>
+                                    <div>
+                                        <table class="ias-table tooltip-table has-caption ng-scope">
+                                            <!--<caption></caption>-->
+                                            <thead>
+                                            <tr>
+                                                <th>日期</th>
+                                                <th>万份收益</th>
+                                                <th>年化收益</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="ng-scope" ng-repeat="item in quotationData">
+                                                <td class="ng-binding">
+                                                    {{item.date}}
+                                                </td>
+                                                <td>
+                                                    {{item.tenthou_unit_incm}}
+                                                </td>
+                                                <td>
+                                                    {{item.year_yld}}
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

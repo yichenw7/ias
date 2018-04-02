@@ -1,0 +1,36 @@
+<md-dialog md-theme="ssAvalonUi" class="ias-modal-content ss_bg_secondary" aria-label="dialog" role="dialog" ng-cloak>
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h5 ng-bind="$ctrl.dialogTitle"></h5>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content layout="column" layout-padding>
+        
+        <form flex layout="column" layout-padding>
+
+            <div layout="row" layout-align="start center" ng-repeat="define in $ctrl.viewModelDefine" ng-switch="define.type">
+
+                <label ng-switch-when="string||readonlystring||select" ng-switch-when-separator="||" class="form-label" flex="{{$ctrl.labelFlex}}" ng-class="{'ias-required-field': define.isRequire}" ng-bind="define.label" ></label>
+                <input flex="{{$ctrl.inputFlex}}" ng-switch-when="string" type="text" ng-model="define.ngModel">
+                <label flex="{{$ctrl.inputFlex}}" ng-switch-when="readonlystring" ng-bind="define.ngModel"></label>
+
+                <md-select ng-switch-when="select" ng-model="define.ngModel" class="md-no-underline">
+                    <md-option ng-repeat="item in define.itemSource" ng-value="item.value">{{item.displayName}}</md-option>
+                </md-select>
+
+            </div>  
+        </form>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="column" layout-align="center stretch">
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickOk($event)" ng-disabled="$ctrl.isOkButtonDisabled">{{$ctrl.okButtonLabel}}</md-button>
+            <md-button class="md-raised md-primary ias-dismiss-btn" ng-click="$ctrl.$onClickCancel($event)">{{$ctrl.cancelButtonLabel}}</md-button>
+        </div>
+    </md-dialog-actions>
+
+
+</md-dialog>

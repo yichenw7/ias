@@ -1,0 +1,50 @@
+<modal-dialog id-name="'bondManageDlg'" title-name='"债券池信息管理"' width-class='"add-user-win"'
+              confirm-btn-name='"保存"' confirm-handler="confirmBtnClick()"
+              hidden-func="closeBeforeFunc()">
+    <div class="ias-form-group">
+        <label class="ias-control-label">代码：</label>
+        <label class="ias-info-label" ng-if="isEdit">{{bond.bond_id}}</label>
+        <div ng-if="!isEdit">
+            <angucomplete-alt placeholder="代码、简称或拼音" pause="100"
+                              selected-object="bondSelectFun"
+                              local-data="bondBasicList"
+                              search-fields="bond_id,short_name,pin_yin_full,pin_yin"
+                              title-field="bond_id,short_name"
+                              input-show-fields="bond_id"
+                              input-class="ias-angucomplete-input"
+                              match-result-length="10"
+                              minlength="1"
+                              auto-match="true"
+                              focus-first="true">
+            </angucomplete-alt>
+        </div>
+
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">简称：</label>
+        <label class="ias-info-label">{{bond.short_name}}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">评分：</label>
+        <select ng-model="bond.score" ng-options="score for score in marketScores"></select>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">备注：</label>
+        <input type="text" ng-model="bond.remarks" style="width:200px;">
+        <label style="margin-left: 10px">(可选)</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">有效开始日期：</label>
+        <input readonly="readonly" type="text" style="width:110px" class="ias-date-input input-not-edit"
+               datetimepicker change-date-handler="checkDateOrder()"
+               config="timePickerConfig" ng-model="bond.expire_start_date">
+        <label style="margin-left: 10px"></label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">有效截止日期：</label>
+        <input readonly="readonly" type="text" style="width:110px" class="ias-date-input input-not-edit"
+               datetimepicker change-date-handler="checkDateOrder()"
+               config="timePickerConfig" ng-model="bond.expire_end_date">
+        <label style="margin-left: 10px"></label>
+    </div>
+</modal-dialog>

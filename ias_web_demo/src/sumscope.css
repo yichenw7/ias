@@ -1,0 +1,353 @@
+@charset "utf-8";
+/* 全局统一样式: 请勿随意更改 */
+/* 局部样式请在app.css中加入 */
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Microsoft YaHei" !important;
+    font-size: 14px;
+    background-color: #161819;
+    color: #ffebc8;
+}
+
+button,
+select,
+html,
+textarea,
+input {
+    font-family: "Microsoft YaHei" !important;
+}
+
+/* <a> --- */
+a,
+a:hover,
+a:focus,
+a:active {
+    color: inherit;
+    text-decoration: none;
+    background-color: inherit;
+}
+
+ul > li > a {
+    display: block;
+}
+/* --- <a> */
+
+/* <ul><li> --- */
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul > li {
+    list-style: none;
+}
+/* --- <ul><li> */
+
+/* <hr> --- */
+hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 1px solid #5c5c5c;
+}
+/* --- <hr> */
+
+/* <button> --- */
+button {
+    color: #ffebc8;
+    background-color: #0d7b7b;
+    border: 0;
+    border-radius: 2px;
+}
+
+button:hover {
+    background-color: #179595;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    background-color: #0d6060;
+}
+
+button:disabled {
+    background-color: #35393b;
+    cursor: not-allowed !important;
+}
+
+input:disabled {
+    cursor: not-allowed !important;
+}
+/* -- 删除 -- */
+.ias-delete-btn {
+    background-color: #c03647;
+}
+
+    .ias-delete-btn:hover {
+        background-color: #d23044;
+    }
+
+    .ias-delete-btn:active {
+        background-color: #a7172a;
+    }
+
+    .ias-delete-btn:disabled {
+        background-color: #35393b;
+        cursor: not-allowed;
+    }
+/* -- 消失 -- */
+.ias-dismiss-btn {
+    height: 24px;
+    text-align: center;
+    background-color: #294646;
+    padding: 0 10px;
+}
+
+    .ias-dismiss-btn:hover {
+        background-color: #3b6464;
+    }
+
+    .ias-dismiss-btn:focus {
+        background-color: #1c3232;
+    }
+
+.ias-round-btn {
+    border-radius: 50%;
+    height: 21px;
+    width: 21px;
+}
+/* --- <button> */
+
+/* <input><textarea> --- */
+input,
+textarea {
+    color: #fff3dd;
+    background-color: #3b4145;
+    border: 1px solid #3b4145;
+    border-radius: 2px;
+    height: 24px;
+    padding: 0 5px;
+}
+
+    input:hover,
+    textarea:hover {
+        border: 1px solid #697277;
+        background-color: #42494e;
+    }
+
+    input:focus,
+    textarea:focus {
+        border: 1px solid #0d7b7b;
+        background-color: #161819;
+        outline: none;
+    }
+
+    input:disabled,
+    textarea:disabled {
+        border: 1px solid #2b2e2f;
+        background-color: #2b2e2f;
+        cursor: not-allowed;
+    }
+
+textarea {
+    min-height: 26px;
+    min-width: 300px;
+    max-height: 300px;
+}
+/* -- 日期 -- */
+.ias-date-input {
+    width: 108px;
+    background-image: url('./images/icon_date_normal.png');
+    background-repeat: no-repeat;
+    background-position: 85px;
+}
+/* --- <input><textarea> */
+
+/* <label> --- */
+label {
+    line-height: 24px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.ias-control-label {
+    width: 100px;
+    text-align: right;
+}
+
+.ias-info-label {
+    margin-right: 10px;
+}
+/* --- <label> */
+
+/* <select> --- */
+select {
+    border: 0;
+    border-radius: 2px;
+    background-color: #3b4145;
+    height: 24px;
+    padding: 0 5px 2px;
+}
+
+    select:disabled {
+        border: 1px solid #2b2e2f;
+        background-color: #2b2e2f;
+    }
+/* --- <select> */
+
+
+/* <scroll-bar> --- */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #474a4c;
+    border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #62676b;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #00797b;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: #131314;
+}
+/* --- <scroll-bar> */
+
+/* --- 全局样式 --- */
+.ias-text-special {
+    color: #ff900d;
+}
+
+.ias-text-left {
+    text-align: left;
+}
+
+.ias-text-center {
+    text-align: center;
+}
+
+.ias-text-right {
+    text-align: right;
+}
+
+.ias-text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* --- 全局样式 --- */
+
+/* --- 布局 --- */
+.ias-form-group {
+    position: relative;
+    padding: 0;
+    height: 24px;
+    margin-bottom: 15px;
+}
+
+.ias-form-group .ias-offset-1-2 { /* 向左偏移 1/2*/
+    position: absolute;
+    left: 50%;
+}
+
+.ias-form-group .ias-offset-1-3 { /* 向左偏移 1/3 */
+    position: absolute;
+    left: 33.33%;
+}
+
+.ias-form-group .ias-offset-2-3 { /* 向左偏移 2/3 */
+    position: absolute;
+    left: 66.66%;
+}
+
+.ias-form-group .ias-offset-1-5 { /* 向左偏移 1/5 */
+    position: absolute;
+    left: 20%;
+}
+
+.ias-form-group .ias-offset-2-5 { /* 向左偏移 2/5 */
+    position: absolute;
+    left: 40%;
+}
+
+.ias-form-group .ias-offset-3-5 { /* 向左偏移 3/5 */
+    position: absolute;
+    left: 60%;
+}
+
+.ias-form-group > * {
+    line-height: 24px;
+    float: left;
+}
+
+.ias-form-group .special-ctr-label {
+    line-height: 24px;
+    float: left;
+}
+
+.ias-form-group .ias-offset-1-2 > *,
+.ias-form-group .ias-offset-1-3 > *,
+.ias-form-group .ias-offset-2-3 > * {
+    float: left;
+}
+/* --- 布局 --- */
+
+/* --- ICON --- */
+.search-icon {
+    width: 18px;
+    height: 18px;
+    background: url('./images/icon_search_normal.png') no-repeat center;
+}
+
+.expanded-icon {
+    transition: 0.5s;
+    width: 18px;
+    height: 18px;
+    background: url('./images/arrow.png') no-repeat center;
+}
+
+.expanded-icon.down {
+    transform: rotate(180deg);
+}
+
+.close-icon {
+    cursor: pointer;
+    border-radius: 20px;
+    width: 16px;
+    height: 16px;
+    background-color: #179595;
+    background-image: url('./images/icon_close_normal.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/* --- ICON --- */
+
+.ui-grid-watermark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}

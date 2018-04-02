@@ -1,0 +1,1236 @@
+@charset "utf-8";
+.ias-account {
+    height: 100%;
+}
+
+.ias-account button {
+    height: 24px;
+    padding: 0 10px;
+}
+
+.absolute-panel {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height: auto!important;
+}
+.account-panel-fold {
+    position:absolute;
+    top:120px;
+    left:0;
+    right:0;
+    bottom:0;
+    height: auto!important;
+}
+.account-panel-unfold {
+    position:absolute;
+    top:216px;
+    left:0;
+    right:0;
+    bottom:0;
+    height: auto!important;
+}
+.position-panel {
+    top: 32px;
+}
+.account-trade-adapt {
+    position: fixed;
+    height: auto!important;
+    top: 152px;
+    right: 0;
+    bottom: 5px;
+    left: 0;
+}
+.account-ui-grid-position {
+    height: auto !important;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+}
+.account-ui-grid-trades {
+    height: auto !important;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+}
+/* --- S account nav bar样式 --- */
+.account-tab-bar {
+    width: 40%;
+    min-width: 600px;
+}
+.account-tab-bar.tab-template-header-nav {
+    padding: 0;
+}
+/* --- account nav bar样式 E --- */
+
+/* --- S 成交录入 --- */
+.deal-input-dialog {
+    width: 1200px;
+}
+.deal-input-dialog .right-content-wrap {
+    padding: 0 10px;
+    min-height: 570px;
+    overflow: auto;
+}
+.deal-input-dialog .left-tab-wrap {
+    min-height: 510px;
+}
+.deal-input-loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.30);
+}
+.deal-input-dialog-btn {
+    margin-left: 10px;
+}
+.deal-input-long-field .ias-ui-grid {
+    margin-left: 20px;
+}
+.deal-input-long-field .ias-control-label {
+    width: 135px;
+}
+.create-account .ias-control-label{
+    width: 140px;
+}
+.left-content-tab {
+    float: left;
+}
+.right-content-wrap {
+    margin-left: 130px;
+}
+.inquiry-details {
+    margin-top: -5px;
+    padding: 0 0 10px 100px;
+}
+.inquiry-details label {
+    font-size: 12px;
+}
+.inquiry-details div {
+    width: 180px;
+    height: 24px;
+    display: inline-block;
+}
+.inquiry-details .ias-control-label {
+    width: auto;
+}
+.inquiry-details .ias-info-label {
+    width: auto;
+    margin: 0;
+}
+.buyout-form > * {
+    width: 120px;
+    height: inherit;
+}
+.buyout-form > input {
+    width: 110px;
+    margin: 0 5px;
+}
+.edit-details{
+    margin-bottom: 20px;
+}
+.edit-details label {
+    font-size: 14px;
+}
+.edit-details div {
+    width: 180px;
+    height: 26px;
+    display: inline-block;
+}
+.edit-details .ias-control-label {
+    width: auto;
+}
+.edit-details .ias-info-label {
+    width: auto;
+    margin: 0;
+}
+.bond-sch {
+    margin-top: 3px;
+    width: 60px;
+    background-color: #2d5d96;
+    border-radius: 5px;
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+}
+.bond-cdc {
+    margin-top: 3px;
+    width: 60px;
+    background-color: #ff7d00;
+    border-radius: 5px;
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+}
+/* --- 成交录入 E --- */
+
+/* --- S 账户 --- */
+.account-header-panel {
+    background-color: #232628;
+    height: 50px;
+    padding: 10px;
+}
+.account-header-panel button {
+    height: 30px;
+}
+.account-header-panel-left {
+    float: left;
+    display: flex;
+    align-items: center;
+}
+.account-header-panel-left button {
+    min-width: 200px;
+    text-align: left;
+}
+.account-header-panel-left button .caret{
+    float: right;
+    margin-top: 9px;
+}
+.account-header-panel-left > div {
+    margin-left: 10px;
+}
+.account-header-panel-right {
+    float: right;
+}
+.account-header-panel-right > .account-btn-group {
+    display: inline-block;
+}
+.account-header-panel-right > .account-btn-group > button {
+    background-color: #01926b;
+}
+.account-header-panel-right > .account-btn-group > button:first-child {
+    border-radius: 2px 0 0 2px;
+    padding: 0 0 0 15px;
+}
+.account-header-panel-right > .account-btn-group > button:last-child {
+    border-radius: 0 2px 2px 0;
+    padding-right: 10px;
+}
+.account-header-panel-right > .account-btn-group > button:hover {
+    background-color: #00A77A;
+}
+.account-header-panel-right > .account-btn-group > button:focus {
+    background-color: #006348;
+    outline: none;
+}
+.account-sum-panel {
+    line-height: 28px;
+    font-size: 12px;
+    padding: 10px;
+    background-color: #333739;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.account-sum-panel .expanded-icon {
+    position: absolute;
+    margin-top: -20px;
+    right: 10px;
+}
+.account-sum-panel .expanded-icon.down {
+    margin-top: -20px;
+}
+.account-sum-panel > div {
+    display: flex;
+    flex-wrap: wrap;
+}
+.account-sum-panel label {
+    width: 16%;
+    margin: 0 2%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+@media screen and (max-width: 1500px) {
+    .account-sum-panel label {
+        width: 18%;
+        margin: 0 1%;
+        font-size: 12px;
+    }
+}
+.account-sum-panel span {
+    color: #f9c66e;
+}
+
+    .md-tooltip.md-origin-bottom.account-sum {
+        margin-top: 0;
+    }
+
+.account-button-panel {
+    background-color: #2F3137;
+}
+.account-button {
+    color: #FFFFFF;
+    background:#0f898a;
+    border-radius:2px;
+    width:97px;
+    height:30px;
+    padding: 2px 7px 3px 12px;
+}
+.account-button:hover {
+    color: #FFFFFF;
+    background:#00acad;
+    border-radius:2px;
+    width:97px;
+    height:30px;
+}
+.account-button:focus {
+    color: #FFFFFF;
+    background:#046d6e;
+    border-radius:2px;
+    width:97px;
+    height:30px;
+}
+.account-dlg-btn {
+    height:30px;
+    color: #FFFFFF;
+    background-color: #3E414F;
+}
+.account-dlg-btn:hover {
+    height:30px;
+    color: #FFFFFF;
+    background-color: #00837D;
+}
+.bond-filter {
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    cursor: default;
+    border-radius: 40px;
+    margin: 1px;
+    padding: 0 25px 0 10px;
+    background-color: #FF9200;
+}
+.bond-filter .close-icon {
+    background-color: #FF9200;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+}
+.account-filter-btn {
+    color: #000000;
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+    border-radius: 3px;
+    background-color: #ffebc8;
+    text-align: center;
+    margin-top: 5px;
+    cursor: pointer;
+}
+.input-file {
+    position: relative;
+    width: 120px;
+    text-align: center;
+    cursor: pointer;
+}
+#text {
+    display: inline-block;
+    margin-top: 5px;
+    color: #666;
+    font-family: "����";
+    font-size: 18px;
+}
+.file {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px; /* ��ߺ���ΧԪ�ر���һ�� */
+    height: 30px;
+    opacity: 0;
+    -moz-opacity: 0; /* ������ʽ����� */
+    filter: alpha(opacity=0); /* ����IE */
+}
+#file-2 {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px; /* ��ߺ���ΧԪ�ر���һ�� */
+    height: 30px;
+    opacity: 0;
+    -moz-opacity: 0; /* ������ʽ����� */
+    filter: alpha(opacity=0); /* ����IE */
+}
+.account-tbody-font {
+    color: #FFA609;
+}
+.account-tbody-pane {
+    min-height: 150px;
+    border: 3px;
+    border-color: #000000;
+}
+/* --- 账户 E --- */
+.asset-list > div {
+    height: auto !important;
+    padding: 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 218px;
+    margin-top: -24px;
+    position: fixed;
+}
+
+/* --- S 图 --- */
+.asset-chart > div {
+    height: auto !important;
+    padding: 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 98px;
+    position: absolute;
+}
+.tendency-wrap {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.chart-wrap {
+    padding: 0 5px;
+    height: 100%;
+}
+.chart-tooltip {
+    border-radius: 3px;
+    padding: 10px 15px;
+    z-index: 100;
+    position: absolute;
+    right: 115px;
+    background-color: #33383c;
+    color: #ffebc8;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.50);
+}
+.chart-tooltip > button {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.period-select-wrap {
+    position: absolute;
+    margin: -28px 0 0 630px;
+}
+.content-select-wrap {
+    position: absolute;
+    margin: -28px 0 0 230px;
+}
+.tooltip-table {
+    padding: 10px;
+    border-radius: 5px;
+}
+.tooltip-table th,
+.tooltip-table td{
+    text-align: center;
+    border: 1px solid #333739;
+}
+.tooltip-table th{
+    color: #7b8082;
+}
+.tooltip-table td{
+    color: #ffebc8;
+}
+.tooltip-table tr:nth-child(odd) {
+    background-color: #232628;
+}
+.tooltip-table tr:nth-child(even) {
+    background-color: #191b1c;
+}
+/* --- 图 E --- */
+
+/* --- S 表 --- */
+.asset-panel {
+    overflow: auto;
+    top: 75px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.asset-panel-row {
+    margin: 1%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 350px;
+}
+.asset-panel-row .ias-table {
+    width: 770px !important;
+}
+.asset-panel-row > div {
+    width: 40%;
+    min-width: 650px;
+    align-self: stretch;
+    margin-left: 1%;
+}
+.asset-panel .col-md-4,
+.asset-panel .col-md-3 {
+    padding: 0 10px;
+}
+.asset-panel .ias-table th {
+    padding: 0 10px 0 5px;
+    text-align: right;
+    font-size: 12px;
+}
+.asset-panel .ias-table td {
+    padding: 0 10px 0 5px;
+    text-align: right;
+}
+.account-attribution-panel {
+    overflow: auto;
+    left: 0;
+    right: 0;
+    top: 80px;
+}
+.account-attribution-panel .ias-table td{
+    text-align: right;
+    padding-right: 10px;
+}
+.account-amount-data {
+    line-height: 50px;
+    height: 50px;
+    background-color: #333739;
+    padding-left: 20px;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.account-amount-data > div {
+    display: inline-block;
+    width: 33%;
+}
+.account-amount-data > div > span {
+    color: #f9c66e;
+}
+.account-asset-row {
+    min-width: 1800px;
+    min-height: 200px;
+    margin: 5px;
+    padding: 0;
+}
+.purchase-table .account-asset-row {
+    min-width: 1200px;
+}
+.account-asset-title {
+    color: #FFA609;
+}
+/* --- 表 E --- */
+.performance-attribution-table-wrap {
+    width: 50%;
+    float: left;
+    padding: 0 30px;
+}
+.performance-attribution-table-wrap .total-asset:hover {
+    color: #E9DC51;
+    text-decoration: none;
+}
+.performance-attribution-table-wrap .total-header-nomal:hover {
+    color: #079F91;
+    text-decoration: none;
+}
+.account-chart-tab {
+    width: 300px;
+}
+.asset-header {
+    height: 35px;
+    border: 3px;
+    border-color: #000000;
+}
+.portfolio-data {
+    color:#29dc9c;
+}
+.portfolio-data-1 {
+    color:#d96833;
+}
+.portfolio-data-2 {
+    color:#ff954e;
+}
+.sum-data {
+    color:#FFA609;
+}
+.import-dlg-win{
+    width: 650px;
+}
+.bidofr-dlg-win{
+    width: 630px;
+}
+.account-label{
+    color: #FFFFFF;
+    font-size: 14px;
+    padding-right:0px;
+}
+.account-label-val{
+    color: #FECD67;
+    font-size: 14px;
+    padding-left:0px;
+}
+.account-label-right{
+    color: #FAF7CC;
+    font-size: 14px;
+    padding-right:0px;
+}
+.bidofr-btn {
+    color: #FFFFFF;
+    width: 80px;
+    height:25px;
+    background-color: #3E414F;
+    padding-top:2px;
+    border: 0px;
+    font-weight: bold;
+}
+.bidofr-btn:hover {
+    padding-top:2px;
+    width: 80px;
+    height:25px;
+    color: #FFFFFF;
+    background-color: #00837D;
+    border: 0px;
+    font-weight: bold;
+}
+.bidofr-btn:focus {
+    border:0px;
+}
+.bidofr-select{
+    background-color: #41434B;
+    border-radius: 2px;
+    padding-bottom: 2px;
+    border: 0px;
+    color: #EBB456;
+    font-size: 12px;
+    padding-left:10px;
+    padding-right:0px;
+}
+.bidofr-btn-checked{
+    background-color: #FFA609;
+}
+.total-asset{
+    color: #ffcc74 !important;
+}
+.total-header-nomal{
+    color:#079F91;
+}
+.bidofr-btn-add {
+    color: #FFFFFF;
+    height:25px;
+    background-color: #3E414F;
+    padding-top:4px;
+    padding-left:5px;
+    margin-left:5px;
+}
+.account-price{
+    color: #FECD67;
+    font-size: 14px;
+    padding-left:0px;
+    margin-left:10px;
+    padding-top:3px;
+    padding-right:0px;
+}
+.bidofr-tip{
+    color: #AAA9B4;
+    font-size:12px;
+    padding-left:0px;
+    margin-left:10px;
+    padding-top:3px;
+    padding-right:0px;
+}
+.deal-tbody-font {
+    color: #E9DEC1;
+    font-weight: bold;
+}
+.deal-modal-input{
+    color:#EBB456;
+    background-color: #41434B;
+    border-radius: 2px;
+    border: 0px;
+    padding:3px;
+    margin-top: 3px;
+    padding-left: 0px;
+}
+.relative-buylist {
+    position: relative;
+}
+
+.relative-buylist.popover {
+    width: 500px;
+}
+
+.relative-pledge {
+    position: relative;
+}
+
+.relative-pledge.popover {
+    width: 240px;
+}
+.relative {
+    position: relative;
+}
+
+.relative.popover {
+    width: 200px;
+}
+.hover-title{
+    background-color: #272B39;
+    color:#FDFDFD;
+}
+.hover-content{
+    width:200px;
+    background-color: #EDDCC4;
+    color:#222;
+    font-size:14px;
+    line-height: 22px;
+    padding-left:10px;
+    padding-top:10px;
+    padding-right:10px;
+    padding-bottom:10px;
+}
+.hover-content-import{
+    width:250px;
+    background-color: #113C3F;
+    color:#222;
+    font-size:14px;
+    line-height: 22px;
+    padding-left:10px;
+    padding-top:10px;
+    padding-right:10px;
+    padding-bottom:10px;
+}
+/*wyf添加*/
+#pledgeImportDlg .filter-div-small{
+    width:90%
+}
+#pledgeImportDlg .filter-default-btn{
+    background-color:#41434B
+}
+
+.trd-cal-box {
+    width: 600px;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.trd-cal-box p{
+    color:#FFA609;
+}
+
+.trd-cal-box th div {
+    min-width: 80px;
+    display: inline-block;
+    background: #252222;
+    border-radius: 10px;
+    padding: 0 5px;
+    margin: 5px 0;
+}
+.trd-cal-box select{
+    background: #41434B;
+    border: none;
+    font-size: 12px;
+    text-align: center;
+}
+
+.trd-bank-pad td{
+    padding: 8px 5px!important;
+}
+
+.trd-bank-pad.modal-input {
+    margin-top: 0px;
+}
+
+.trd-bank-pad td , .trd-bank-pad th {
+    text-align: center;
+
+}
+
+.trd-bank-pad .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #1B1C21
+}
+
+.trd-bank-pad .table-striped > tbody > tr input[disabled]{
+    background-color: inherit;
+}
+
+.trd-bank-pad .modal-confirm-btn {
+    font-weight: normal;
+}
+
+.trd-bank-pad .modal-input{
+    margin-top:0px;
+}
+.trd-bank-pad .ias-angucomplete-dropdown{
+    width:240px;
+    text-align: left;
+}
+
+.trd-bank-pad  .ias-angucomplete-input{
+    width: 120px;
+    padding-right:10px;
+}
+.win-adapt{
+    height:auto !important;
+    left:0;
+    right:0;
+    bottom:0px;
+    top:269px;
+    position: fixed;
+}
+
+.trade-win-adapt{
+    height:auto !important;
+    left:0;
+    right:0;
+    top:69px;
+    bottom:0px;
+    position: fixed;
+}
+
+.win-adapt.man-max{
+    height:auto!important;
+    top:44px;
+    /*临时性去除任务界面 将bottom改为5px*/
+    /*bottom:25px;*/
+    bottom:5px
+}
+
+.win-adapt.man-top{
+    height:337px!important;
+    top:44px;
+}
+
+.win-adapt.man-bottom{
+    height:auto!important;
+    top:450px;
+}
+
+.cashflow-table-panel {
+    left:5px;
+    right:5px;
+    top:74px;
+}
+.cashflow-chart-panel {
+    bottom: 10px;
+    top: 108px;
+}
+.cashflow-header {
+    display: flex;
+    margin: -27px 10px 0 190px;
+    justify-content: space-between;
+}
+.cashflow-header .ias-control-label {
+    width: 80px;
+}
+.cashflow-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    height: 40px;
+    padding: 0 20px;
+    background: #333739;
+    justify-content: space-between;
+}
+.cashflow-footer > label {
+    line-height: 40px;
+}
+.cashflow-footer > label > span {
+    color: #f9c66e;
+}
+.asset-panel-header {
+    margin: -27px 10px 0 200px;
+    justify-content: space-between;
+    position: absolute;
+}
+.deal-win-adapt{
+    height:auto !important;
+    left:0;
+    right:0;
+    bottom:0;
+    top:208px;
+    position: fixed;
+}
+.sheet-toolbar-adapt{
+    height:38px;
+    left:10px;
+    right:10px;
+    position: fixed;
+}
+.position-sheet-panel{
+    top:64px;
+}
+
+.expanded-icon-table {
+    transition: 0.5s;
+    width: 20px;
+    height: 30px;
+    float: right;
+    background-image: url('./../images/arrow.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.expanded-icon-table.down {
+    transform: rotate(180deg);
+}
+/*备注样式*/
+.note-wrapper{
+    background:#eddcc4;
+    box-shadow:0px 2px 4px 0px rgba(0,0,0,0.50);
+    width:250px;
+    height:162px;
+    padding: 9px;
+}
+.note-wrapper-textarea{
+    font-weight: 400;
+    font-size:14px;
+    color:#222222;
+    line-height:22px;
+    text-align:left;
+    width: 232px;
+    height: 144px;
+    background: #E8A63B!important;
+}
+
+/*代码、简称字体颜色*/
+.tbody-special-font{
+    font-weight: 400;
+    font-size:14px;
+    color:#ffcc74 !important;
+}
+/* 行名称 */
+.sheet-row-name{
+    width: 150px;
+    height:38px;
+}
+/* 汇总栏行名称 */
+.sheet-total-row-name{
+    width: 150px;
+    height:38px;
+    color:#F2DFBE;
+    font-size: 14px;
+    background-color: #121716;
+    color: #3FAFEC;
+}
+/* 行值 */
+.sheet-row-value{
+    width: 100px;
+    height:38px;
+    font-size: 14px;
+}
+/* 汇总栏行值 */
+.sheet-total-row-value{
+    width: 100px;
+    height:38px;
+    font-size: 14px;
+    background-color: #121716;
+}
+/* 标题栏(日期) */
+.sheet-head{
+    width: 150px;
+    height:38px;
+    color: #8B8B8D;
+    font-size: 14px;
+    background-color:#303237;
+}
+/* 结算方式T+0 T+1 */
+.sheet-settlement{
+    height:40px;
+    width: 150px;
+    color: #ECBD6B;
+    font-size: 16px;
+}
+/* 入账或出账的汇总 */
+.sheet-sum{
+    height:40px;
+    width: 150px;
+    color: #ECBD6B;
+    font-size: 16px;
+    /*border-top:2px solid #77787D;
+    background-color: #32343E;*/
+}
+/* 第一列 */
+.sheet-col-1{
+    width:10px;
+}
+/* 入账或出账汇总第一列 */
+.sheet-sum-col-1{
+    width:10px;
+   /* background-color: #32343E;
+    border-top:2px solid #77787D;*/
+}
+.sheet-sum-col-1-red{
+    background-color:#DA505A;
+}
+.sheet-sum-col-1-green{
+    background-color:#006A65;
+}
+/* 汇总栏第一列 */
+.sheet-total-col-1{
+    width:10px;
+    background-color: #121716;
+}
+.sheet-col-2{
+    width:40px;
+}
+.sheet-sum-col-2{
+    width:60px;
+    /*background-color: #32343E;
+    border-top:2px solid #77787D;*/
+}
+.sheet-total-col-2{
+    width:60px;
+    background-color: #121716;
+}
+.sheet-green{
+    background-color: #006A65;
+}
+.sheet-red{
+    background-color:#DA505A;
+}
+/* 入账出账列名 */
+.sheet-col-name{
+    font-size: 20px;
+    color: #ECBD6B;
+    height:38px;
+    padding-left:10px;
+}
+/* 起始T+1 第一列 */
+.sheet-begin-col-1{
+    width:10px;
+    background-color: #121716;
+}
+.sheet-begin-col-2{
+    width:60px;
+    background-color: #121716;
+}
+/* 起始T+1 行名 */
+.sheet-begin-row-name{
+    width: 150px;
+    height:38px;
+    color:#F2DFBE;
+    font-size: 14px;
+    background-color: #17191E;
+}
+/* 起始T+1 行值 */
+.sheet-begin-row-value{
+    width: 100px;
+    height:38px;
+    font-size: 14px;
+    background-color: #17191E;
+}
+/*---头寸表btn---*/
+.sheet-title-bgc{
+    background:#0d3b37;
+}
+.sheet-total-bgc{
+    background-color: #132624;
+}
+.sheet-expand-normal{
+    background-image: url('./../images/btn_zhankai_normal.png');
+    background-repeat: no-repeat;
+}
+.sheet-collapse-normal{
+    background-image: url('./../images/btn_shouhui_normal.png');
+    background-repeat: no-repeat;
+}
+.sheet-plus{
+    content: url('./../images/icon_plus.png');
+}
+.sheet-tr{
+    height: 14px;
+    background-color: #121716
+}
+.sheet-minus{
+    content: url('./../images/icon_minus.png');
+}
+.sheet-equal{
+    content: url('./../images/icon_equal.png');
+}
+.hideColumn {
+    font-size:0;
+}
+.code-name-color {
+    color:#ffcc74;
+    font-weight: 900;
+}
+.bond-code-name-color {
+    color:#ffcc74;
+    font-weight: 900;
+    margin-left: 8px;
+    line-height: 30px;
+}
+.ias-warning {
+    font-weight: bold;
+    font-size: 16px;
+    color: red;
+    margin: 0;
+    height: 24px;
+    text-align: center;
+    width:800px;
+}
+.select-file-btn {
+    background-color: #00837D;
+    border: 0px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.ias-account .select-file-btn {
+    margin-left: 10px;
+    height: 24px;
+}
+
+.select-file-btn_disabled {
+    background-color: #35393b;
+    cursor: not-allowed;
+}
+.select-file-btn > span {
+    color: #ffebc8;
+    font-size: 14px;
+    align-self: center;
+}
+.finish-import{
+    color: #61B727;
+    font-weight:bold;
+    width:90px
+}
+.ias-progress {
+    margin-left:10px;
+    width:120px;
+    height:24px;
+    background-color: burlywood;
+}
+.ias-progress-bar {
+    background-color: #159160;
+}
+.ias_import_label {
+    margin-right:10px;
+}
+.ias_import_template {
+    margin-right:10px;
+    color: white;
+}
+.finish-load-msg {
+    color: red;
+    font-size:16px;
+    text-align:center;
+    margin-left:10px;
+    margin-top:2px;
+}
+.import-module {
+    margin-left:10px;
+}
+.circle {
+    border-radius: 50%;
+    width: 7px;
+    height: 7px;
+    background-color: red;
+    margin-top:9px;
+    margin-right:-10px;
+}
+.ias-preview {
+    height: 24px;
+    text-align: center;
+    font-weight: 400;
+    background-color: #194444;
+    padding: 0 10px;
+}
+
+#loadEle .ias-table {
+    border: 0;
+    box-shadow: none;
+}
+#loadEle .ias-table td,
+#loadEle .ias-table th {
+    padding: 0 8px;
+}
+#createAccountDlg .ias-secondary-tabs {
+    text-align: center;
+}
+#createAccountDlg .ias-secondary-tabs > .tab-list {
+    margin-bottom: 10px;
+}
+#createAccountDlg .data-src-list {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #333639;
+    border-radius: 5px;
+    padding: 5px 0;
+}
+#createAccountDlg .data-src-list > div {
+    margin: 5px 0;
+}
+#createAccountDlg .data-src-list > div > * {
+    float: left;
+}
+#createAccountDlg select {
+    width: 164px;
+}
+.indicator-absolute-page {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+.sensitivity-absolute-page {
+    height: auto !important;
+    position: absolute;
+    top: 110px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+.indicator-type-row > label {
+    float: left;
+}
+.indicator-type-row > div {
+    margin-left: 100px;
+}
+/*损益细项页面 by 宁学良*/
+.statement-wrap{
+    margin-top: -34px;
+    height: 24px;
+    margin-left: 330px;
+}
+
+.cashflow-tree-view .view-nonode-tree,
+.cashflow-tree-view .view-nonodemax-tree,
+.cashflow-tree-view .view-less-tree,
+.cashflow-tree-view .view-all-tree,
+.cashflow-tree-view .view-middle-tree,
+.cashflow-tree-view .view-less-last-tree,
+.cashflow-tree-view .view-max-tree {
+    background-position: 50px 0;
+}
+
+.bond-comparison .ias-table td,
+.bond-comparison .ias-table th {
+    border: 0;
+    text-align: center;
+}
+.bond-comparison .ias-table {
+    border-top: 0;
+}
+.tabsGroupList{
+    position: relative; margin-left: 150px; height: 100%
+}

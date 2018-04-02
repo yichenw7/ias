@@ -1,0 +1,16 @@
+<table class="ias-table" style="border: 0;width: 300px;box-shadow: 0px 0px 5px #000;">
+    <thead>
+        <tr>
+            <th>交易时间</th>
+            <th>数量</th>
+            <th>净价</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="info in buy_list">
+            <td>{{info.trade_date}}</td>
+            <td>{{info.volume | commafyConvert}}</td>
+            <td>{{info.clean_price | toFixed4}}</td>
+        </tr>
+    </tbody>
+</table>

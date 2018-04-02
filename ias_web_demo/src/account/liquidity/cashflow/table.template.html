@@ -1,0 +1,36 @@
+<div class="cashflow-header">
+    <div>
+        <label>频率：</label>
+        <radio-group
+            ng-model="$ctrl.period.selected"
+            items="$ctrl.period.groups"
+            on-change="$ctrl.period.handleChanged()">
+        </radio-group>
+        <label class="ias-control-label">类型：</label>
+        <ias-select options="$ctrl.desc.types" ng-model="$ctrl.desc.selected" change-handle="$ctrl.desc.handleChanged()" width="180px"></ias-select>
+        <div style="display:inline-block;">
+            <label class="ias-control-label">日期区间：</label>
+            <input readonly="readonly" class="ias-date-input" datetimepicker config="$ctrl.datetimePickerConfig"
+                ng-model="$ctrl.dateRange.start" change-date-handler="$ctrl.dateRange.handleChanged()">
+            <label>至</label>
+            <input readonly="readonly" class="ias-date-input" datetimepicker config="$ctrl.datetimePickerConfig"
+                ng-model="$ctrl.dateRange.end" change-date-handler="$ctrl.dateRange.handleChanged()">
+            <button ng-click="$ctrl.dateRange.clear()">清空</button>
+        </div>
+    </div>
+    <angucomplete-alt id="cashSearchBox" placeholder="代码、简称" pause="100" selected-object="$ctrl.code.handleChanged" local-data="$ctrl.code.lists"
+        search-fields="code,name" title-field="code,name" input-show-fields="code,name" input-class="ias-angucomplete-input"
+        match-result-length="10" minlength="1" auto-match="true" focus-first="true"> </angucomplete-alt>
+    <button ng-click="$ctrl.onExport()">导出</button>
+</div>
+<div style="top:110px; bottom: 40px;" class="absolute-panel ias-ui-grid cashflow-tree-view"
+    ui-grid="$ctrl.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter ui-grid-tree-view>
+</div>
+<div class="cashflow-footer">
+    <label>总计：<span>{{$ctrl.total.count}}</span> 笔</label>
+    <label>其中票息 <span>{{$ctrl.total.piaoxi}}</span> 笔，还本 <span>{{$ctrl.total.huanben}}</span> 笔</label>
+
+    <label>金额：<span>{{$ctrl.total.in + $ctrl.total.out | commafyConvert}}</span></label>
+    <label>流入：<span>{{$ctrl.total.in | commafyConvert}}</span></label>
+    <label>流出：<span>{{$ctrl.total.out | commafyConvert}}</span></label>
+</div>

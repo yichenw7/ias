@@ -1,0 +1,20 @@
+<div style="position: absolute;margin: -27px 0 0 300px;display:inline-block">
+    <label class="ias-control-label" ng-show="!winStatus.is_account_now">VaR值分析：</label>
+    <btn-li-group ng-show="!winStatus.is_account_now" btn-group="analyticsTypes.options" ng-model="analyticsTypes.selected" change-btn="VaRQuery.query()"></btn-li-group>
+
+    <label class="ias-control-label">置信概率：</label>
+    <ias-select options="confidenceLevel.options" ng-model="confidenceLevel.selected" change-handle="VaRQuery.query()"></ias-select>
+
+    <label class="ias-control-label">VaR期限：</label>
+    <ias-select options="VaRTerm.options" ng-model="VaRTerm.selected" change-handle="VaRQuery.query()"></ias-select>
+
+    <label style="margin-left: 30px">历史数据窗口期：</label>
+    <ias-select options="historyPeriod.options" ng-model="historyPeriod.selected" change-handle="VaRQuery.query()"></ias-select>
+</div>
+<button ng-click="onExportData()" style="float:right;margin-right:10px;margin-top:-25px;display:inline-block">导出</button>
+<div class="indicator-absolute-page">
+    <div class="grid ias-ui-grid tree-level-view" ui-grid="gridOptions" style="display: flex; flex: 1;"
+        ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-tree-view
+        ui-grid-pinning ui-grid-exporter>
+    </div>
+</div>

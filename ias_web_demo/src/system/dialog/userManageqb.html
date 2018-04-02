@@ -1,0 +1,30 @@
+<modal-dialog id-name="'userManageDlg'" title-name='"用户信息管理"' width-class='"add-user-win"'
+              confirm-btn-name='"保存"' confirm-handler="confirmBtnClick()"
+              hidden-func="closeBeforeFunc()">
+    <div class="ias-form-group">
+        <label class="ias-control-label">账号：</label>
+        <label class="ias-info-label" ng-if="isEdit">{{user.account_name}}</label>
+        <input type="text" ng-model="user.account_name" ng-if="!isEdit">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">姓名：</label>
+        <input type="text" ng-model="user.user_name">
+    </div>
+    <div class="form-group">
+        <label class="ias-control-label system-role-label">角色：</label><!--
+     --><div class="role-select-group">
+            <div class="role-select" ng-repeat="role in user.roles track by $index">
+                <select ng-model="role.id" ng-options="type.id as type.name for type in roleType"></select>
+                <button class="ias-round-btn ias-delete-btn delete-user-btn" ng-if="user.roles.length > 1" ng-click="removeRole($index)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">&nbsp;</label>
+        <button class="  ias-round-btn add-user-btn" ng-click="addRole()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+</modal-dialog>

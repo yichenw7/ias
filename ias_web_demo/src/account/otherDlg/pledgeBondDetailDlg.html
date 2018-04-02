@@ -1,0 +1,26 @@
+<div style="border: 8px solid #383B44; width: 850px" >
+    <table class="ias-table">
+        <thead style="background-color: #000000">
+            <tr>
+                <th width="170px">回购类型</th>
+                <th width="150px">回购代码</th>
+                <th width="150px">回购方向</th>
+                <th width="150px">已质押量</th>
+                <th width="170px">质押起始日</th>
+                <th width="170px">质押到期日</th>
+                <th width="150px">交易对手</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="pledge in pledgeBondDetails track by $index">
+                <td>{{ pledge.repo_type | repoType }}</td>
+                <td>{{ pledge.repo_name }}
+                <td>{{ pledge.direction | repoDirection }}</td>
+                <td>{{ pledge.pledge_volume }}</td>
+                <td>{{ pledge.initial_settlement_date }}</td>
+                <td>{{ pledge.maturity_settlement_date }}</td>
+                <td>{{ pledge.counter_party_account }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

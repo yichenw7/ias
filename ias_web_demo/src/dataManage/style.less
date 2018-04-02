@@ -1,0 +1,264 @@
+@import '~BaseLess/color.less';
+
+.data-manage-home {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.notify-bar {
+    .ss-icon{
+        transform: scale(0.7,0.7);
+    }
+
+    .normal {
+        color: rgb(104,193,57);
+    }
+
+    .error {
+        color: rgb(240,58,58);
+    }
+}
+
+.table-action {
+    > .md-button.md-ssAvalonUi-theme.ss-btn {
+        min-width: 32px;
+        min-height: 28px;
+        margin: 0px;
+
+        > md-progress-circular {
+            max-width: 20px;
+            max-height: 20px;
+            transform: scale(0.5, 0.5);
+            left: -8px;
+            top: -8px;
+        }
+    }
+}
+
+md-list.table-list,
+md-list.tree-view-list {
+    padding: 0;
+
+    &,
+    .body-subheader {
+        color: @ssTextSndColor;
+    }
+
+    &:focus {
+        outline: transparent auto 5px;
+    }
+}
+
+md-list.table-list {
+
+    > .md-subheader.md-ssAvalonUi-theme {
+        background-color: @tableTrOddBgColor;
+        color: @textGoldColor;
+
+        .md-subheader-inner {
+            padding: 5px 0;
+        }
+    }
+
+    > * {
+        &:nth-child(odd) {
+            background-color: @tableTrEvenBgColor;
+        }
+
+        &:nth-child(even) {
+            background-color: @tableTrOddBgColor;
+        }
+
+        &[selected=selected] {
+            background-color: @tableTrSelectedColor !important;
+            outline-color: transparent;
+        }
+    }
+
+    > .table-row {
+        & > * {
+            padding: 5px;
+            word-wrap: break-word;
+        }
+
+        &:before,
+        &:last-child:before {
+            padding-left: 3px;
+        }
+    }
+
+    .table-row {
+        & > * {
+            padding: 5px;
+        }
+
+        .parentNode {
+            color: #0d7b7b;
+        }
+
+        .ss-icon:hover {
+            opacity: 1;
+        }
+
+        .line-wrap {
+            overflow-wrap: break-word;
+        }
+
+        &.issue-data {
+
+            .number {
+                color: #f03a3a;
+            }
+
+            .ss-icon {
+                transform: scale(0.7,0.7);
+            }
+        }
+
+        &.issue-name {
+            .string {
+                color: rgb(74,144,226);
+            }
+
+            .ss-icon {
+                transform: scale(0.7,0.7);
+            }
+        }
+    }
+}
+
+md-list.tree-view-list {
+    .border-left {
+        border-left: 1px solid #697277;
+    }
+
+    .border-right {
+        border-right: 1px solid #697277;
+    }
+
+    &.tree-view-list-header {
+        .header-group {
+            background-color: @tableTrOddBgColor;
+
+            > * {
+                text-align: center;
+                color: @textGoldColor;
+            }
+        }
+    }
+
+    .md-subheader.md-ssAvalonUi-theme {
+        color: @ssTextExtColor;
+        background-color: @tableTrEvenBgColor;
+    }
+
+    > .md-subheader.md-ssAvalonUi-theme {
+        color: @ssTextExtColor;
+        background-color: @tableTrEvenBgColor;
+
+        .md-subheader-inner {
+            padding: 0;
+        }
+
+        .tree-row-collapse:before {
+            content: url('../images/list_fold.png');
+            padding-left: 3px;
+        }
+
+        .tree-row-expand:before {
+            content: url('../images/list_unfold.png');
+            padding-left: 3px;
+        }
+    }
+
+    > * {
+        &:nth-child(odd) {
+            background-color: @tableTrEvenBgColor;
+        }
+
+        &:nth-child(even) {
+            background-color: @tableTrOddBgColor;
+        }
+
+        &[selected=selected] {
+            background-color: @tableTrSelectedColor !important;
+            outline-color: transparent;
+        }
+    }
+
+    & > .tree-row {
+        &:hover {
+            background-color: @tableTrHoverColor !important;
+        }
+
+        &:before,
+        &:last-child:before {
+            padding-left: 3px;
+        }
+    }
+
+    .tree-row {
+        & > * {
+            padding: 5px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .parentNode {
+            color: #0d7b7b;
+        }
+
+        .ss-icon:hover {
+            opacity: 1;
+        }
+
+        .line-wrap {
+            overflow-wrap: break-word;
+        }
+
+        &.issue-data {
+
+            .number {
+                color: #f03a3a;
+            }
+
+            .ss-icon {
+                transform: scale(0.7,0.7);
+            }
+        }
+
+        &.issue-name {
+            .string {
+                color: rgb(74,144,226);
+            }
+
+            .ss-icon {
+                transform: scale(0.7,0.7);
+            }
+        }
+    }
+}
+
+md-content.md-ssAvalonUi-theme {
+    background-color: transparent;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #474a4c;
+        border-radius: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        border-radius: 4px;
+        background-color: #131314;
+    }
+}

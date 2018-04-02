@@ -1,0 +1,8 @@
+<div class="ias-tabs" ng-class="styleName">
+    <ul class="tab-list">
+        <li ng-repeat="pane in panes" ng-class="{active:pane.selected}" ng-hide="pane.isHide">
+            <a href="" ng-click="select(pane)">{{pane.tabTitle}}<span ng-show="pane.newNum > 0">{{ pane.newNum }}</span></a>
+        </li>
+    </ul>
+    <div ng-transclude></div>
+</div>

@@ -1,0 +1,9 @@
+<div class="ias-select" ng-click="changeStatus()">
+    <div class="ias-select-content ias-text-overflow" ng-style="{'width': width || '100px'}">
+        {{ ngModel }}
+        <span class="select-arrow" ng-class="{'active': isShowSelect}"></span>
+    </div>
+    <ul ng-show="isShowSelect" click-outside="handleClickOutside()" ng-style="{'min-width': width || '100px'}">
+        <li class="ias-text-overflow" ng-repeat="option in options track by $index" ng-click="select(option)">{{ option }}</li>
+    </ul>
+</div>

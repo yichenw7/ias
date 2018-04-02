@@ -1,0 +1,99 @@
+<div class="deal-input-long-field">
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" is_disabled="!showBtnList" ng-model="trade.direction"></btn-li-group>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">发生日期：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="trade.initial_date" ng-change="maturityDateChanged(trade.term, trade.initial_date)">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">到期日：</label>
+            <label class="ias-info-label">{{ exchange_repos.maturity_date }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.in_edit_mode">
+        <label class="ias-control-label ias-required-field">回购代码：</label>
+        <angucomplete-alt id="exchangeRepoSearchBox" placeholder="" pause="100"
+                          selected-object="repoSelectFun"
+                          local-data="repoList"
+                          search-fields="repo_name,repo_code"
+                          title-field="repo_name,repo_code"
+                          input-show-fields="repo_code"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          autocomplete="on"
+                          minlength="1" auto-match="true" focus-first="true">
+        </angucomplete-alt>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">计息基准：</label>
+            <label class="ias-info-label">{{ trade.repo_name == '' ? '' : ((trade.repo_name.indexOf('GC') > -1) && (trade.initial_date < '2017-05-22')) ? 'Act360' : 'Act365' }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-if="trade.in_edit_mode">
+        <label class="ias-control-label ias-required-field">回购代码：</label>
+        <label class="ias-info-label">{{ trade.repo_code }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">回购名称：</label>
+            <label class="ias-info-label">{{ trade.repo_name }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">期限：</label>
+        <label class="ias-info-label">{{ trade.term }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">利率(%)：</label>
+            <input class="ias-rate-input" limit-format-number  output-number="trade.repo_rate" change-value="maturityDateChanged(trade.term, trade.initial_date)" >
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">年化利率(%)：</label>
+            <label class="ias-info-label">{{ exchange_repos.real_rate | toFixed2 }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-show="trade.direction == 1">
+        <label class="ias-control-label ias-required-field">使用量：</label>
+        <input limit-format-number  regexp-str="\d*" class="ias-amount-input" output-number="trade.use_volume"
+               change-value="changeVolume(trade.use_volume)">
+        <div>
+            <div class="ias-offset-1-3">
+                <label class="ias-control-label">可用量：</label>
+                <label class="ias-info-label">{{ trade.available_volume }}</label>
+            </div>
+            <div class="ias-offset-2-3">
+                <label class="ias-control-label">金额(元)：</label>
+                <input limit-format-number number-point="2" output-number="trade.amount"
+                       change-value="changeAmount(trade.amount)">
+            </div>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-show="trade.direction == -1">
+        <label class="ias-control-label ias-required-field">使用资金：</label>
+        <input limit-format-number number-point="2" output-number="trade.fund"
+               change-value="changeFund(trade.fund)">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">可用资金：</label>
+            <label class="ias-info-label">{{ singleAccountData.cash_t_1 | commafyConvert }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">银行间回购比例：</label>
+        <label class="ias-info-label">{{ singleAccountData.interbank_repo_to_net | toYield }} %</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">交易所回购比例：</label>
+            <label class="ias-info-label">{{ singleAccountData.exchange_repo_to_net | toYield }} %</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">该回购比例：</label>
+            <label class="ias-info-label">{{ total.this_repo_rate | toFixed4 }} %</label>
+        </div>
+    </div>
+</div>

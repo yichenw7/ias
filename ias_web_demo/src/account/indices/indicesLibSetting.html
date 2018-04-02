@@ -1,0 +1,52 @@
+<div ng-controller="indicatorsBaseSettingCtrl">
+    <div class="modal fade" id="indicatorsBaseSetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 700px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">指标库设置</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div>
+                        <ias-checkbox name="'全选'" width="100px"
+                                      ng-model="isSelectedAllIndicators" ng-click="toggleAllIndicators()"></ias-checkbox>
+                        <input type="text" ng-model="filterIndicatorText" placeholder="查询指标">
+                    </div>
+                    <hr>
+                    <div class="indicator-type-row clearfix">
+                        <label>回报类</label>
+                        <div>
+                            <ias-checkbox ng-repeat="indicator in returnIndices.type1 | filter: { name: filterIndicatorText }"
+                                          ng-model="indicator.isChecked" ng-click="toggleIndicator()"
+                                          name="indicator.name" width="180px">
+                            </ias-checkbox>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="indicator-type-row clearfix">
+                        <label>风险类</label>
+                        <div>
+                            <ias-checkbox ng-repeat="indicator in returnIndices.type2 | filter: { name: filterIndicatorText }"
+                                          ng-model="indicator.isChecked" ng-click="toggleIndicator()"
+                                          name="indicator.name" width="180px">
+                            </ias-checkbox>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="indicator-type-row clearfix">
+                        <label>风险收益比率</label>
+                        <div>
+                            <ias-checkbox ng-repeat="indicator in returnIndices.type3 | filter: { name: filterIndicatorText }"
+                                          ng-model="indicator.isChecked" ng-click="toggleIndicator()"
+                                          name="indicator.name" width="180px">
+                            </ias-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="save()">确定</button>
+                    <button class="ias-dismiss-btn" ng-click="close()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

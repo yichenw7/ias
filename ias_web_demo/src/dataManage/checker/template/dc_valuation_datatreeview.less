@@ -1,0 +1,45 @@
+@import '~BaseLess/color.less';
+
+dc-valuation-datatreeview {
+    border: 1px solid black;
+
+    .ui-grid {
+
+        &.ias-ui-grid {
+            background-color: transparent;
+            border: none;
+        }
+
+        &:focus {
+            outline: transparent auto 5px;
+        }
+
+        ui-grid-footer .ui-grid-footer-panel {
+            background-color: transparent;
+        }
+    }
+
+    .notify-bar {
+        color: #f9c66e;
+
+        .md-button {
+            margin: 3px;
+        }
+    }
+
+    md-list.tree-view-list {
+        & > .tree-row {   
+            &:before {
+                content: '\251c\2500\2500';
+            }
+
+            &:last-child:before {
+                content: '\2514\2500\2500';
+            }
+        }
+    }
+
+    md-content.show-scrollbar-y {
+        /*overflow-y: scroll;*/
+    }
+}

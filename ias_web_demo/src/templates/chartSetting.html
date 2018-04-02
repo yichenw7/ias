@@ -1,0 +1,23 @@
+<modal-dialog id-name="'chartSetting'" title-name='"表格设置"' width-class='"create-account-win"'
+              confirm-btn-name='"确定"'
+              confirm-handler="GridConfigService.save()">
+    <div style="display:flex; justify-content: space-between;">
+        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[GridConfigService.isSelectAll]">
+            <input type="checkbox" ng-model="GridConfigService.isSelectAll" ng-change="GridConfigService.selectAll()">全选
+        </label>
+        <button ng-click="GridConfigService.resetSetting()">恢复默认</button>
+    </div>
+    <div ng-repeat="layout in GridConfigService.layouts">
+        <hr>
+        <div class="indicator-type-row clearfix">
+            <label>{{ layout.name }}</label>
+            <div>
+                <span ng-repeat="field in layout.fields" style="width:160px;display: inline-block;">
+                    <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[field.visible]">
+                        <input type="checkbox" ng-model="field.visible" ng-change="GridConfigService.select()">{{ field.displayName }}
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+</modal-dialog>

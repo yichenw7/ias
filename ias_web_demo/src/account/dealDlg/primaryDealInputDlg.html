@@ -1,0 +1,138 @@
+<div class="form-horizontal container-fluid">
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group is-disabled="!showBtnList" btn-group="directionGroup" ng-model="trade.pay_type"></btn-li-group>
+        <div class="ias-offset-1-3" ng-show="trade.pay_type=='0'">
+            <label class="ias-control-label">缴款日期：</label>
+            <input readonly type="text" class="ias-date-input ng-pristine ng-valid ng-isolate-scope ng-touched"
+                   datetimepicker config="timePickerConfig" ng-model="trade.pay_date"
+                   ng-change="maturityDateChanged(trade.term, trade.initial_date)">
+        </div>
+        <div class="ias-offset-1-3" ng-show="trade.pay_type=='1'">
+            <label class="ias-control-label">上市日期：</label>
+            <input readonly type="text" class="ias-date-input ng-pristine ng-valid ng-isolate-scope ng-touched"
+                   datetimepicker="" config="timePickerConfig" ng-model="trade.settlement_date"
+                   ng-change="maturityDateChanged(trade.term, trade.initial_date)">
+        </div>
+        <div class="ias-offset-2-3"  ng-show="trade.pay_type=='1'">
+            <btn-li-group btn-group="settleTypeGroup" ng-model="trade.settlement_days"></btn-li-group>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">标的：</label>
+        <angucomplete-alt id="primarySearchBox" placeholder="代码、简称或拼音" pause="100"
+                          selected-object="bondSelectFun"
+                          local-data="bondList"
+                          search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                          title-field="bond_id,short_name"
+                          input-show-fields="bond_id,short_name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+    </div>
+    <div class="inquiry-details">
+        <div>
+            <label class="ias-control-label">代码：</label>
+            <label class="ias-info-label">{{ trade.bond_code }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">简称：</label>
+            <label class="ias-info-label">{{ trade.short_name }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">内部评分：</label>
+            <label class="ias-info-label">{{ trade.rating }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">有效期限：</label>
+            <label class="ias-info-label">{{ trade.validTerm }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">估值法：</label>
+        <btn-li-group btn-group="valuationTypeGroup"
+                      ng-model="trade.valuation_method"></btn-li-group>
+    </div>
+    <div class="ias-form-group">
+        <div ng-show="trade.pay_type=='0'">
+            <label class="ias-control-label special-ctr-label">缴款对象：</label>
+            <input type="text" class="ng-pristine ng-valid ng-touched"
+                   ng-model="trade.counter_party_account">
+        </div>
+        <div ng-show="trade.pay_type=='1'">
+            <label class="ias-control-label special-ctr-label">对方交易员：</label>
+            <input type="text"
+                   ng-model="trade.counter_party_trader"/>
+        </div>
+        <div class="ias-offset-1-3" ng-show="trade.pay_type=='1'">
+            <label class="ias-control-label">对方账户：</label>
+            <input type="text"
+                   ng-model="trade.counter_party_account"/>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">价格：</label>
+        <input type="text"  limit-format-number  output-number="trade.price" >
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">量(张)：</label>
+            <input limit-format-number  regexp-str="\d*" output-number="trade.volume">
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">面额(万)：</label>
+        <label class="ias-info-label ng-binding">
+            {{(trade.volume/100)|formatAmount}}
+        </label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">金额：</label>
+            <label class="ias-info-label ng-binding">
+                {{(trade.price*trade.volume).toFixed(2)|formatAmount}}
+            </label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">当前票面：</label>
+        <label class="ias-info-label">{{ trade.coupon_rate | toFixed4 }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">当前久期：</label>
+            <label class="ias-info-label">{{ trade.duration | toFixed4  }}</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">当前收益率：</label>
+            <label class="ias-info-label">{{ trade.yield_rate | toFixed4  }}%</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">新票面：</label>
+        <label class="ias-info-label">{{ trade.new_coupon_rate | toFixed4  }}</label>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">新久期：</label>
+            <label class="ias-info-label">{{ trade.new_duration | toFixed4  }}</label>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">新收益率：</label>
+            <label class="ias-info-label">{{ trade.new_yield_rate | toFixed4 }}%</label>
+        </div>
+    </div>
+
+    <div class="ias-form-group ias-note-wrap">
+        <label class="ias-control-label">备注：</label>
+        <textarea type="text" class="ias-note-input" ng-model="trade.comment"></textarea>
+        <div class="ias-offset-2-5">
+            <label class="ias-control-label">标识：</label>
+            <btn-li-group btn-group="accountingTypeGroup" ng-model="trade.accounting_type"></btn-li-group>
+        </div>
+    </div>
+</div>

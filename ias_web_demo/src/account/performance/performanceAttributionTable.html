@@ -1,0 +1,47 @@
+<div style="margin-top:-28px;height: 24px;margin-left: 400px">
+    <label class="ias-control-label">类型：</label>
+    <btn-li-group btn-group="showTypes" ng-model="showType" change-btn="getShowType(showType)"></btn-li-group>
+    <label class="ias-control-label">日期区间：</label>
+    <input ng-hide="isValuationInCurTab()" readonly="readonly" class="ias-date-input" datetimepicker config="endTodayTimePickerConfig"
+        change-date-handler="performanceAttributionDateChange()" ng-model="selectedDate.startDate">
+    <ias-select width="120px" ng-show="isValuationInCurTab()" options="valuationDates.options" ng-model="selectedDate.startDate"
+        change-handle="performanceAttributionDateChange()"></ias-select>
+    <label>至</label>
+    <input ng-hide="isValuationInCurTab()" readonly="readonly" class="ias-date-input" datetimepicker config="endTodayTimePickerConfig"
+        change-date-handler="performanceAttributionDateChange()" ng-model="selectedDate.endDate">
+    <ias-select width="120px" ng-show="isValuationInCurTab()" options="valuationDates.options" ng-model="selectedDate.endDate"
+        change-handle="performanceAttributionDateChange()"></ias-select>
+    <button style="float:right;margin-right:10px" ng-click="exportPerformance()">导出</button>
+</div>
+<div class="absolute-panel account-attribution-panel">
+    <div ng-show="showType == 1">
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="top_ten_bond" title="'前十贡献(债券)'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="issuer_rating" title="'主体评级分布'" show-detail="showDetail(value)"></performance-attribution-table>
+            <performance-attribution-table data="rating" title="'债项评级分布'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="market" title="'市场分布'" show-detail="showDetail(value)"></performance-attribution-table>
+            <performance-attribution-table data="bond_type" title="'债券类型分布'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="t_2m" title="'剩余期限分布(到期)'" show-detail="showDetail(value)"></performance-attribution-table>
+            <performance-attribution-table data="t_2e" title="'剩余期限分布(行权)'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="is_municipal" title="'城投/非城投'" show-detail="showDetail(value)"></performance-attribution-table>
+            <performance-attribution-table data="sector" title="'非城投行业分布'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+    </div>
+    <div ng-show="showType == 2">
+        <!-- <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="top_ten" title="'前十贡献'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div> -->
+        <div class="form-horizontal container-fluid account-asset-row">
+            <performance-attribution-table data="asset_type" title="'资产类型分布'" show-detail="showDetail(value)"></performance-attribution-table>
+            <performance-attribution-table data="credit_type" title="'信用类型分布'" show-detail="showDetail(value)"></performance-attribution-table>
+        </div>
+    </div>
+</div>

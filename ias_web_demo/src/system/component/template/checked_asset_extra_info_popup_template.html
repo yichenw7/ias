@@ -1,0 +1,20 @@
+<div class="common_popup_table" md-colors="::{backgroundColor: 'ssAvalonUi-background-900'}">
+    <md-content>
+        <table class="ias-table">
+            <thead>
+                <tr>
+                    <th class="no-wrap">投资经理</th>
+                    <th>账户名称</th>
+                    <th class="no-wrap">估值日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="info in extra_info" ng-if="info.account_name !== ''">
+                    <td class="no-wrap">{{info.user_name}}</td>
+                    <td>{{info.account_name}}</td>
+                    <td class="no-wrap">{{info.date}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-content>
+</div>

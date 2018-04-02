@@ -1,0 +1,115 @@
+<div class="panel-height-100p" layout="row" layout-align>
+    <ul class="admin-left-col" layout="column" layout-align>
+        <li ng-repeat="tab in tabList" ng-class="getTabClass(tab.panel)" ng-click="pageChange(tab.panel)" layout="row" layout-align="start center"
+            layout-padding>
+            <span ng-class="tab.homeClass" layout-padding layout-margin></span>{{tab.title}}
+        </li>
+    </ul>
+
+    <div flex layout="column" layout-align class="admin-right-col" ng-switch="selectedPanel" ng-init="selectedPanel = 'user_list_panel'">
+        <div class="admin-page-panel-container" ng-controller="rivalCtrl as $ctrl" ng-switch-when="rival_panel" flex layout="column" layout-align>
+            <div layout="row" layout-align="space-between center">
+                <div class="autocomplete-container" layout="row" layout-align="start center">
+                    <span class="ss-icon ss-icon-search-normal search-icon"></span>
+                    <input class="search-input" placeholder="名称或拼音" ng-model="$ctrl.searchKey" ng-change="$ctrl.onChangedSearchKey($ctrl.searchKey)" />
+                </div>
+
+                <div>
+                    <button ng-click="$ctrl.onClickExportRivalExcel($event)">导出Excel</button>
+                    <button data-toggle="modal" data-target="#importLibDlg">导入</button>
+                    <button ng-click="$ctrl.onClickAddRivalCompany($event)">添加对手</button>
+                </div>
+            </div>
+
+            <div flex layout="column" layout-align class="ias-ui-grid" ui-grid="$ctrl.gridRivalCompanyOptions"
+                ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter ui-grid-pagination ng-click="$ctrl.onClickTable($event)">
+            </div>
+
+            <grid-pagination admin-grid-options="$ctrl.gridRivalCompanyOptions" admin-grid-api="companyGridApi"></grid-pagination>
+
+            <div layout="row" layout-align="end center">
+                <button ng-click="$ctrl.onClickAddRivalTrader($event)">添加交易员</button>
+            </div>
+
+            <div flex layout="column" layout-align class="ias-ui-grid" ui-grid="$ctrl.gridRivalTraderOptions"
+                ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ng-click="$ctrl.onClickTable($event)">
+            </div>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="user_list_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="userListCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="account_authority_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="accountAuthorityCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="investor_list_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="agentListCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="investor_trade_list_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="agentTradeCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="bond_pool_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="bondPoolCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="invest_bond_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="investBondCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="checked_asset_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="checkedAssetCtrl" ui-grid-options="ui-grid-tree-view "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="defined_asset_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="assetDefineCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="valuation_data_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="valuationManageCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <div flex layout="column" layout-align ng-switch-when="cash_position_panel">
+            <common-admin-page flex layout="column" layout-align ctrl-name="cashPositionResetCtrl" ui-grid-options="ui-grid-pagination "/>
+        </div>
+
+        <!--账户权限编辑-->
+        <div ng-controller="accountAuthorityEditCtrl" ng-include="'src/system/dialog/accountAuthorityEdit.html'"></div>
+        <!--添加用户提醒-->
+        <div ng-controller="userManageqbCtrl" ng-include="'src/system/dialog/userManageqb.html'"></div>
+        <!--添加或编辑投资顾问-->
+        <!--<div ng-controller="agentManageCtrl" ng-include="'src/system/dialog/agentManage.html'"></div>-->
+        <!--投资顾问权限编辑-->
+        <div ng-controller="agentAuthorityEditCtrl" ng-include="'src/system/dialog/agentAuthorityEdit.html'"></div>
+        <!--添加和编辑债券池证券-->
+        <div ng-controller="bondPoolManageCtrl" ng-include="'src/system/dialog/bondManage.html'"></div>
+        <!--添加和编辑可投库证券-->
+        <div ng-controller="investBondManageCtrl" ng-include="'src/system/dialog/investBondManage.html'"></div>
+        <!--添加和编辑对手库证券-->
+        <!--<div ng-controller="libManageCtrl" ng-include="'src/system/dialog/libManage.html'"></div>
+        <div ng-controller="libTraderManageCtrl" ng-include="'src/system/dialog/libTraderManage.html'"></div>-->
+        <!--添加和编辑校对表-->
+        <div ng-controller="checkedAssetManageCtrl" ng-include="'src/system/dialog/checked_asset.html'"></div>
+        <!--添加资产定义表记录-->
+        <!--<div ng-controller="addAssetDefineCtrl" ng-include="'src/system/dialog/assetDefineAddDlg.html'"></div>-->
+        <!--编辑匹配账户-->
+        <!--<div ng-controller="assetDefineEditCtrl" ng-include="'src/system/dialog/assetDefineEditDlg.html'"></div>-->
+        <!--导入债券池excel-->
+        <div ng-include="'src/system/dialog/importBond.html'"></div>
+        <div ng-include="'src/system/dialog/importDlg/importBondTemplateDlg.html'"></div>
+        <!--导入可投库excel-->
+        <div ng-include="'src/system/dialog/importInvestBond.html'"></div>
+        <div ng-include="'src/system/dialog/importDlg/importInvestBondTemplateDlg.html'"></div>
+        <!--导入对手库excel-->
+        <div ng-include="'src/system/dialog/importLib.html'"></div>
+        <div ng-include="'src/system/dialog/importDlg/importLibTemplateDlg.html'"></div>
+
+        <div ng-include="'src/system/dialog/cashRegulate.html'"></div>
+
+        <!--持仓详情-->
+        <!--<div id="courseInfoDlg" ng-include="'src/system/dialog/courseInfoDlg.html'" style="display: none"></div>-->
+    </div>
+</div>

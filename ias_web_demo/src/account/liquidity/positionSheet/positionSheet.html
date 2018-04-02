@@ -1,0 +1,517 @@
+<button ng-click="onExportData()" style="float:right;margin-top:-30px">导出</button>
+<div style="position: absolute;margin: -27px 0 0 300px;">
+    <label class="ias-control-label">头寸表日期：</label>
+    <input readonly="readonly" type="text" class="ias-date-input" datetimepicker config="datetimePickerConfig"
+        ng-model="positionDate.date" ng-change="positionDate.onChange()">
+</div>
+<div class="absolute-panel position-sheet-panel" style="overflow-x: auto;overflow-y: auto; top:80px">
+    <div style="width:260px; bottom:0px; float:left; position:absolute; top:0; bottom:0">
+        <div style="position: absolute; top:0px;">
+            <table class="table-thread table-condensed table-tbody-style" style="margin-bottom: 0px;table-layout: fixed; word-break:keep-all;">
+                <tbody class="tbody-font" style="background-color: #1F2128;">
+                    <tr class="thread-bg-color thread-font" style="height: 38px;background-color:#303237">
+                        <th class="sheet-col-1"></th>
+                        <th class="sheet-col-2"></th>
+                        <th class="sheet-row-name">
+                            <select style="width:80px; height:25px; margin-top:3px" ng-model="trade.unit" ng-init="trade.unit = '元'">
+                                <option value='元'>元</option>
+                                <option value='万元'>万元</option>
+                                <option value='亿元'>亿元</option>
+                            </select>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="sheetLeft" ng-init="sheetOnScroll('#sheetLeft', '#sheetRight');onMousewheel('#sheetLeft', '#sheetRight');onMousewheel('#sheetRight', '#sheetLeft')"
+            style="position: absolute; top:38px; bottom: 0; right: -12px; overflow:auto;">
+            <table class="table-thread table-tbody-style" style="margin-bottom: 0px; table-layout: fixed; word-break:keep-all; ">
+                <tbody class="tbody-font" style="background-color: #1F2128;">
+                    <tr class="sheet-title-bgc">
+                        <td class="sheet-col-1"></td>
+                        <td class="sheet-col-2"></td>
+                        </td>
+                        <td class="sheet-settlement">T+0</td>
+                    </tr>
+                    <tr>
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-begin-row-name">昨日日终</td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-plus"></td>
+                    </tr>
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum-col-1 sheet-sum-col-1-green"></td>
+                        <td class="sheet-sum-col-2">
+                            <a href="">
+                                <span style="padding-left:30px" ng-class="{true: 'sheet-expand-normal', false: 'sheet-collapse-normal'}[isAdjustClosed]"
+                                    ng-model="isAdjustClosed" ng-click="isAdjustClosed = !isAdjustClosed"></span>
+                            </a>
+                        </td>
+                        <td class="sheet-sum">调整科目</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">债券票息收入</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">债券还本收入</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">质押式正回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">质押式逆回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">买断式正回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">买断式逆回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-name">调</td>
+                        <td class="sheet-row-name">交易所正回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-name">整</td>
+                        <td class="sheet-row-name">交易所逆回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-name">科</td>
+                        <td class="sheet-row-name">协议式正回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-name">目</td>
+                        <td class="sheet-row-name">协议式逆回购到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">存入到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">存出到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">理财到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">拆入到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">拆出到期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">银行间T+1买券</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">银行间T+1卖券</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所T+1买券</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所T+1卖券</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所股票买入</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所股票卖出</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所正回购首期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所逆回购首期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所基金买入</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">交易所基金卖出</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">场外基金买入</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">场外基金卖出</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">账户远期申购</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">账户远期赎回</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">其他远期收入支出</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-green"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">费用</td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-equal"></td>
+                    </tr>
+                    <tr>
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-begin-row-name">T+0日初</td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-plus"></td>
+                    </tr>
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum-col-1 sheet-sum-col-1-green"></td>
+                        <td class="sheet-sum-col-2">
+                            <a href="">
+                                <span style="padding-left:30px" ng-class="{true: 'sheet-expand-normal', false: 'sheet-collapse-normal'}[isT0InClosed]"
+                                    ng-model="isT0InClosed" ng-click="isT0InClosed = !isT0InClosed"></span>
+                            </a>
+                        </td>
+                        <td class="sheet-sum">总入账</td>
+                    </tr>
+                    <!--<tr ng-show="!isT0InClosed">-->
+                    <!--<td class="sheet-green"></td>-->
+                    <!--<td class="sheet-col-2"></td>-->
+                    <!--<td class="sheet-row-name">打新回款</td>-->
+                    <!--</tr>-->
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">银行间T+0卖券</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-name">入</td><td class="sheet-row-name">质押式正回购首期结算金额</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-name"></td><td class="sheet-row-name">买断式正回购首期结算金额</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-name">帐</td><td class="sheet-row-name">协议式正回购首期结算金额</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">存入</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">账户申购</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">拆入</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">国债期货保证金赎回</td></tr>
+                    <tr ng-show="!isT0InClosed"><td class="sheet-green"></td><td class="sheet-col-2"></td><td class="sheet-row-name">其他T+0收入</td></tr>
+                    <tr class="sheet-tr">
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-plus"></td>
+                    </tr>
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum-col-1 sheet-sum-col-1-red"></td>
+                        <td class="sheet-sum-col-2">
+                            <a href="">
+                                <span style="padding-left:30px" ng-class="{true: 'sheet-expand-normal', false: 'sheet-collapse-normal'}[isT0OutClosed]"
+                                    ng-model="isT0OutClosed" ng-click="isT0OutClosed = !isT0OutClosed"></span>
+                            </a>
+                        </td>
+                        <td class="sheet-sum">总出账</td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-red"></td>
+                        <td class="sheet-col-2"></td>
+                        <td class="sheet-row-name">银行间T+0买券</td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-red"></td>
+                        <td class="sheet-col-name">出</td>
+                        <td class="sheet-row-name">质押式逆回购首期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-red"></td>
+                        <td class="sheet-col-name"></td>
+                        <td class="sheet-row-name">买断式逆回购首期结算金额</td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-name">帐</td><td class="sheet-row-name">协议式逆回购首期结算金额</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">存出</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">理财</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">拆出</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">国债期货保证金缴纳</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">资金赎回/到期</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">费用</td></tr>
+                    <tr ng-show="!isT0OutClosed"><td class="sheet-red"></td><td class="sheet-col-2"></td><td class="sheet-row-name">其他T+0支出</td></tr>
+                    <tr class="sheet-tr">
+                        <td class="sheet-begin-col-1"></td>
+                        <td class="sheet-begin-col-2"></td>
+                        <td class="sheet-equal"></td>
+                    </tr>
+                    <tr>
+                        <td class="sheet-total-col-1"></td>
+                        <td class="sheet-total-col-2"></td>
+                        <td class="sheet-total-row-name">T+0日终</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="positionSheetDataPane" style="position:absolute; top:0; bottom:0;overflow-x: auto;left:260px; right:0px; bottom:0px">
+        <div style="position: absolute; top:0px;">
+            <table class="table-thread table-condensed table-tbody-style" style="margin-bottom: 0px;table-layout: fixed; word-break:keep-all;">
+                <tbody class="tbody-font" style="background-color: #1F2128;">
+                    <tr>
+                        <th class="sheet-head" ng-repeat="data in trade.date track by $index">{{ data }}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="sheetRight" style="position: absolute; top:38px; bottom: 0; overflow-y: auto">
+            <table class="table-thread table-condensed table-tbody-style" style="margin-bottom: 0px;table-layout: fixed; word-break:keep-all;">
+                <tbody class="tbody-font" style="background-color: #1F2128;">
+                    <tr class="sheet-title-bgc">
+                        <td class="sheet-settlement" ng-repeat="data in trade.t_0_end track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <!-- 昨日T+0 -->
+                    <tr>
+                        <td class="sheet-begin-row-value" ng-repeat="data in trade.t_0_last track by $index">{{ data | unitConvert: trade.unit}} </td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td ng-repeat="data in trade.t_0_start track by $index"></td>
+                    </tr>
+                    <!-- 调整科目 -->
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum" ng-repeat="data in trade.t_0_settlement track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.coupon track by $index">{{ data | unitConvert: trade.unit }}</td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.redemption track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.interbank_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.interbank_reverse_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.buyout_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.buyout_reverse_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_reverse_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.protocol_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.protocol_reverse_repo_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.deposit_in_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.deposit_out_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.finance_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.bank_lending_in_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.bank_lending_out_maturity track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.interbank_trade_buy_t_1 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.interbank_trade_sell_t_1 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_trade_buy track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_trade_sell track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.stock_buy track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.stock_sell track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.exchange_reverse_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_exchange_buy track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_exchange_sell track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_otc_buy track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_otc_sell track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_purchase_t_1 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fund_redeem_t_1 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.other_t_1 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isAdjustClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.fee track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td ng-repeat="data in trade.t_0_in track by $index"></td>
+                    </tr>
+                    <!-- 起始T+0 -->
+                    <tr>
+                        <td class="sheet-begin-row-value" ng-repeat="data in trade.t_0_start track by $index">{{ data | unitConvert: trade.unit}} </td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td ng-repeat="data in trade.t_0_start track by $index"></td>
+                    </tr>
+                    <!-- 入账 -->
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum" ng-repeat="data in trade.t_0_in track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <!--<tr ng-show="!isT0InClosed">-->
+                    <!--<td class="sheet-row-value" ng-repeat="data in trade.t_0_new_play_back track by $index">{{ data | unitConvert: trade.unit }}</td>-->
+                    <!--</tr>-->
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_bank_sell_bonds track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_bank_borrow_money track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.buyout_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.protocol_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.deposit_in_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_account_purchase track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.bank_lending_in_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.tf_margin_in track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0InClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_other_income track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td ng-repeat="data in trade.t_0_in track by $index"></td>
+                    </tr>
+                    <!-- 出账 -->
+                    <tr class="sheet-total-bgc">
+                        <td class="sheet-sum" ng-repeat="data in trade.t_0_out track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_t0_bank_buy_bonds track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.interbank_reverse_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.buyout_reverse_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.protocol_reverse_repo_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.deposit_out_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_finance_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.bank_lending_out_init track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.tf_margin_out track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_fund_redeem_t_0 track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.out_fee track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr ng-show="!isT0OutClosed">
+                        <td class="sheet-row-value" ng-repeat="data in trade.t_0_other_t0_pay track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                    <tr class="sheet-tr">
+                        <td ng-repeat="data in trade.t_0_out track by $index"></td>
+                    </tr>
+                    <!-- 汇总栏 -->
+                    <tr>
+                        <td class="sheet-total-row-value" ng-repeat="data in trade.t_0_end track by $index">{{ data | unitConvert: trade.unit }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

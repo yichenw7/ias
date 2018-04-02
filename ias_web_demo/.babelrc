@@ -1,0 +1,10 @@
+{
+    "presets": [
+        "env"
+    ],
+    "sourceMaps": true,
+    "plugins": [
+        "transform-decorators-legacy",
+        "angularjs-annotate"
+    ]
+}

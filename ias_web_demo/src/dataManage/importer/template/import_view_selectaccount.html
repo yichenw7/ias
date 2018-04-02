@@ -1,0 +1,41 @@
+<div layout="row">
+    <div layout="column">
+        <input-account-selector style="width: 200px;" ng-model="$ctrl.selectedAccount" ng-change="$ctrl.onSelectedAccountChange()"></input-account-selector>
+    </div>
+    <div layout="column" flex class="table-container">
+        <md-progress-linear md-mode="determinate" ng-value="$ctrl.timerValue"></md-progress-linear>
+        <md-content>
+            <md-list class="table-list">
+                <md-subheader>
+                    <div class="table-row" layout="row">
+                        <span flex="initial" style="width: 22px;"></span>
+                        <span flex>文件名称</span>
+                        <span flex>消息</span>
+                        <span flex="initial" style="min-width: 200px;text-align:center;">提交时间</span>
+                        <span flex="initial" style="min-width: 200px;text-align:center;">导入时间</span>
+                        <span flex="initial">状态</span>
+                        <span flex="initial" style="min-width: 135px;">操作</span>
+                    </div>
+                </md-subheader>
+            </md-list>
+        </md-content>
+        <md-content flex>
+            <span ng-if="$ctrl.message" ng-bind="$ctrl.message"></span>
+            <md-list class="table-list" ng-click="$ctrl.onClickTable($event)" ng-repeat="task in $ctrl.taskList">
+                <div class="table-row" layout="row" layout-align="start center">
+                    <span flex="initial" style="width: 22px;"><i class="ss-icon ss-icon-text-comment-normal" title="{{task.file_name}}"></i></span>
+                    <span flex>{{task.import_result_msg}}</span>
+
+                    <span flex="initial" style="min-width: 200px;text-align:center;">{{task.request_time}}</span>
+                    <span flex="initial" style="min-width: 200px;text-align:center;">{{task.import_time}}</span>
+                    <span flex="initial" title="{{task.import_result_status}}">{{child.import_result_status}}</span>
+                    <span flex="initial" style="min-width: 135px;" class="table-action">
+                        <md-button aria-label="插队" class="ss-btn md-raised md-primary" tag="jump_queue"><i class="ss-icon ss-icon-upward-normal" /></md-button>
+                        <md-button aria-label="插队到顶部" class="ss-btn md-raised md-primary" tag="jump_queue_top"><i class="ss-icon ss-icon-upward-fold-normal" /></md-button>
+                        <md-button aria-label="删除" class="ss-btn md-raised ss-btn-danger" tag="remove"><i class="ss-icon ss-icon-delete-normal" /></md-button>
+                    </span>
+                </div>
+            </md-list>
+        </md-content>
+    </div>
+</div>

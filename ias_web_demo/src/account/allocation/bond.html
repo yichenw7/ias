@@ -1,0 +1,320 @@
+<button ng-click="exportBondAllocation()" style="float:right;margin-right: 10px;margin-top: -30px;">导出</button>
+<div style="position: absolute;margin: -27px 0 0 300px;">
+    <label>统计口径：</label>
+    <btn-li-group btn-group="tableOptionGroup" ng-model="tableOption.col" change-btn="tableOption.handleChange()"></btn-li-group>
+</div>
+<div class="absolute-panel asset-panel">
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>主体评级分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>评级</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in issuerRating">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type | isTotal}}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="issuerRating.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_issuerRating"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>债项评级分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>评级</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in rating">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type | isTotal}}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="rating.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_rating"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>市场分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>市场</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in listedMarket">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type | typeTranslate}}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+                <tr class="account-tbody-font" ng-repeat="bond in acrossMarket">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)">{{::bond.type | typeTranslate}}</a>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+                <tr class="account-tbody-font" ng-repeat="bond in hasOption">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)">{{::bond.type | typeTranslate}}</a>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="(listedMarket.length + acrossMarket.length + hasOption.length)">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_listedMarket"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>债券类型分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>类型</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in bondType">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type | typeTranslate}}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="bondType.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_bondType"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>剩余期限分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>类型</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in cashEquivalents">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type }}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="cashEquivalents.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_cashEquivalents"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>城投/非城投</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>类型</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in isMunicipal">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type }}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="isMunicipal.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_isMunicipal"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>非城投行业分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>类型</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in sector">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type }}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="sector.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="account_sector"></div>
+    </div>
+    <div class="asset-panel-row">
+        <table class="ias-table has-caption">
+            <caption>地区分布</caption>
+            <thead>
+                <tr class="thread-font asset-header">
+                    <th>类型</th>
+                    <th>{{ tableOption.col === 0 ? "资产市值(元)" : "面额(元)" }}</th>
+                    <th title="债券市值：比重 = 债券市值/账户净资产市值&#10;债券面值：比重 = 债券面值/债券总面值">比重(%)</th>
+                    <th>估值久期</th>
+                    <th>票面</th>
+                    <th>估值收益率(%)</th>
+                    <th>昨日收益(%)</th>
+                    <th>成本收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="account-tbody-font" ng-repeat="bond in province">
+                    <td>
+                        <a href="" class="total-header-nomal" ng-click="toPositionFilter(bond)" ng-if="bond.type != 'total'">{{ ::bond.type }}</a>
+                        <div class="total-asset" ng-if="bond.type == 'total'">{{ ::bond.type | isTotal}}</div>
+                    </td>
+                    <td ng-class="displayTotal(bond.type)">{{ (tableOption.col === 0 ? bond.asset : bond.face_amount) | toFixed2:null:true }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ tableOption.col === 0 ? bond.percentage : (bond.face_percentage | toFixed2) }}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.duration | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.coupon_rate | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.val_yield | toYield}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_daily | toFixed4}}</td>
+                    <td ng-class="displayTotal(bond.type)">{{ ::bond.yield_cost | toYield}}</td>
+                </tr>
+            </tbody>
+            <tfoot ng-hide="province.length">
+                <tr><td style="height: 30px;text-align:center;" colspan="8">暂无数据</td></tr>
+            </tfoot>
+        </table>
+        <div id="allocationMap"></div>
+    </div>
+</div>
+

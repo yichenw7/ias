@@ -1,0 +1,55 @@
+<modal-dialog id-name="'matchingAccountDlg'" title-name='"匹配账户/非标资产 选择"' width-class='"matching-account-edit-win"'
+              confirm-btn-name='"确定"'
+              confirm-handler="confirmFunc()"
+              hidden-func="dismiss()">
+    <div style="margin-bottom: 10px">
+        <btn-li-group btn-group="selectGroup" ng-model="assetDefineFactory.selectType">
+        </btn-li-group>
+    </div>
+    <div ng-show="assetDefineFactory.selectType == 1">
+        <angucomplete-alt placeholder="请输入账号名称" pause="100"
+                          selected-object="filterFunc_account"
+                          local-data="gridOptions_account.data"
+                          search-fields="name"
+                          title-field="name"
+                          input-show-fields="name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1"
+                          auto-match="true"
+                          focus-first="true">
+        </angucomplete-alt>
+        <div style="margin-top: 10px;">
+            <label class="ias-word-break" style="color: #f9c66e;">匹配账户：{{assetDefineFactory.matchingAccountEntity.account_name}}</label>
+            <button type="button" class="  pull-right" style="margin-left: 10px;" ng-click="loadAccount()">刷新</button>
+            <button type="button" class="  pull-right" ng-click="clearAccount()">清空</button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="ias-ui-grid" ui-grid="gridOptions_account" style="text-align: center; margin-top: 10px;"
+             ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection>
+        </div>
+    </div>
+    <div ng-show="assetDefineFactory.selectType == 2">
+        <angucomplete-alt placeholder="请输入资产名称" pause="100"
+                          selected-object="filterFunc_asset"
+                          local-data="gridOptions_asset.data"
+                          search-fields="name"
+                          title-field="name"
+                          input-show-fields="name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1"
+                          auto-match="true"
+                          focus-first="true">
+        </angucomplete-alt>
+        <div style="margin-top: 10px;">
+            <label class="ias-word-break" style="color: #f9c66e;">非标资产：{{assetDefineFactory.matchingAccountEntity.ref_asset_name}}</label>
+            <button type="button" class="  pull-right" style="margin-left: 10px;" ng-click="loadAsset()">刷新</button>
+            <button type="button" class="  pull-right" ng-click="clearAsset()">清空</button>
+            <div class="clearfix"></div>
+        </div>
+        <div class="ias-ui-grid" ui-grid="gridOptions_asset" style="text-align: center; margin-top: 10px;"
+             ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection>
+        </div>
+    </div>
+</modal-dialog>

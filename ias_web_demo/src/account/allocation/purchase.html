@@ -1,0 +1,144 @@
+<button ng-click="exportPurchaseAllocation()" style="float:right;margin-right: 10px;margin-top: -30px;">导出</button>
+<div class="asset-panel-header">
+    <label class="ias-control-label">日期区间：</label>
+    <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig" change-date-handler="selectedDate.validate(date)"
+        ng-model="selectedDate.startDate">
+    <label>至</label>
+    <input readonly="readonly" class="ias-date-input" datetimepicker config="timePickerConfig" change-date-handler="selectedDate.validate(date)"
+        ng-model="selectedDate.endDate">
+    <button ng-click="purchaseQuery()">确定</button>
+</div>
+<div class="absolute-panel asset-panel purchase-table">
+    <div class="form-horizontal container-fluid account-asset-row">
+        <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>原始期限分布</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>原始期限</th>
+                        <th>占比(%)</th>
+                        <th>已发规模(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.term">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.issuer_term =='合计']">{{::row.issuer_term}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.issuer_term =='合计']">{{::(row.percentage * 100) | toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.issuer_term =='合计']">{{::(row.accum_amount_in / 10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>客户分布</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>客户</th>
+                        <th>占比(%)</th>
+                        <th>已发规模(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.customer">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.customer =='合计']">{{ ::row.customer}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.customer =='合计']">{{ ::(row.percentage*100) | toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.customer =='合计']">{{ ::(row.accum_amount_in/10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>渠道分布</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>渠道</th>
+                        <th>占比(%)</th>
+                        <th>已发规模(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.channel">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.channel =='合计']">{{ ::row.channel}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.channel =='合计']">{{ ::(row.percentage*100) | toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.channel =='合计']">{{ ::(row.accum_amount_in/10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-horizontal container-fluid account-asset-row">
+    <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>剩余期限分布</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>剩余期限</th>
+                        <th>占比(%)</th>
+                        <th>已发规模(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.ytm">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.ytm =='合计']">{{ ::row.ytm}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.ytm =='合计']">{{ ::(row.percentage* 100) |toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.ytm =='合计']">{{ ::(row.accum_amount_in/10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>月度汇总</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>日期区间</th>
+                        <th>当期已发量(万)</th>
+                        <th>当期到期量(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.month">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.month =='合计']">{{ ::row.month}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.month =='合计']">{{ ::(row.amount_in/10000) | toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.month =='合计']">{{ ::(row.amount_out/10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="ias-table has-caption">
+                <caption>周汇总</caption>
+                <thead>
+                    <tr class="thread-font asset-header">
+                        <th>日期区间</th>
+                        <th>当期已发量(万)</th>
+                        <th>当期到期量(万)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="account-tbody-font" ng-repeat="row in purchaseFundData.week">
+                        <td ng-class="{true: 'total-asset', false: 'total-header-nomal'}[row.week =='合计']">{{ ::row.week}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.week =='合计']">{{ ::(row.amount_in/10000) | toFixed4 | showPoint}}</td>
+                        <td ng-class="{true: 'total-asset', false: ''}[row.week =='合计']">{{ ::(row.amount_out/10000) | toFixed4 | showPoint}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-horizontal container-fluid account-asset-row">
+        <div>
+            <label class="ias-control-label">日期分布：</label>
+            <select style="width:100px" ng-model="dateOptions.model" ng-options="option.value as option.label for option in dateOptions.list" ng-click="query.change()"></select>
+            <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[query.isKeyDate]">
+                <input type="checkbox" ng-model="query.isKeyDate" ng-change="query.change()">只看关键日期
+            </label>
+        </div>
+        <div class="ias-ui-grid" ui-grid="gridOptions" style="margin-top:10px;min-height: 350px;" ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize
+            ui-grid-selection ui-grid-tree-view ui-grid-pinning ui-grid-exporter>
+        </div>
+    </div>
+</div>

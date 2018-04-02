@@ -1,0 +1,19 @@
+<div class="form-inline">
+    <button   style="float:right;margin-top:5px;" ng-click="initInputData()">成交录入
+    </button>
+
+    <div ng-if="isShowSearch" class="tab-template-header-angucomplete"  style="margin:5px 170px 0 0;">
+        <angucomplete-alt placeholder="代码、简称或拼音" pause="100"
+                          selected-object="bondSelectFun"
+                          local-data="bondList"
+                          search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                          title-field="bond_id,short_name"
+                          input-show-fields="bond_id"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1"
+                          auto-match="true"
+                          focus-first="true">
+        </angucomplete-alt>
+    </div>
+</div>

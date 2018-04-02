@@ -1,0 +1,261 @@
+<form class="form-inline" style="overflow: hidden;">
+    <div class="form-group" style="padding-top: 5px">
+        <button style="margin-right: 15px;margin-left: 5px" ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[showAll]"
+            ng-click="showAllClick()">SHOW ALL
+        </button>
+
+        <label ng-class="{true: 'filter-checked-label checkbox-checked', false: 'filter-unCheck-label checkbox-normal'}[valid.validPrice]"
+            ng-if="!isAccountFilter">
+            <input type="checkbox" class="form-control filter-checkbox" style="margin-top: 0px" ng-model="valid.validPrice"
+                   ng-click="validClick()" ng-if="!isAccountFilter">有效报价
+        </label>
+
+        <label ng-class="{true: 'filter-checked-label checkbox-checked', false: 'filter-unCheck-label checkbox-normal'}[valid.bothValidPrice]"
+            ng-if="!isAccountFilter">
+            <input type="checkbox" class="form-control filter-checkbox" style="margin-top: 0px"
+                   ng-model="valid.bothValidPrice" ng-click="bothValidClick()" ng-if="!isAccountFilter">双边
+        </label>
+
+    </div>
+    <div class="form-group filter-div-big" style="padding-top: 15px;" ng-if="!isAccountFilter">
+        <label style="margin-left: 30px">Bid</label>
+        <button style="margin-left: 5px">≥</button>
+        <input type="text" style="width: 80px" limit-format-number output-number="bid.bidPriceText">
+        <button ng-click="bidPriceClick()">筛选</button>
+    </div>
+    <div class="form-group filter-div-big" style="padding-top: 5px" ng-if="!isAccountFilter">
+        <label style="margin-left: 30px">Ofr</label>
+        <button style="margin-left: 5px">≤</button>
+        <input type="text" style="width: 80px" limit-format-number output-number="ofr.ofrPriceText">
+        <button ng-click="ofrPriceClick()">筛选</button>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px;" ng-if="!isAccountFilter && isShowPosition">
+        <label class="control-label filter-label">类别：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[store_type == 0]" ng-click="setStoreType(0)">全部</button>
+            <button ng-class="setClass(store_type, 1)" ng-click="setStoreType(1)">持仓</button>
+            <button ng-class="setClass(store_type, 2)" ng-click="setStoreType(2)">债券池</button>
+            <button ng-class="setClass(store_type, 4)" ng-click="setStoreType(4)">可投库</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px;" ng-if="!isAccountFilter">
+        <label class="control-label filter-label">市场：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[listed_market == 0]" ng-click="setListedMarket(0)">全部</button>
+            <button ng-class="setClass(listed_market, 1)" ng-click="setListedMarket(1)">国利</button>
+            <button ng-class="setClass(listed_market, 2)" ng-click="setListedMarket(2)">国际</button>
+            <button ng-class="setClass(listed_market, 4)" ng-click="setListedMarket(4)">中诚</button>
+            <button ng-class="setClass(listed_market, 8)" ng-click="setListedMarket(8)">平安</button>
+            <button ng-class="setClass(listed_market, 16)" ng-click="setListedMarket(16)">信唐</button>
+        </div>
+    </div>
+    <div class="form-group filter-div-big" style="padding-top: 10px" ng-if="isAccountFilter && (isAccountCash || isAccountReturn) && !winStatus.is_account_now">
+        <label class="control-label filter-label">账户：</label>
+
+        <div class="form-group filter-div-small">
+            <select ng-model="trade.account_id" ng-options="account.account_id as account.account_name for account in account_list"
+                ng-change="setAccount(trade.account_id)" style="width:138px">
+                <option value=''>全部</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px" ng-if="isAccountFilter && isAccountReturn">
+        <label class="control-label filter-label">指令：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[direction == 0]" ng-click="setDirection(0)">全部</button>
+            <button ng-class="setClass(direction, 1)" ng-click="setDirection(1)">买入</button>
+            <button ng-class="setClass(direction, 2)" ng-click="setDirection(2)">卖出</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px" ng-if="isAccountFilter && isAccountReturn">
+        <label class="control-label filter-label">录入人：</label>
+
+        <div class="form-group filter-div-small">
+            <select ng-model="trade.user_id" ng-options="user.id as user.user_name for user in user_list"
+                ng-change="setUser(trade.user_id)" style="width:138px">
+                <option value=''>全部</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">产品：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[bond_type == 0]" ng-click="setBondType(0)">全部
+            </button>
+            <button ng-class="setClass(bond_type, 15)" ng-click="setBondType(15)">利率</button>
+            <button ng-class="setClass(bond_type, 524272)" ng-click="setBondType(524272)">信用</button>
+        </div>
+        <div class="form-group filter-div-small">
+            <button ng-class="setClass(bond_type, 1)" ng-click="setBondType(1)">国债</button>
+            <button ng-class="setClass(bond_type, 2)" ng-click="setBondType(2)">央票</button>
+            <button ng-class="setClass(bond_type, 4)" ng-click="setBondType(4)">金融债</button>
+            <button ng-class="setClass(bond_type, 8)" ng-click="setBondType(8)">地方债</button>
+            <button ng-class="setClass(bond_type, 16)" ng-click="setBondType(16)">短融</button>
+            <button ng-class="setClass(bond_type, 32)" ng-click="setBondType(32)">中票</button>
+            <button ng-class="setClass(bond_type, 64)" ng-click="setBondType(64)">企业债</button>
+            <button ng-class="setClass(bond_type, 128)" ng-click="setBondType(128)">NCD</button>
+            <button ng-class="setClass(bond_type, 256)" ng-click="setBondType(256)">公司债</button>
+            <button ng-class="setClass(bond_type, 512)" ng-click="setBondType(512)">可转债</button>
+            <button ng-class="setClass(bond_type, 1024)" ng-click="setBondType(1024)">PPN</button>
+            <button ng-class="setClass(bond_type, 2048)" ng-click="setBondType(2048)">交易所私募债</button>
+            <button ng-class="setClass(bond_type, 4096)" ng-click="setBondType(4096)">ABS</button>
+            <button ng-class="setClass(bond_type, 8192)" ng-click="setBondType(8192)">二级资本债</button>
+            <button ng-class="setClass(bond_type, 16384)" ng-click="setBondType(16384)">熊猫债</button>
+            <button ng-class="setClass(bond_type, 32768)" ng-click="setBondType(32768)">金融公司债</button>
+            <button ng-class="setClass(bond_type, 65536)" ng-click="setBondType(65536)">金融次级债</button>
+            <button ng-class="setClass(bond_type, 131072)" ng-click="setBondType(131072)">其他金融债</button>
+            <button ng-class="setClass(bond_type, 262144)" ng-click="setBondType(262144)">其他</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">期限：</label>
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[ttm == 0]" ng-click="setTTM(0)">全部
+            </button>
+            <button ng-class="setClass(ttm, 1)" ng-click="setTTM(1)"><3M</button>
+            <button ng-class="setClass(ttm, 2)" ng-click="setTTM(2)">3-6M</button>
+            <button ng-class="setClass(ttm, 4)" ng-click="setTTM(4)">6-9M</button>
+            <button ng-class="setClass(ttm, 8)" ng-click="setTTM(8)">9-12M</button>
+            <button ng-class="setClass(ttm, 16)" ng-click="setTTM(16)">1-3Y</button>
+            <button ng-class="setClass(ttm, 32)" ng-click="setTTM(32)">3-5Y</button>
+            <button ng-class="setClass(ttm, 64)" ng-click="setTTM(64)">5-7Y</button>
+            <button ng-class="setClass(ttm, 128)" ng-click="setTTM(128)">7-10Y</button>
+            <button ng-class="setClass(ttm, 256)" ng-click="setTTM(256)">≥10Y</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 4px;">
+        <label class="control-label filter-label"></label>
+
+        <div class="form-group filter-div-small">
+            <input type="text" style="width: 60px" ng-model="low.lowDateText">
+            <label class="font-color">D/Y</label>
+            <input type="text" style="width: 60px" ng-model="high.highDateText">
+            <button ng-click="dateFilterClick()">筛选</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px;">
+        <label class="control-label filter-label">企业：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[institution_type == 0]" ng-click="setInstitutionType(0)">全部</button>
+            <button ng-class="setClass(institution_type, 1)" ng-click="setInstitutionType(1)">央企</button>
+            <button ng-class="setClass(institution_type, 2)" ng-click="setInstitutionType(2)">国企</button>
+            <button ng-class="setClass(institution_type, 4)" ng-click="setInstitutionType(4)">民企</button>
+            <button ng-class="setClass(institution_type, 8)" ng-click="setInstitutionType(8)">其他</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">主体：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[issuer_rating_current == 0]" ng-click="setIssuerRatingCurrent(0)">全部</button>
+            <button ng-class="setClass(issuer_rating_current, 1)" ng-click="setIssuerRatingCurrent(1)">AAA</button>
+            <button ng-class="setClass(issuer_rating_current, 2)" ng-click="setIssuerRatingCurrent(2)">AA+</button>
+            <button ng-class="setClass(issuer_rating_current, 4)" ng-click="setIssuerRatingCurrent(4)">AA</button>
+            <button ng-class="setClass(issuer_rating_current, 8)" ng-click="setIssuerRatingCurrent(8)">AA-</button>
+            <button ng-class="setClass(issuer_rating_current, 16)" ng-click="setIssuerRatingCurrent(16)">A+</button>
+            <button ng-class="setClass(issuer_rating_current, 32)" ng-click="setIssuerRatingCurrent(32)">其他</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">债项：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[rating_current == 0]" ng-click="setRatingCurrent(0)">全部</button>
+            <button ng-class="setClass(rating_current, 1)" ng-click="setRatingCurrent(1)">AAA</button>
+            <button ng-class="setClass(rating_current, 2)" ng-click="setRatingCurrent(2)">A-1</button>
+            <button ng-class="setClass(rating_current,4)" ng-click="setRatingCurrent(4)">AA+</button>
+            <button ng-class="setClass(rating_current, 8)" ng-click="setRatingCurrent(8)">AA</button>
+            <button ng-class="setClass(rating_current, 16)" ng-click="setRatingCurrent(16)">AA-</button>
+            <button ng-class="setClass(rating_current,32)" ng-click="setRatingCurrent(32)">A+</button>
+            <button ng-class="setClass(rating_current, 64)" ng-click="setRatingCurrent(64)">其他</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">城投：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[municipal == 0]" ng-click="setMunicipal(0)">全部</button>
+            <button ng-class="setClass(municipal, 1)" ng-click="setMunicipal(1)">城投</button>
+            <button ng-class="setClass(municipal, 2)" ng-click="setMunicipal(2)">非城投</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">担保：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[guarenteed == 0]" ng-click="setGuarenteed(0)">全部</button>
+            <button ng-class="setClass(guarenteed, 1)" ng-click="setGuarenteed(1)">有担保</button>
+            <button ng-class="setClass(guarenteed, 2)" ng-click="setGuarenteed(2)">无担保</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">金融债：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[cdb == 0]" ng-click="setCdb(0)">全部</button>
+            <button ng-class="setClass(cdb, 1)" ng-click="setCdb(1)">国开</button>
+            <button ng-class="setClass(cdb, 2)" ng-click="setCdb(2)">非国开</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">票面：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[coupon_rate == 0]" ng-click="setCouponRate(0)">全部</button>
+            <button ng-class="setClass(coupon_rate, 1)" ng-click="setCouponRate(1)">shibor</button>
+            <button ng-class="setClass(coupon_rate, 2)" ng-click="setCouponRate(2)">depo</button>
+            <button ng-class="setClass(coupon_rate, 4)" ng-click="setCouponRate(4)">固息</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px">
+        <label class="control-label filter-label">含权：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[has_option == 0]" ng-click="setHasOption(0)">全部</button>
+            <button ng-class="setClass(has_option, 1)" ng-click="setHasOption(1)">含权</button>
+            <button ng-class="setClass(has_option, 2)" ng-click="setHasOption(2)">不含权</button>
+            <button ng-class="setClass(has_option, 4)" ng-click="setHasOption(4)">永续</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px;">
+        <label class="control-label filter-label">特殊：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[special == 0]" ng-click="setSpecial(0)">全部</button>
+            <button ng-class="setClass(special, 1)" ng-click="setSpecial(1)">新上市</button>
+            <button ng-class="setClass(special, 2)" ng-click="setSpecial(2)">跨市场</button>
+            <button ng-class="setClass(special, 4)" ng-click="setSpecial(4)">可质押</button>
+        </div>
+    </div>
+
+    <div class="form-group filter-div-big" style="padding-top: 10px;">
+        <label class="control-label filter-label">发行：</label>
+
+        <div class="form-group filter-div-small">
+            <button ng-class="{true: 'filter-active-btn', false: 'filter-default-btn'}[issue == 0]" ng-click="setIssue(0)">全部</button>
+            <button ng-class="setClass(issue, 1)" ng-click="setIssue(1)">银行间</button>
+            <button ng-class="setClass(issue, 2)" ng-click="setIssue(2)">上交所</button>
+            <button ng-class="setClass(issue, 4)" ng-click="setIssue(4)">深交所</button>
+        </div>
+    </div>
+</form>

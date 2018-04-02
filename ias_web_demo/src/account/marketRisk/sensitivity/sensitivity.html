@@ -1,0 +1,34 @@
+<ias-tabs style-name="ias-third-tabs" style="margin-top:3px;">
+    <div style="margin-top:-28px;height: 24px;margin-left: 250px;">
+        <label class="ias-control-label">类型：</label>
+        <btn-li-group btn-group="showTypes" ng-model="showType" change-btn="getShowType(showType)"></btn-li-group>
+        <label class="ias-control-label">日期区间：</label>
+        <input readonly="readonly" type="text" class="ias-date-input input-not-edit" datetimepicker config="endTodayTimePickerConfig"
+            ng-model="selectedDate.startDate" ng-change="sensitivityDateChange()">
+        <label>至</label>
+        <input readonly="readonly" type="text" class="ias-date-input input-not-edit" datetimepicker config="endTodayTimePickerConfig"
+            ng-model="selectedDate.endDate" ng-change="sensitivityDateChange()">
+        <button ng-show="cur_sensitivity_tab !== 2" style="float:right;margin-right:10px" ng-click="exportSensitivity()">导出</button>
+    </div>
+    <ias-pane tab-title='表' on-select="tableSelect()">
+        <div class="sensitivity-absolute-page grid ias-ui-grid tree-level-view"
+            ui-grid="gridTableOptions"
+            ui-grid-move-columns
+            ui-grid-resize-columns
+            ui-grid-auto-resize
+            ui-grid-selection
+            ui-grid-tree-view>
+        </div>
+    </ias-pane>
+    <ias-pane tab-title='趋势图' on-select="chartSelect()">
+        <div id="sensitivityChart" class="sensitivity-absolute-page"></div>
+    </ias-pane>
+    <ias-pane tab-title='日明细' on-select="listSelect()">
+        <div class="sensitivity-absolute-page grid ias-ui-grid "
+            ui-grid="gridListOptions"
+            ui-grid-resize-columns
+            ui-grid-auto-resize
+            ui-grid-selection>
+        </div>
+    </ias-pane>
+</ias-tabs>

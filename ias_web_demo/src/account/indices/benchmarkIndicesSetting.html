@@ -1,0 +1,40 @@
+<div ng-controller="benchmarkIndicesSettingCtrl">
+    <div class="modal fade" id="benchmarkIndicesSetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 500px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">基准指数设置</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <button style="float: right" ng-click="addNewBenchmarkIndex()">添加</button>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr style="height: 30px;">
+                                <th>指数</th>
+                                <th>偏移(bp)</th>
+                                <th>权重占比(%)</th>
+                                <th style="text-align: center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="height: 30px;" ng-repeat="row in benchmarkIndicesQuery.rows track by $index">
+                                <td><ias-select options="row.index.options" ng-model="row.index.selected" width="167px"></ias-select></td>
+                                <td><input limit-format-number output-number="row.bp" number-point="1" style="width: 100px"></td>
+                                <td><input limit-format-number output-number="row.weight" change-value="calculateBenchmarkIndicesWeight()" style="width: 100px"></td>
+                                <td style="text-align: center"><button ng-click="deleteBenchmarkIndex($index)" class="ias-delete-btn">删除</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px;">
+                        <span>权重合计：{{ benchmarkIndicesQuery.weight + '%'}}</span>
+                        <span style="margin-left:15px;color:#c03647">{{ benchmarkIndicesQuery.errMsg }}</span>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="saveBenchmarkIndices()">保存</button>
+                    <button class="ias-dismiss-btn" ng-click="close()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

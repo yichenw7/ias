@@ -1,0 +1,151 @@
+home-card-page {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 85px;
+    overflow: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+home-table-page .ias-ui-grid {
+    width: 920px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 85px;
+}
+
+.home-show-type {
+    float: right;
+}
+
+.home-show-type > span {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.home-show-type > .list-icon {
+    background: url('../images/list_normal.png');
+}
+
+.home-show-type > .list-icon.type-active {
+    background: url('../images/list_selected.png');
+}
+
+.home-show-type > .card-icon {
+    background: url('../images/card_normal.png');
+}
+
+.home-show-type > .card-icon.type-active {
+    background: url('../images/card_selected.png');
+}
+
+#assetsDistribution {
+    position: absolute;
+    top: 85px;
+    right: 0;
+    height: 400px;
+    left: 920px;
+}
+
+#assetsChange {
+    position: absolute;
+    top: 485px;
+    right: 0;
+    bottom: 0;
+    left: 920px;
+}
+
+.valuation-account {
+    display: inline-block;
+    border-radius: 2px;
+
+    background: #009F7C;
+    width: 18px;
+    height: 18px;
+
+    text-align: center;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+.readonly-account {
+    display: inline-block;
+    border-radius: 2px;
+    background: #4A556C;
+    width: 34px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+home-card {
+    background: #333739;
+    border: 1px solid #444851;
+    width: 336px;
+    height: 193px;
+    padding: 15px;
+    margin: 15px 10px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+home-card:hover {
+    background: #41484E;
+    border: 1px solid #444851;
+}
+
+home-card .unit-asset-net {
+    font-size: 33px;
+    color: #FFEBC8;
+}
+
+home-card .create-rate {
+    font-size: 18px;
+    float: right;
+}
+
+home-card .create-rate.up {
+    color: #FF0000;
+}
+
+home-card .create-rate.down {
+    color: #69FA00;
+}
+
+home-card .home-card-account {
+    font-size: 22px;
+    color: #F9C152;
+    letter-spacing: 0.73px;
+}
+
+.home-card-profit {
+    line-height: 50px;
+}
+
+.home-card-info {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.home-card-info > label {
+    width: 50%;
+    font-size: 14px;
+    color: #73787A;
+}
+
+.home-card-info > label > span {
+    font-size: 14px;
+    color: #FFEBC8;
+    width: 70px;
+    float: right;
+    overflow: hidden;
+}

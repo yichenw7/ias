@@ -1,0 +1,132 @@
+@ssTextSndColor: #ffebc8;
+
+@mdListBgColor: #191b1c;
+
+@labelFontColorMain: #f9c66e;
+
+.dismissButton() {
+    background-color: #294646;
+}
+
+.md-panel.universal-add-edit-dialog md-dialog {
+    opacity: 1;
+    color: @ssTextSndColor;
+    width: 480px;
+
+    .label-font-main {
+        color: @labelFontColorMain;
+    }
+
+    &.rival_add_edit {
+        width: 400px;
+    }
+
+    &.assetDefine_add {
+        width: 720px;
+
+        .scroll-content {
+            max-height: 360px;
+            min-height: 240px;
+        }
+
+        md-content {
+
+            md-list {
+                color: @ssTextSndColor;
+                font-size: 0;
+                border: 1px solid black;
+
+                &,
+                > .md-subheader.md-ssAvalonUi-theme {
+                    background: @mdListBgColor;
+                    color: #7b8082;
+                }
+
+                > .md-subheader.md-ssAvalonUi-theme {
+                    .md-subheader-inner {
+                        padding: 0;
+                    }
+                }
+
+                > * {
+                    height: 30px;
+                    padding: 5px 10px;
+                }
+
+                .list-item {
+                    color: @ssTextSndColor;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    width: 100%;
+                    display: inline-block;
+                    overflow: hidden;
+                    font-size: 14px;
+
+                    &[selected=selected] {
+                        background-color: #1a5656 !important;
+                        outline-color: transparent;
+                    }
+
+                    &.row-odd {
+                        background-color: #232628;
+                    }
+                }
+            }
+        }
+    }
+
+    md-dialog-content {
+        form {
+
+            Label.form-label {
+                text-align: right;
+
+                &:after {
+                    content: ':';
+                    margin: 0 3px;
+                }
+
+                &.no-colon:after{
+                    content: '';
+                    margin: 0;
+                }
+            }
+
+            md-select {
+                margin: 0;
+            }
+        }
+    }
+
+    md-dialog-actions {
+
+        button.md-button.md-ssAvalonUi-theme.md-primary,
+        button.md-button.md-ssAvalonUi-theme.md-primary.md-raised,
+        button.md-button.md-ssAvalonUi-theme.md-primary.md-fab {
+            &.ias-dismiss-btn {
+                .dismissButton()
+            }
+        }
+    }
+
+    md-toolbar {
+        height: 28px;
+        max-height: 28px;
+        min-height: 28px;
+    }
+
+    .md-toolbar-tools {
+        padding: 0 10px;
+        border: 0;
+        border-radius: 2px 2px 0 0;
+        background-color: #0d7b7b;
+    }
+
+    md-select {
+        margin: 0;
+    }
+
+    .input-container {
+        padding: 0;
+    }
+}

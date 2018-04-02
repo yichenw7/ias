@@ -1,0 +1,359 @@
+<!--html版本1.17.1-->
+<side-tabs tabs="tabsGroup"></side-tabs>
+<div class="tabsGroupList">
+    <div ng-show="overviewAssetTab.isSelected">
+        <div ng-controller="overviewAssetCtrl" class="tree-level-view">
+            <div style="margin-left: 11px;padding-top: 5px;">
+                <div style="padding-bottom:0px;float: right;margin-right: 10px;">
+                    <button ng-show="cur_account_authority == ACCOUNT_WRITE"
+                            ng-click="onDealInputBtnClicked()">成交录入
+                    </button>
+                    <button ng-click="onExportData()">导出</button>
+                </div>
+            </div>
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-tree-view
+                 ui-grid-pinning ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-show="bondTab.isSelected">
+        <div ng-controller="bondCtrl" ng-if="winStatus.cur_account_list.length <= 1" class="tree-level-view">
+            <div style="margin-left: 11px;padding-top: 5px;">
+                <div style="padding-bottom:0px;float: left">
+                    <select style="margin-left:10px;width:100px" ng-model="filterParam.first_filter"
+                            ng-options="typeOption1.label for typeOption1 in oneLevelFilter.accountFilters">
+                        <option value="">一级分类</option>
+                    </select>
+                    <select style="width:100px" ng-model="filterParam.second_filter"
+                            ng-options="content.label for content in filterParam.first_filter.contents">
+                        <option value="">二级分类</option>
+                    </select>
+                    <button ng-click="bondTab.clickHandler()">查询</button>
+                    <button ng-click="showTableSetting('position_bond')">表格设置</button>
+                    <!-- <div ng-include="'src/templates/chartSetting.html'"></div> -->
+                    <div class="bond-filter" ng-show="bondPositionFilter.type !== ''">
+                        已筛选：{{ bondPositionFilter.type }}
+                        <span ng-click="clearBondFilter()" class="close-icon"></span>
+                    </div>
+                </div>
+                <div style="padding-bottom:0px;float: right;margin-right: 10px;">
+                    <button ng-click="onDealInputBtnClicked()" ng-show="cur_account_authority == ACCOUNT_WRITE">成交录入
+                    </button>
+                    <button ng-click="onExportData()">导出</button>
+                </div>
+                <div style="float:right;margin-right:100px;">
+                    <angucomplete-alt placeholder="代码、简称或拼音" pause="100"
+                                      selected-object="bondSelectFun"
+                                      local-data="bondList"
+                                      search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                                      title-field="bond_id,short_name"
+                                      input-show-fields="bond_id,short_name"
+                                      input-class="ias-angucomplete-input"
+                                      match-result-length="10"
+                                      minlength="1"
+                                      auto-match="true"
+                                      focus-first="true">
+                    </angucomplete-alt>
+                </div>
+            </div>
+            <div right-context-menu="threadSetting" grid-name="position_bond">
+                <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                     ui-grid-auto-resize ui-grid-tree-view ui-grid-exporter
+                     ui-grid-save-state ui-grid-selection ui-grid-resize-columns
+                     ui-grid-move-columns ui-grid-pinning>
+                </div>
+            </div>
+            <!--债券仓位追踪-->
+            <div ng-include="'src/account/position/trace-bond.html'"></div>
+        </div>
+        <div ng-controller="portfolioAnalyseCtrl" ng-if="winStatus.cur_account_list.length > 1">
+            <ias-tabs style-name="ias-secondary-tabs" style="margin: 10px 15px;">
+                <ias-pane tab-title="对比" on-select="assetTableSelect()">
+                    <div ng-include="'src/account/position/accountComparison.html'"></div>
+                </ias-pane>
+                <ias-pane tab-title="合并">
+                    <div ng-controller="bondCtrl" class="tree-level-view">
+                        <div style="padding-top: 5px;">
+                            <div style="float: left">
+                                <select ng-model="filterParam.typeOption1" style="width:100px;"
+                                        ng-options="typeOption.label for typeOption in oneLevelFilter.accountGroupFilters">
+                                    <option value="">一级分类</option>
+                                </select>
+                                <select ng-model="filterParam.typeOption2" style="width:100px;"
+                                        ng-options="content.label for content in filterParam.typeOption1.contents">
+                                    <option value="">二级分类</option>
+                                </select>
+                                <button ng-click="bondTab.clickHandler()">查询</button>
+                                <button ng-click="showTableSetting('position_bond')">表格设置</button>
+
+                                <div class="bond-filter" ng-show="bondPositionFilter.type !== ''">
+                                    已筛选：{{ bondPositionFilter.type }}
+                                    <span ng-click="clearBondFilter()" class="close-icon"></span>
+                                </div>
+                            </div>
+                            <div style="float: right;margin-right: 10px;">
+                                <button ng-click="onDealInputBtnClicked()"
+                                        ng-show="cur_account_authority == ACCOUNT_WRITE">成交录入
+                                </button>
+                                <button ng-click="onExportData()">导出</button>
+                            </div>
+                            <div style="float:right;margin-right:100px;">
+                                <angucomplete-alt placeholder="代码、简称或拼音" pause="100" selected-object="bondSelectFun"
+                                                  local-data="bondList"
+                                                  search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                                                  title-field="bond_id,short_name"
+                                                  input-show-fields="bond_id,short_name"
+                                                  input-class="ias-angucomplete-input"
+                                                  match-result-length="10" minlength="1" auto-match="true"
+                                                  focus-first="true">
+                                </angucomplete-alt>
+                            </div>
+                        </div>
+                        <div right-context-menu="threadSetting" grid-name="position_bond">
+                            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                                 style="top: 79px;" ui-grid-auto-resize
+                                 ui-grid-tree-view ui-grid-exporter ui-grid-save-state ui-grid-selection
+                                 ui-grid-resize-columns ui-grid-move-columns>
+                            </div>
+                        </div>
+                        <!--债券仓位追踪-->
+                        <div ng-include="'src/account/position/trace-bond.html'"></div>
+                    </div>
+                </ias-pane>
+            </ias-tabs>
+        </div>
+    </div>
+    <div ng-if="stockTab.isSelected">
+        <div ng-controller="stockCtrl">
+            <div style="margin-left: 11px;padding-top: 5px;">
+                <div style="padding-bottom:0px;float: right;margin-right: 10px;">
+                    <button ng-click="onDealInputBtnClicked()" ng-show="cur_account_authority == ACCOUNT_WRITE">成交录入
+                    </button>
+                    <button ng-click="onExportData()">导出</button>
+                </div>
+                <div style="float:right;margin-right:100px;">
+                    <angucomplete-alt id="stockSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                      selected-object="stockSelectFun"
+                                      local-data="stockList"
+                                      search-fields="stock_code,stock_name,pinyin"
+                                      title-field="stock_code,stock_name"
+                                      input-show-fields="stock_code,stock_name"
+                                      input-class="ias-angucomplete-input"
+                                      match-result-length="10"
+                                      minlength="1" auto-match="true" focus-first="true">
+                    </angucomplete-alt>
+                </div>
+            </div>
+
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="fundTab.isSelected">
+        <div ng-controller="fundCtrl">
+            <div style="margin-left: 11px;padding-top: 5px;">
+                <div style="padding-bottom:0px;float: right;margin-right: 10px;">
+                    <button
+                        ng-click="onDealInputBtnClicked()" ng-show="cur_account_authority == ACCOUNT_WRITE">成交录入
+                    </button>
+                    <button ng-click="onExportData()">导出</button>
+                </div>
+                <div style="float:right;margin-right:100px;">
+                    <angucomplete-alt id="fundSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                      selected-object="fundSelectFun"
+                                      local-data="fundList"
+                                      search-fields="fund_code,fund_name,pinyin"
+                                      title-field="fund_code,fund_name"
+                                      input-show-fields="fund_code,fund_name"
+                                      input-class="ias-angucomplete-input"
+                                      match-result-length="10"
+                                      minlength="1" auto-match="true" focus-first="true">
+                    </angucomplete-alt>
+                </div>
+            </div>
+
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+            <!--基金仓位追踪-->
+            <div ng-include="'src/account/position/trace-fund.html'"></div>
+        </div>
+    </div>
+    <div ng-if="depositTab.isSelected">
+        <div ng-controller="depositCtrl">
+            <button ng-click="onExportData()"
+                    style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+            </button>
+            <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="bankLendingTab.isSelected">
+        <div ng-controller="bankLendingCtrl">
+            <button ng-click="onExportData()"
+                    style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+            </button>
+            <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="financeTab.isSelected">
+        <div ng-controller="financeCtrl">
+            <button ng-click="onExportData()"
+                    style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+            </button>
+            <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+            <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="bankRepoTab.isSelected" ng-controller="bankRepoCtrl">
+        <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+        </button>
+        <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+        <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter
+             ui-grid-save-state>
+        </div>
+    </div>
+    <div ng-if="buyoutRepoTab.isSelected" ng-controller="buyoutRepoCtrl">
+        <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+        </button>
+        <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+        <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+        </div>
+    </div>
+    <div ng-if="exchangeRepoTab.isSelected" ng-controller="exchangeRepoCtrl">
+        <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+        </button>
+        <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+        <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+        </div>
+    </div>
+    <div ng-if="protocolRepoTab.isSelected" ng-controller="protocolRepoCtrl">
+        <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+        </button>
+        <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+        <div class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+        </div>
+    </div>
+    <div ng-if="treasuryFuturesTab.isSelected" ng-controller="treasuryFuturesCtrl">
+        <button ng-click="onExportData()" style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+        </button>
+        <deal-input-widget ng-show="cur_account_authority == ACCOUNT_WRITE"></deal-input-widget>
+        <div style="padding-left: 10px;" class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+             ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+        </div>
+    </div>
+    <div ng-if="repoAssetTab.isSelected">
+        <div ng-controller="repoAssetCtrl">
+            <div class="ias-form-group" style="margin-left: 27px;margin-top: 5px">
+                <div>
+                    <label>交易市场：</label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.sse_market]">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.sse_market"
+                               ng-click="repoMarketChange()">上交所
+                    </label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.sze_market]"
+                           style="margin-left: 5px">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.sze_market"
+                               ng-click="repoMarketChange()">深交所
+                    </label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.cib_market] "
+                           style="margin-left: 5px">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.cib_market"
+                               ng-click="repoMarketChange()">银行间
+                    </label>
+                </div>
+                <div style="margin-left: 50px;">
+                    <label>回购类型：</label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.buy_out]">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.buy_out"
+                               ng-click="repoTypeChange()">买断式
+                    </label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.pledge]"
+                           style="margin-left: 5px">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.pledge"
+                               ng-click="repoTypeChange()">质押式
+                    </label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.protocol] "
+                           style="margin-left: 5px">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.protocol"
+                               ng-click="repoTypeChange()">协议式
+                    </label>
+                </div>
+                <div style="margin-left: 50px;">
+                    <label>回购方向：</label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.pos_direction]">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.pos_direction"
+                               ng-click="repoDirectionChange()">正回购
+                    </label>
+                    <label class="checkbox-normal"
+                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[repoFilter.nag_direction]"
+                           style="margin-left: 5px">
+                        <input type="checkbox" class="modal-input" ng-model="repoFilter.nag_direction"
+                               ng-click="repoDirectionChange()">逆回购
+                    </label>
+                </div>
+                <div class="pull-right">
+                    <button ng-click="onExportData()"
+                            style="margin-right:10px;float:right;margin-left:4px;">导出
+                    </button>
+                </div>
+
+            </div>
+
+            <div style="padding-left: 10px;" class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="otherAssetTab.isSelected">
+        <div ng-controller="otherAssetCtrl">
+            <button ng-click="onExportData()"
+                    style="margin-right:10px;float:right;margin-left:4px;margin-top:5px;">导出
+            </button>
+            <div style="padding-left: 10px;" class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="indexFuturesTab.isSelected">
+        <div ng-controller="indexFuturesCtrl">
+            <div class="pull-right">
+                <button ng-click="onExportData()" style="margin-right:10px;margin-left:4px;margin-top:5px;">
+                    导出
+                </button>
+            </div>
+
+            <div style="padding-left: 10px;" class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+    <div ng-if="failedTab.isSelected">
+        <div ng-controller="failedPositionCtrl">
+            <div style="padding-left: 10px;" class="account-ui-grid-position grid ias-ui-grid" ui-grid="gridOptions"
+                 ui-grid-resize-columns ui-grid-tree-view ui-grid-auto-resize ui-grid-selection ui-grid-exporter>
+            </div>
+        </div>
+    </div>
+</div>
+

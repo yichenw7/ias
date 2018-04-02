@@ -1,0 +1,552 @@
+<div class="modal fade create-account" id="remindSetDlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div ng-controller="messageSettingCtrl" class="modal-dialog" style="width: 860px" role="document">
+        <div class="modal-content ias-modal-content" draggable>
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title">森浦提醒设置</h5>
+            </div>
+
+            <div class="modal-body ias-modal-body">
+                <div class="left-content-tab">
+                    <tab-tip-group nav-tab-style="'left-tab-wrap'" btn-group="inputGroup" ng-model="tabType" change-btn="changeBtn(value)"></tab-tip-group>
+                </div>
+                <div class="right-content-wrap" style="margin-left:135px">
+                    <div ng-show="tabType=='1'" ng-controller="messagePriceCtrl">
+                        <div class="modal-header ias-modal-header" style="border-radius: 0;">
+                            <label class="ias-control-label"
+                                   style="width: 80px;line-height: 26px;text-align: left">价格提醒</label>
+                        </div>
+                        <div class="ias-form-group"  style="margin-top: 20px">
+                            <label class="ias-control-label" style="width: 80px">设置名称：</label>
+                            <input type="text" style="width: 110px;" ng-model="model.title">
+                            <div class="ias-offset-1-2" style="left: 55%">
+                                <label class="ias-control-label" style="width: 80px">设置列表：</label>
+                                <select style="width: 100px;" ng-model="msgSet"
+                                        ng-options="msg.condition.title for msg in msgSetList" ng-change="msgSetSelect()">
+                                </select>
+                                <button type="button" ng-show="msgSet"   ng-click="deleteMsgSet()" style="margin-left: 10px">
+                                    删除
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ias-form-group">
+                            <label class="ias-control-label" style="width: 80px">债券搜索：</label>
+                            <label class="ias-info-label"
+                                   ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[model.is_group == '0']">
+                                <input type="checkbox" name="tradeMode" value="0"
+                                       style="margin-right: 10px;" ng-model="model.is_group">单只债券
+                            </label>
+                            <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="bondSelectFun"
+                                              local-data="bondList"
+                                              search-fields="bond_id,short_name,pin_yin"
+                                              title-field="bond_id,short_name"
+                                              input-show-fields="bond_id,short_name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+
+                            <div class="ias-offset-1-2" style="left: 55%">
+                                <label class="ias-info-label"
+                                       ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[model.is_group == '1']">
+                                    <input type="checkbox" name="tradeMode" value="1" style="margin-right: 10px;" ng-model="model.is_group">
+                                    我的关注组合
+                                </label>
+                                <select class="ias-163-select" ng-model="model.group_type"
+                                    ng-options="group_type.value as group_type.label for group_type in groupTypes" ng-change="msgSetSelect()">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="inquiry-details">
+                            <div>
+                                <label class="ias-control-label">代码：</label>
+                                <label class="ias-info-label">{{model.bond_id}}</label>
+                            </div>
+                            <div>
+                                <label class="ias-control-label">简称：</label>
+                                <label class="ias-info-label">{{model.short_name}}</label>
+                            </div>
+                        </div>
+
+                        <ul>
+                            <li style="height: 30px;padding: 3px 10px;background-color: #000; list-style: none"></li>
+                            <li style="height: 30px;padding: 3px 10px;list-style: none;background: #121716;">
+                                <label class="checkbox-normal"
+                                       ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[model.is_deal == true]"
+                                       style="font-size: small;">
+                                    <input type="checkbox" style="margin-right: 10px;" ng-model="model.is_deal">成交
+                                </label>
+                                <label class="ias-control-label" style="width: 80px">价格：</label>
+                                <label class="ias-control-label"
+                                       style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 5px;">≥</label>
+                                <input type="text" limit-format-number  output-number="model.clean_price"
+                                       style="width: 110px;" />
+                                <select style="width: 65px;margin-left: 20px"
+                                        ng-model="model.option_price"
+                                        ng-options="option.value as option.label for option in options">
+                                </select>
+                                <label class="ias-control-label" style="width: 100px;">金额(万元)</label><label
+                                    class="ias-control-label"
+                                    style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 10px;">≥</label>
+                                <input type="text" limit-format-number  output-number="model.volume" style="width: 110px;" />
+                            </li>
+                            <li style="height: 30px;padding: 3px 10px;background-color: #000; list-style: none">
+                                <label class="checkbox-normal"
+                                       ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[model.is_inquiry == true]"
+                                       style="font-size: small;">
+                                    <input type="checkbox" style="margin-right: 10px;" ng-model="model.is_inquiry">询价
+                                </label>
+                            </li>
+                            <li style="height: 30px;padding: 3px 10px;list-style: none;background: #121716;">
+                                <label class="ias-control-label" style="width: 20px;">Bid</label>
+                                <label class="ias-control-label" style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 10px;">≤</label>
+                                <select style="width: 100px;">
+                                    <option value="cdc" selected="selected">中债估值(%)</option>
+                                </select>
+                                <select style="width: 40px;border-radius: 4px;background: #1A4444;padding: 0;"
+                                        ng-model="model.operator_bid" ng-options="option.value as option.label for option in operators">
+                                </select>
+                                <input type="text" limit-format-number  output-number="model.bid_minus_cdc_val"
+                                       style="width: 90px;">
+                                <label class="ias-control-label" style="width: 20px;">bp</label>
+                                <select style="width: 65px;margin-left: 20px"
+                                        ng-model="model.option_bid"
+                                        ng-options="option.value as option.label for option in options"
+                                ></select>
+                                <label class="ias-control-label" style="width: 80px;">金额(万元)</label>
+                                <label class="ias-control-label" style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 10px;">≥</label>
+                                <input type="text" limit-format-number  output-number="model.bid_volume"
+                                       style="width: 110px;">
+                            </li>
+                            <li style="height: 30px;padding: 3px 10px;list-style: none;background: #121716;">
+                                <label class="ias-control-label" style="width: 20px;">Ofr</label>
+                                <label class="ias-control-label" style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 10px;">≥</label>
+                                <select style="width: 100px;">
+                                    <option value="cdc" selected="selected">中债估值(%)</option>
+                                </select>
+                                <select style="width: 40px;border-radius: 4px;background: #1A4444;padding: 0;"
+                                        ng-model="model.operator_ofr" ng-options="option.value as option.label for option in operators">
+                                </select>
+                                <input type="text" limit-format-number  output-number="model.cdc_val_minus_ofr"
+                                       style="width: 90px;">
+                                <label class="ias-control-label" style="width: 20px;">bp</label>
+                                <select style="width: 65px;margin-left: 20px"
+                                        ng-model="model.option_ofr"
+                                        ng-options="option.value as option.label for option in options"
+                                ></select>
+                                <label class="ias-control-label" style="width: 80px;">金额(万元)</label>
+                                <label class="ias-control-label" style="width: 20px;padding: 0 5px;background: #1A4444;border-radius: 4px;line-height: 24px;margin: 0 10px;">≥</label>
+                                <input type="text" limit-format-number  output-number="model.ofr_volume"
+                                       style="width: 110px;">
+                            </li>
+                            <li style="height: 20px;padding: 3px 10px;list-style: none;background: #121716;"></li>
+                        </ul>
+                    </div>
+                    <div ng-show="tabType=='2'" ng-controller="messageCalendarCtrl">
+                        <div class="modal-header ias-modal-header" style="border-radius: 0;">
+                            <label class="ias-control-label"
+                                   style="width: 80px;line-height: 26px;text-align: left">日历事件</label>
+                        </div>
+                        <div class="ias-form-group" style="color: #F38B1E;padding: 5px;">
+                            <label class="ias-control-label" style="width: 100px;">提醒设定：提前</label>
+                            <select style="width: 80px;margin-left: 10px" ng-model="calendarQb.beforeDay" ng-options="day.value as day.label for day in calendarQb.beforeDays" >
+
+                            </select></div>
+                        <table class="ias-table text-center" style="width:100%;line-height: 24px">
+                            <tr style="background-color:#000;">
+                                <td width="150px" align="left" style="text-indent: 2em">关注组合</td>
+                                <td width="100px">付息</td>
+                                <td width="100px">行权</td>
+                                <td width="100px">到期</td>
+                            </tr>
+                        </table>
+                        <div style="height: 150px; overflow-y: scroll">
+                            <table class="ias-table ias-fixed-table text-center" style="width:100%;line-height: 24px">
+                                <tr style="height: 1px">
+                                    <td width="150px" ></td>
+                                    <td width="100px"></td>
+                                    <td width="100px"></td>
+                                    <td width="100px"></td>
+                                </tr>
+                                <tr ng-repeat="group in groups">
+                                    <td style="padding: 3px 10px; text-align:left ">
+                                        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.cal_checked == true]" style="width: 20px;">
+                                            <input type="checkbox" ng-model="group.cal_checked"
+                                                   ng-click="firstCheckClick(group)">
+                                        </label>
+                                        {{group.name}}
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.fx_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="group.fx_checked"
+                                                   ng-click="checkClick(group)">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.xq_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="group.xq_checked"
+                                                   ng-click="checkClick(group)">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.dx_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="group.dx_checked"
+                                                   ng-click="checkClick(group)">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table class="ias-table text-center" style="width:100%;line-height: 24px">
+                            <tr style="background-color:#000;">
+                                <td width="150px" align="left" style="text-indent: 2em">关注账户</td>
+                                <td width="100px">付息</td>
+                                <td width="100px">行权</td>
+                                <td width="100px">到期</td>
+                            </tr>
+                        </table>
+                        <div style="height: 150px; overflow-y: scroll">
+                            <table class="ias-table ias-fixed-table text-center" style="width:100%;line-height: 24px">
+                                <tr style="height: 1px;">
+                                    <td width="150px" ></td>
+                                    <td width="100px"></td>
+                                    <td width="100px"></td>
+                                    <td width="100px"></td>
+                                </tr>
+                                <tr ng-repeat="account in accounts">
+                                    <td style="padding: 3px 10px; text-align:left ">
+                                        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}
+                                    [account.cal_checked == true]" style="width: 20px;">
+                                            <input type="checkbox" ng-model="account.cal_checked"
+                                                   ng-click="firstCheckClick(account)">
+                                        </label>
+                                        {{account.name}}
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[account.fx_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="account.fx_checked"
+                                                   ng-click="checkClick(account)">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[account.xq_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="account.xq_checked"
+                                                   ng-click="checkClick(account)">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="checkbox-normal"
+                                               ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[account.dx_checked == true]"
+                                               style="width: 20px;">
+                                            <input type="checkbox" ng-model="account.dx_checked"
+                                                   ng-click="checkClick(account)">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="ias-form-group" style="margin-top: 20px">
+                            <label class="ias-control-label" style="width: 80px">债券搜索：</label>
+                            <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="bondSelectFun"
+                                              local-data="bondList"
+                                              search-fields="bond_id,short_name,pin_yin"
+                                              title-field="bond_id,short_name"
+                                              input-show-fields="bond_id,short_name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+
+                        </div>
+                        <table class="ias-table text-center" style="width:100%;line-height: 24px">
+                            <tr >
+                                <td width="150px" style="padding: 3px 0 3px 35px; text-align:left ">债券名称</td>
+                                <td width="100px">付息</td>
+                                <td width="100px">行权</td>
+                                <td width="100px">到期</td>
+                                <td width="50px">删除</td>
+                            </tr>
+                            <tr ng-repeat="bond in calendarBondSelectList track by $index">
+                                <td   style="padding: 3px 0 3px 35px; text-align:left ">
+                                    {{bond.short_name}}
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[bond.fx_checked == true]"
+                                    >
+                                        <input  type="checkbox" ng-model="bond.fx_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[bond.xq_checked == true]"
+                                    >
+                                        <input type="checkbox"  ng-model="bond.xq_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[bond.dx_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.dx_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <span class="btn btn-xs btn-bg-color remove-round-btn" ng-click="bondDelete(bond)" style="border:0px;padding-left: 3px;padding-right: 3px;padding-top:1px;">
+                                            <img src="./images/delete.png">
+                                    </span>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="tabType=='3'" ng-controller="messageRateCtrl">
+                        <div class="modal-header ias-modal-header" style="border-radius: 0;">
+                            <label class="ias-control-label"
+                                   style="width: 80px;line-height: 26px;text-align: left">评级事件</label>
+                        </div>
+
+                        <table class="ias-table ias-fixed-table text-center" style="width:100%;line-height: 24px">
+                            <tr  style="background-color: #000">
+                                <td width="150px" align="left" style="text-indent: 2em">关注组合</td>
+                                <td width="100px">评级更新</td>
+                                <td width="100px">评级变动</td>
+                                <td width="100px">展望变动</td>
+                            </tr>
+                            <tr ng-repeat="group in groups">
+                                <td   style="padding: 3px 10px; text-align:left ">
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.rate_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.rate_checked" ng-click="firstCheckClick(group)">
+                                    </label>
+                                    {{group.name}}
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal"  style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.gx_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.gx_checked" ng-click="checkClick(group)">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.bd_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.bd_checked" ng-click="checkClick(group)">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.zw_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.zw_checked" ng-click="checkClick(group)">
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ias-form-group" style="margin-top: 20px">
+                            <label class="ias-control-label" style="width: 80px">债券搜索：</label>
+                            <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="bondSelectFun"
+                                              local-data="bondList"
+                                              search-fields="bond_id,short_name,pin_yin"
+                                              title-field="bond_id,short_name"
+                                              input-show-fields="bond_id,short_name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+
+                        </div>
+                        <table class="ias-table text-center" style="width:100%;line-height: 24px">
+                            <tr>
+                                <td width="150px" style="padding: 3px 0 3px 35px; text-align:left ">债券名称</td>
+                                <td width="100px">评级更新</td>
+                                <td width="100px">评级变动</td>
+                                <td width="100px">展望变动</td>
+                                <td width="60px">删除</td>
+                            </tr>
+                            <tr ng-repeat="bond in rateBondSelectList track by $index">
+                                <td  style="padding: 3px 0 3px 35px; text-align:left ">
+                                    {{bond.short_name}}
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.gx_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.gx_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.bd_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.bd_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.zw_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.zw_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <span class="btn btn-xs btn-bg-color remove-round-btn" ng-click="bondDelete(bond)" style="border:0px;padding-left: 3px;padding-right: 3px;padding-top:1px;">
+                                            <img src="./images/delete.png">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-show="tabType=='4'" ng-controller="messageNewsCtrl">
+                        <div class="modal-header ias-modal-header" style="border-radius: 0;">
+                            <label class="ias-control-label"
+                                   style="width: 80px;line-height: 26px;text-align: left">新闻事件</label>
+                        </div>
+
+                        <table class="ias-table ias-fixed-table text-center" style="width:100%;line-height: 24px">
+                            <tr>
+                                <td width="150px" style="padding: 3px 0 3px 35px; text-align:left ">关注组合</td>
+                                <td width="100px">负面</td>
+                                <td width="100px">正面</td>
+                                <td width="100px">其他</td>
+                            </tr>
+                            <tr ng-repeat="group in groups">
+                                <td   style="padding: 3px 10px; text-align:left ">
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.news_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.news_checked" ng-click="firstCheckClick(group)">
+                                    </label>
+                                    {{group.name}}
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.fm_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.fm_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.zm_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.zm_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[group.qt_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="group.qt_checked">
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ias-form-group" style="margin-top: 20px">
+                            <label class="ias-control-label" style="width: 80px">债券搜索：</label>
+                            <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                              selected-object="bondSelectFun"
+                                              local-data="bondList"
+                                              search-fields="bond_id,short_name,pin_yin"
+                                              title-field="bond_id,short_name"
+                                              input-show-fields="bond_id,short_name"
+                                              input-class="ias-angucomplete-input"
+                                              match-result-length="10"
+                                              minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+
+                        </div>
+                        <table class="ias-table text-center" style="width:100%;line-height: 24px">
+                            <tr>
+                                <td width="150px" style="padding: 3px 0 3px 35px; text-align:left ">债券名称</td>
+                                <td width="100px">负面</td>
+                                <td width="100px">正面</td>
+                                <td width="100px">其他</td>
+                                <td width="60px">删除</td>
+                            </tr>
+                            <tr ng-repeat="bond in bondSelectList track by $index">
+                                <td  style="padding: 3px 0 3px 35px; text-align:left ">
+                                    {{bond.short_name}}
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.fm_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.fm_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.zm_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.zm_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="checkbox-normal" style="width: 20px;"
+                                           ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.qt_checked == true]"
+                                    >
+                                        <input type="checkbox" ng-model="bond.qt_checked">
+                                    </label>
+                                </td>
+                                <td>
+                                    <span class="btn btn-xs btn-bg-color remove-round-btn" ng-click="bondDelete(bond)" style="border:0px;padding-left: 3px;padding-right: 3px;padding-top:1px;">
+                                            <img src="./images/delete.png">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div ng-show="tabType=='5'" ng-controller="messageCashFlowCtrl">
+                        <div class="modal-header ias-modal-header" style="border-radius: 0;">
+                            <label class="ias-control-label"
+                                   style="width: 80px;line-height: 26px;text-align: left">现金流</label>
+                        </div>
+                        <div class="ias-form-group"  style="margin-top: 20px">
+                            <label class="ias-control-label" style="width: 80px">消息提醒：</label>
+                            <label class="ias-info-label"
+                                   ng-class="{ true: 'checkbox-checked', false:'checkbox-normal'}[valid_status == 1]">
+                                <input type="checkbox" name="valid_status" ng-true-value="1" ng-false-value="0"
+                                       style="margin-right: 10px;" ng-model="valid_status">启用
+                            </label>
+                        </div>
+                        <div class="ias-form-group">
+                            <label class="ias-control-label" style="width: 80px">消息说明：</label>
+                            <label class="ias-info-label">开启后，日初将提醒当天及T+1现金流情况。</label>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer ias-modal-footer">
+                <!--<button  type="button"    style="margin-left: 15px"
+                         ng-click="newMsgSet()">新增
+                </button>
+                <button  type="button"    style="margin-left: 15px"
+                        ng-click="saveBtnClick()">保存设置
+                </button>
+                <button type="button" class="ias-dismiss-btn" ng-click="getMsgSetList()" style="margin-left: 220px">确定</button>
+                <button type="button" class="ias-dismiss-btn" ng-click="updateMsgSet()">更新</button>
+                <button type="button" class="ias-dismiss-btn" ng-click="deleteMsgSet()">删除提醒</button>-->
+                <button ng-click="saveBtnClick()">保存</button>
+                <button ng-show="tabType == '1'" ng-click="cancelBtnClick()">取消</button>
+                <button ng-click="closeBtnClick()">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>

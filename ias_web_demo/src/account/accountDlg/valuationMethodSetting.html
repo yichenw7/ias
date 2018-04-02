@@ -1,0 +1,98 @@
+<div ng-controller="valuationMethodSettingCtrl">
+    <div class="modal fade create-account" id="valuationMethodSetting" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 700px" role="document">
+            <div class="modal-content ias-modal-content" draggable style="width: 622px">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">估值法参数设置</h5>
+                </div>
+                <div class="ias-modal-body" style="text-align: center">
+                    <ias-tabs style-name="ias-secondary-tabs" is-disabled="false" panes="types">
+                        <ias-pane tab-title="银行间">
+                            <div class="modal-body ias-modal-body setting-body clearfix" style="margin-left: 8px">
+                                <div style="width: 240px;height: 160px;float: left">
+                                    <div class="setting-hide-columns" style="text-align: left">
+                                        <label>全部参数：</label>
+                                        <label class="ias-control-label" style="width: 60px">
+                                            <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bankIsSelectAll.isSelectAll]">
+                                                <input style="opacity: 0" type="checkbox" ng-model="bankIsSelectAll.isSelectAll" ng-change="bankIsSelectAllMethods(bankIsSelectAll.isSelectAll)">
+                                            </label>
+                                            全选
+                                        </label>
+                                        <div class="ias-ui-grid grid-style" style="width: 240px;height: 160px">
+                                            <label class="ias-control-label" style="width: 224px;display:block;text-align: left" ng-repeat="bankValuationType in bankValuationTypes">
+                                                <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bankValuationType.isSelected]">
+                                                    <input style="opacity: 0" type="checkbox" ng-model="bankValuationType.isSelected" ng-change="bankValuationTypeChanged(bankValuationType)">
+                                                </label>
+                                                {{bankValuationType.title}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 240px;height: 160px;float: left;margin-left: 30px">
+                                    <div class="setting-show-columns" style="text-align: left">
+                                        <label>优先级参数设置：</label>
+                                        <div class="ias-ui-grid grid-style" ui-grid="bankSettingValuationMethod"
+                                             ui-grid-selection style="width: 240px;height: 160px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 30px;height: 60px;float: left;margin-left: 12px;text-align: left">
+                                    <div class="setting-sequence-columns" style="margin-top: 70px">
+                                        <button ng-click="bankMoveUp()"><span class="glyphicon glyphicon-arrow-up"></span>
+                                        </button>
+                                        <button ng-click="bankMoveDown()" style="margin-top: 20px"><span
+                                                class="glyphicon glyphicon-arrow-down"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ias-pane>
+                        <ias-pane tab-title="交易所">
+                            <div class="modal-body ias-modal-body setting-body clearfix" style="margin-left: 8px">
+                                <div style="width: 240px;height: 160px;float: left">
+                                    <div class="setting-hide-columns" style="text-align: left">
+                                        <label>全部参数：</label>
+                                        <label class="ias-control-label" style="width: 60px">
+                                            <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[exchangeIsSelectAll.isSelectAll]">
+                                                <input style="opacity: 0" type="checkbox" ng-model="exchangeIsSelectAll.isSelectAll" ng-change="exchangeIsSelectAllMethods(exchangeIsSelectAll.isSelectAll)">
+                                            </label>
+                                            全选
+                                        </label>
+                                        <div class="ias-ui-grid grid-style" style="width: 240px;height: 160px">
+                                            <label class="ias-control-label" style="width: 224px;display:block;text-align: left" ng-repeat="exchangeValuationType in exchangeValuationTypes">
+                                                <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[exchangeValuationType.isSelected]">
+                                                    <input style="opacity: 0" type="checkbox" ng-model="exchangeValuationType.isSelected" ng-change="exchangeValuationTypeChanged(exchangeValuationType)">
+                                                </label>
+                                                {{exchangeValuationType.title}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 240px;height: 160px;float: left;margin-left: 30px">
+                                    <div class="setting-show-columns" style="text-align: left">
+                                        <label>优先级参数设置：</label>
+                                        <div class="ias-ui-grid grid-style" ui-grid="exchangeSettingValuationMethod"
+                                             ui-grid-selection style="width: 240px;height: 160px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 30px;height: 60px;float: left;margin-left: 12px;text-align: left">
+                                    <div class="setting-sequence-columns" style="margin-top: 70px">
+                                        <button ng-click="exchangeMoveUp()"><span class="glyphicon glyphicon-arrow-up"></span>
+                                        </button>
+                                        <button ng-click="exchangeMoveDown()" style="margin-top: 20px"><span
+                                                class="glyphicon glyphicon-arrow-down"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ias-pane>
+                    </ias-tabs>
+                </div>
+                <div class="modal-footer ias-modal-footer" style="margin: 48px 0 20px 400px">
+                    <button ng-click="clickSaveBtn()">保存</button>
+                    <button class="ias-dismiss-btn" ng-click="closeBeforeFunc()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

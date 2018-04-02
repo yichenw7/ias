@@ -1,0 +1,73 @@
+<ias-tabs style-name="ias-fourth-tabs" style="position: absolute;left: 5px;right: 5px;bottom: 5px;top: 75px;border: 1px solid #193d37;">
+    <ias-pane tab-title="净值图" on-select="hanldeTendencySelected('netValue')">
+        <div id="netValueChart" class="tendency-wrap" style="right: 300px;"></div>
+        <table class="ias-table tooltip-table has-caption" style="width: 300px;float: right;margin: 5px 1%;">
+            <caption>资产比例变动</caption>
+            <thead>
+            <tr>
+                <th>资产类型</th>
+                <th>总资产</th>
+                <th>净资产</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pair in unitAssetsPairs.pairs">
+                <td>{{ pair.label }}</td>
+                <td>
+                    <a ng-show="unitAssetsPairs.data[pair.assetTotalField]" ng-class="{true:'ias-up',false:'ias-down'}[unitAssetsPairs.data[pair.assetTotalField]>=0]">
+                        {{ unitAssetsPairs.data[pair.assetTotalField] | toFixedPercent }}%
+                    </a>
+                </td>
+                <td>
+                    <a ng-show="unitAssetsPairs.data[pair.assetField]" ng-class="{true:'ias-up',false:'ias-down'}[unitAssetsPairs.data[pair.assetField]>=0]">
+                        {{ unitAssetsPairs.data[pair.assetField] | toFixedPercent }}%
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </ias-pane>
+    <ias-pane tab-title="收益图" on-select="hanldeTendencySelected('profit')">
+        <div class="chart-tooltip" ng-show="profitTooltip.isShow">
+            <div>区间日数: {{profitTooltip.duration}}</div>
+            <div>区间收益: {{profitTooltip.accYield | number:4}}%</div>
+            <div>区间收益波动: {{profitTooltip.volatility | number:4}}%</div>
+            <div>最大回撤率: {{profitTooltip.drawdown}}</div>
+        </div>
+        <div id="profitChart" class="tendency-wrap"></div>
+    </ias-pane>
+    <ias-pane tab-title="资产图" on-select="hanldeTendencySelected('asset')">
+        <div class="chart-tooltip" ng-show="assetTooltip.isShow">
+            <div>区间日数: {{assetTooltip.duration}}</div>
+            <div>起始净资产: {{assetTooltip.leftAsset | number:2}}</div>
+            <div>结束净资产: {{assetTooltip.rightAsset | number:2}}</div>
+            <div>净资产变动值: {{assetTooltip.deltaAsset | number:2}}</div>
+            <div>起始总资产: {{assetTooltip.leftAssetTotal | number:2}}</div>
+            <div>结束总资产: {{assetTooltip.rightAssetTotal | number:2}}</div>
+            <div>总资产变动值: {{assetTooltip.deltaAssetTotal | number:2}}</div>
+            <div>起始现金: {{assetTooltip.leftCash | number:2}}</div>
+            <div>结束现金: {{assetTooltip.rightCash | number:2}}</div>
+            <div>现金变动值: {{assetTooltip.deltaCash | number:2}}</div>
+            <div>起始债券: {{assetTooltip.leftBond | number:2}}</div>
+            <div>结束债券: {{assetTooltip.rightBond | number:2}}</div>
+            <div>债券变动值: {{assetTooltip.deltaBond | number:2}}</div>
+        </div>
+        <div id="assetChart" class="tendency-wrap"></div>
+    </ias-pane>
+    <ias-pane tab-title="敞口图" on-select="hanldeTendencySelected('dv01')">
+        <div id="dv01Chart" class="tendency-wrap"></div>
+    </ias-pane>
+    <ias-pane tab-title="收益分解图" on-select="hanldeTendencySelected('performance')">
+        <!-- <button ng-csv-utf8="onExportData()" csv-header="getCsvHeader()" filename="{{fileName}}" lazy-load="true" add-bom="true" style="float:right;margin-top: -62px;">导出</button> -->
+        <div id="performanceChart" class="tendency-wrap" style="top: 50px;"></div>
+        <div style="text-align: right;margin-right: 100px;color: rgb(135, 135, 135);">注：利息收益包含了债券票息，融入融出资金利息。资本利得包含债券、股票、基金等资产收益</div>
+    </ias-pane>
+    <button style="position: absolute; right: 0; top: 0;"
+        ng-csv-utf8="onExportData()"
+        csv-header="getCsvHeader()"
+        csv-column-order="getCsvColumnOrder()"
+        filename="{{fileName}}"
+        lazy-load="true"
+        add-bom="true">导出
+    </button>
+</ias-tabs>

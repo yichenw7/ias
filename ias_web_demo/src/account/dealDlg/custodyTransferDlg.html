@@ -1,0 +1,120 @@
+<div class="deal-input-dialog-content-wrap">
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">发生日期：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" datetimepicker config="timePickerConfig" ng-model="trade.trade_date" ng-change="tradeDateChanged()">
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">标的：</label>
+        <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                          selected-object="bondSelectFun"
+                          local-data="bondList"
+                          search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                          title-field="bond_id,short_name"
+                          input-show-fields="bond_id,short_name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+    </div>
+
+    <div class="inquiry-details">
+        <div>
+            <label class="ias-control-label">代码：</label>
+            <label class="ias-info-label">{{ trade.bond_code }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">简称：</label>
+            <label class="ias-info-label">{{ trade.short_name }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">剩余期限：</label>
+            <label class="ias-info-label">{{ trade.ttm }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">主体评级：</label>
+            <label class="ias-info-label">{{ trade.issuer_rating_current }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值收益率：</label>
+            <label class="ias-info-label">{{ trade.val_yield }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值净价：</label>
+            <label class="ias-info-label">{{ trade.val_clean_price }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">久期：</label>
+            <label class="ias-info-label">{{ trade.val_duration }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">内部评分：</label>
+            <label class="ias-info-label">{{ trade.internal_rating }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">评分有效期：</label>
+            <label class="ias-info-label">{{ trade.expiry_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">行权日：</label>
+            <label class="ias-info-label">{{ trade.option_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">票面利率：</label>
+            <label class="ias-info-label">{{ trade.coupon_rate_current }}</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="ias-control-label">跨市场债券：</label>
+        <table class="ias-table table-thread table-condensed"
+               style="height: auto; word-break:keep-all;width:auto;vertical-align:top;display:inline-block" ng-if="trade.across_mkt_stat == 1">
+            <tbody>
+            <tr class="tbody-font" ng-repeat="bond in trade.across_mkt_bonds">
+                <td width="">
+                    <!--<label class="checkbox-normal" ng-class="transferChecked(bond.checked)">-->
+                        <!--<input style="opacity: 0" type="checkbox"  ng-checked="bond.checked" ng-model="bond.checked">-->
+                    <!--</label>-->
+                    <label ng-if="'CIB' == bond.listed_market" ng-class="{false: 'radio-normal', true:'radio-select'}[trade.selected == 'CIB']">
+                        <input type="radio" name="optionsRadios" ng-model="trade.selected" value="CIB" ng-click="onSelectBond(bond.bond_key_listed_market)">
+                    </label>
+                    <label ng-if="'SSE' == bond.listed_market" ng-class="{false: 'radio-normal', true:'radio-select'}[trade.selected == 'SSE']">
+                        <input type="radio" name="optionsRadios" ng-model="trade.selected" value="SSE" ng-click="onSelectBond(bond.bond_key_listed_market)">
+                    </label>
+                    <label ng-if="'SZE' == bond.listed_market" ng-class="{false: 'radio-normal', true:'radio-select'}[trade.selected == 'SZE']">
+                        <input type="radio" name="optionsRadios" ng-model="trade.selected" value="SZE" ng-click="onSelectBond(bond.bond_key_listed_market)">
+                    </label>
+                </td>
+                <td>{{ ::bond.listed_market | typeTranslate}}</td>
+                <td>{{ ::bond.short_name }}&nbsp({{ ::bond.bond_id }})</td>
+            </tr>
+            </tbody>
+        </table>
+        <label class="ias-info-label" ng-if="trade.across_mkt_stat == 2">不是跨市场债券</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label">可转出量：</label>
+        <label class="ias-info-label">{{ trade.available_volume | commafyConvert}}</label>
+    </div>
+
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">转出量(张)：</label>
+        <input limit-format-number regexp-str="\d*" class="ias-amount-input" output-number="trade.volume" change-value="volumeChanged()">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">转出价格：</label>
+        <input type="text" class="ias-amount-input" limit-format-number  output-number="trade.price" >
+    </div>
+</div>

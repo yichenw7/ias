@@ -1,0 +1,49 @@
+.ias-autocomplete-search-container {
+    & > .glyphicon {
+        margin-right: -20px;
+        padding-left: 6px;
+    }
+
+    & > input.icon-input {
+        padding-left: 24px;
+    }
+}
+
+common-admin-page {
+    .ui-grid {
+        .ui-grid-cell {
+            .tag-icon-column {
+                .glyphicon {
+                    width: 22px;
+                    height: 22px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}
+
+// by: Yang
+// date: 2017/07/07
+// 短时间内无法解决`layout-margin`将所有子元素都添加边距的显示问题
+// @see: https://material.angularjs.org/latest/layout/options
+// `layout-margin adds margin around each flex child. It also adds a margin to the layout container itself. `
+// 手动调整边距
+.admin-page-panel-container {
+    & > * {
+        margin: 5px;
+    }
+}
+
+.admin-grid-pagination {
+    & > * {
+        margin: 5px 3px;
+    }
+
+    span {
+        color: #0f898a;
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,382 @@
+<div class="ias-account" id="dataSection">
+    <div class="account-header-panel">
+        <div class="account-header-panel-left">
+            <button data-toggle="modal" data-target="#accountGroup">{{winStatus.current_name}}&nbsp;<span
+                class="caret"></span></button>
+            <div ng-show="valuationDates.isShow()">
+                <label>估值表日期：</label>
+                <ias-select options="valuationDates.options" ng-model="valuationDates.selected"
+                            change-handle="valuationDates.select()" width="120px"></ias-select>
+            </div>
+            <div ng-show="historyDate.isShow()">
+                <label class="checkbox-normal"
+                       ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[historyDate.canSelected]">
+                    <input type="checkbox" class="modal-input" ng-model="historyDate.canSelected"
+                           ng-click="historyDate.select()">历史日期
+                </label>
+                <input readonly="readonly" type="text" class="ias-date-input" config="timePickerConfig" datetimepicker
+                       change-date-handler="historyDate.select()"
+                       ng-model="historyDate.selectedDate" ng-show="historyDate.canSelected">
+            </div>
+            <div>
+                <label>估值法：</label>
+                <ias-select options="valuationMethods.options" ng-model="valuationMethods.selected"
+                            change-handle="valuationMethods.select()" width="120px"></ias-select>
+            </div>
+            <div ng-show="winStatus.refAccount.isShow()">
+                <label ng-class="{'true': 'radio-normal', 'false':'radio-select'}[winStatus.refAccount.model]">
+                    <input type="radio" name="optionsRadios" ng-model="winStatus.refAccount.model" value="false"
+                           ng-change="change_include_ref_account(true)">不包含子账户
+                </label>
+                <label ng-class="{'false': 'radio-normal', 'true':'radio-select'}[winStatus.refAccount.model]">
+                    <input type="radio" name="optionsRadios" ng-model="winStatus.refAccount.model" value="true"
+                           ng-change="change_include_ref_account(false)">包含子账户
+                </label>
+            </div>
+        </div>
+
+        <div class="account-header-panel-right">
+            <span class="glyphicon glyphicon-upload" data-toggle="tooltip" data-placement="left" title="new version"
+                  style="color: #00A000; margin-right: 5px"
+                  ng-click="show_version_info()"></span>
+            <div class="account-btn-group">
+                <button ng-click="onAccountGroupEdit()">账户管理
+                    <i style="float:right;width:15px;height:20px;border-right:1px solid rgba(255,255,255,0.5)"></i>
+                </button>
+                <button ng-click="onAddAccountClicked()">+</button>
+            </div>
+            <button ng-click="onExportExcelClicked()">导出Excel</button>
+            <button ng-click="onImportDlgClicked()">导入</button>
+        </div>
+    </div>
+
+    <div ng-show="winStatus.cur_account_list.length <= 1" id="accountPanel">
+        <div class="ias-date-warn-panel" style="display: none">
+            <span class="glyphicon glyphicon-warning-sign" style="color: #BF7A14;margin-right: 50px;"></span>
+            <span>您的账户还有{{assetData.days_to_exit}}天就要过期了</span>
+            <button class="close-btn" ng-click="closePanel()" style="background-color: #000">×</button>
+        </div>
+
+        <div md-theme="ssAvalonUi" class="account-sum-panel" ng-click="showAccountAllSum()">
+            <div>
+                <label>账户名称：
+                    <div>
+                        <span>{{ assetData['name'] }}</span>
+                        <span ng-show="assetData.warnings.length>0" class="warning_danger"></span>
+                    </div>
+                    <md-tooltip class="account-sum" ng-show="assetData.warnings.length>0">
+                        {{ "有成交记录的交易日 " + assetData.warnings[0]['first_cashflow_date'] + " 早于账户创建日 " +
+                        assetData.warnings[0]['create_date'] }}
+                    </md-tooltip>
+                </label>
+                <label>净资产：
+                    <span>{{ assetData[valuationMethods.value]['asset_net'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "当日持有资产总值减去总负债" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+                <label>债券比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['bond_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">债券总市值占净资产的比重</md-tooltip>
+                </label>
+                <label>债券估值收益率(%)：
+                    <span>{{ assetData[valuationMethods.value]['yield_rate'] | toYield }}</span>
+                    <md-tooltip class="account-sum">持仓债券的估值收益率按全价市值加权</md-tooltip>
+                </label>
+                <label>T+0 指令可用：
+                    <span>{{ assetData['cash_t_0'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "账户T日当前可用资金" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+
+
+                <label>账户收益(%)：
+                    <span>{{ assetData[valuationMethods.value]['yield_total'] | toYield }}</span>
+                    <md-tooltip class="account-sum">该账户自创建以来的累计单位收益</md-tooltip>
+                </label>
+                <label>总资产：
+                    <span>{{ assetData[valuationMethods.value]['asset_total'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "当日持有资产总值" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+                <label>正回购比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['liability_repo_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">正回购本金和利息占净资产的比重</md-tooltip>
+                </label>
+                <label>债券成本收益率(%)：
+                    <span>{{ assetData['yield_cost'] | toYield }}</span>
+                    <md-tooltip class="account-sum">持仓债券的成本收益率按全价市值加权</md-tooltip>
+                </label>
+                <label>T+1 指令可用：
+                    <span>{{ assetData['cash_t_1'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">账户T+1日当前可用资金</md-tooltip>
+                </label>
+            </div>
+            <div ng-show="!winStatus.isHideAccountSumPanel">
+                <label>单位净值：
+                    <span>{{ assetData[valuationMethods.value]['unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "当前日期净资产/产品份额" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+                <label>杠杆率：
+                    <span>{{ assetData[valuationMethods.value]['total_to_net'] | toFixed4| toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">总资产/净资产</md-tooltip>
+                </label>
+                <label>逆回购比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['reverse_repo_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">逆回购本金和利息占净资产的比重</md-tooltip>
+                </label>
+                <label>DV01：
+                    <span>{{ assetData[valuationMethods.value]['pvbp'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">持仓债券基点价值总值</md-tooltip>
+                </label>
+                <label>银行存款：
+                    <span>{{ assetData['asset_deposit'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ? "账户存款总额"
+                        : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+
+
+                <label>累计单位净值：
+                    <span>{{ assetData[valuationMethods.value]['acc_unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "单位净值和累计单位分红的加总" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+                <label>加权资金成本：
+                    <span>{{ assetData['weighted_cost'] | toFixed4 | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">存续申购资金的目标收益加权</md-tooltip>
+                </label>
+                <label>股票比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['stock_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">股票总市值占净资产的比重</md-tooltip>
+                </label>
+                <label>债券估值久期：
+                    <span>{{ assetData[valuationMethods.value]['duration'] | toFixed4 | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">持仓债券的按全价市值加权中债估值久期</md-tooltip>
+                </label>
+                <label>保证金：
+                    <span>{{ assetData['asset_margin'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "此字段仅适用估值表账户" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+
+
+                <label>IAS 单位净值(估值表)：
+                    <span>{{ assetData['ias_unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "此字段仅适用估值表账户" : "每份额的中债估值债券资产"}}
+                    </md-tooltip>
+                </label>
+                <label>实收资本：
+                    <span>{{ assetData['shares'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">产品份额</md-tooltip>
+                </label>
+                <label>交易所基金比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['fund_exchange_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">交易所基金持仓市值占净资产的比重</md-tooltip>
+                </label>
+                <label>交易所可用标准券：
+                    <span>{{ assetData['normalized_bonds_available'] | thousandthNum | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">交易所已入库标准券数量加总</md-tooltip>
+                </label>
+                <label>备付金：
+                    <span>{{ assetData['asset_reserve'] | commafyConvert | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">{{ winStatus.cur_account.source_type_position === 'trade' ?
+                        "各交易市场需准备的结算备付金" : "源自估值表"}}
+                    </md-tooltip>
+                </label>
+
+
+                <label>净值年化收益率(%)：
+                    <span>{{ assetData[valuationMethods.value]['annualized_yield_total'] | toYield }}</span>
+                    <md-tooltip class="account-sum">每份额的当日净资产价值年化体现</md-tooltip>
+                </label>
+                <label>当日净值年化增长率(%)：
+                    <span>{{ assetData[valuationMethods.value]['annualized_yield'] | toYield }}</span>
+                    <md-tooltip class="account-sum">今日净值相对于上个工作日净值的增长率年化体现</md-tooltip>
+                </label>
+                <label>场外基金比例(%)：
+                    <span>{{ assetData[valuationMethods.value]['fund_otc_to_net'] | toYield }}</span>
+                    <md-tooltip class="account-sum">场外基金持仓市值占净资产的比重</md-tooltip>
+                </label>
+                <label>交易所可提交标准券：
+                    <span>{{ assetData['pledge_available_volume'] | thousandthNum | toNotApplicable }}</span>
+                    <md-tooltip class="account-sum">交易所可转化为标准券数量加总</md-tooltip>
+                </label>
+            </div>
+            <i class="expanded-icon" ng-class="{false:'down'}[winStatus.isHideAccountSumPanel]"></i>
+        </div>
+    </div>
+    <div ng-show="winStatus.cur_account_list.length > 1">
+        <div class="account-sum-panel" ng-click="showAccountAllSum()">
+            <div>
+                <label>组合名称：<span>{{ winStatus.current_name }}</span></label>
+                <label>净资产：<span>{{ assetData['asset_net'] | commafyConvert | toNotApplicable }}</span> </label>
+                <label title="债券资产/净值(%)">债券比例(%)：<span>{{ assetData['bond_to_net'] | toYield }}</span> </label>
+                <label>债券估值收益率(%)：<span>{{ assetData['yield_rate'] | toYield }}</span></label>
+                <label>T+0 指令可用：<span>{{ assetData['cash_t_0'] | commafyConvert | toNotApplicable }}</span></label>
+
+                <label>账户收益(%)：<span>{{ assetData['yield_total'] | toYield }}</span></label>
+                <label>总资产：<span>{{ assetData['asset_total'] | commafyConvert | toNotApplicable }}</span></label>
+                <label>正回购比例(%)：<span>{{ assetData['liability_repo_to_net'] | toYield }}</span></label>
+                <label>债券成本收益率(%)：<span>{{ assetData['yield_cost'] | toYield }}</span></label>
+                <label>T+1 指令可用：<span>{{ assetData['cash_t_1'] | commafyConvert | toNotApplicable }}</span></label>
+            </div>
+            <div ng-show="!winStatus.isHideAccountSumPanel">
+                <label>单位净值：<span>{{ assetData['unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span></label>
+                <label
+                    title="总资产/净资产">杠杆率：<span>{{ assetData['total_to_net'] | toFixed4| toNotApplicable }}</span></label>
+                <label>逆回购比例(%)：<span>{{ assetData['reverse_repo_to_net'] | toYield }}</span></label>
+                <label>DV01：<span>{{ assetData['pvbp'] | commafyConvert | toNotApplicable }}</span></label>
+                <label>银行存款：<span>{{ assetData['asset_deposit'] | commafyConvert | toNotApplicable }}</span></label>
+
+                <label>累计单位净值：<span>{{ assetData['acc_unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span></label>
+                <label>加权资金成本：<span>{{ assetData['weighted_cost'] | toFixed4 | toNotApplicable }}</span></label>
+                <label title="股票资产/净值">股票比例(%)：<span>{{ assetData['stock_to_net'] | toYield }}</span></label>
+                <label>债券估值久期：<span>{{ assetData['duration'] | toFixed4 | toNotApplicable }}</span></label>
+                <label>保证金：<span>{{ assetData['asset_margin'] | commafyConvert | toNotApplicable }}</span></label>
+
+                <label>IAS
+                    单位净值(估值表)：<span>{{ assetData['ias_unit_asset_net'] | toFixed4:true:false | toNotApplicable }}</span></label>
+                <label>实收资本：<span>{{ assetData['shares'] | commafyConvert | toNotApplicable }}</span></label>
+                <label>交易所基金比例(%)：<span>{{ assetData['fund_exchange_to_net'] | toYield }}</span></label>
+                <label>交易所可用标准券：<span>{{ assetData['normalized_bonds_available'] | thousandthNum | toNotApplicable }}</span></label>
+                <label>备付金：<span>{{ assetData['asset_reserve'] | commafyConvert | toNotApplicable }}</span></label>
+
+                <label>净值年化收益率(%)：<span>{{ assetData['annualized_yield_total'] | toYield }}</span></label>
+                <label>当日净值年化增长率(%)：<span>{{ assetData['annualized_yield'] | toYield }}</span></label>
+                <label>场外基金比例(%)：<span>{{ assetData['fund_otc_to_net'] | toYield }}</span></label>
+                <label>交易所可提交标准券：<span>{{ assetData['pledge_available_volume'] | thousandthNum | toNotApplicable }}</span></span>
+                </label>
+            </div>
+            <i class="expanded-icon" ng-class="{false:'down'}[winStatus.isHideAccountSumPanel]"></i>
+        </div>
+    </div>
+
+    <div ng-class="{true: 'account-panel-fold', false: 'account-panel-unfold'}[winStatus.isHideAccountSumPanel]">
+        <tab-template tab-width='"col-md-6"' user-defined-fun="tabTemplateInitFun(theScope)" is-account-tab='true'
+                      regist-toggle-click="true">
+            <panel-template tab-name='"持仓"' selected-func="handleMainTabSelected('position')"
+                            is-show-valuation-icon="winStatus.cur_account.source_type_position === 'position'">
+                <div ng-controller="positionCtrl" class="absolute-panel position-panel"
+                     ng-include="'src/account/position/index.html'"></div>
+            </panel-template>
+            <panel-template tab-name='"资产分布"' selected-func="handleMainTabSelected('allocation')"
+                            is-show-valuation-icon="winStatus.cur_account.source_type_position === 'position'">
+                <div ng-controller="assetTableCtrl" ng-include="'src/account/allocation/index.html'"></div>
+            </panel-template>
+            <panel-template-component tab-name='"流动性管理"' selected-func="handleMainTabSelected('liquidity')"
+                                      is-show-valuation-icon="winStatus.cur_account.source_type_cashflow === 'position'"
+                                      is-show-valuation-plus-icon="winStatus.cur_account.source_type_cashflow === 'mixed'">
+                <div ng-show="cur_account_trade_option == ACCOUNT_TRADE_VIEW"
+                     ng-include="'src/account/liquidity/index.html'"></div>
+            </panel-template-component>
+            <panel-template tab-name='"成交记录"' selected-func="handleMainTabSelected('trade')"
+                            is-show-valuation-icon="winStatus.cur_account.source_type_trade === 'position'">
+                <div ng-controller="tradesCtrl" ng-show="cur_account_trade_option == ACCOUNT_TRADE_VIEW"
+                     class="absolute-panel position-panel"
+                     ng-include="'src/account/trade/accountTrades.html'">
+                </div>
+            </panel-template>
+            <panel-template tab-name='"业绩归因"' selected-func="handleMainTabSelected('performance')"
+                            is-show-valuation-icon="winStatus.cur_account.source_type_performance === 'position'">
+                <div ng-controller="performanceCtrl" ng-include="'src/account/performance/index.html'"></div>
+            </panel-template>
+            <panel-template tab-name='"组合指标"' selected-func="handleMainTabSelected('indices')">
+                <div ng-controller="combinationIndexCtrl" ng-include="'src/account/indices/index.html'"></div>
+            </panel-template>
+            <panel-template tab-name='"市场风险"' selected-func="handleMainTabSelected('market')"
+                            is-show-valuation-icon="winStatus.cur_account.source_type_performance === 'position'">
+                <div ng-controller="marketRiskCtrl" ng-include="'src/account/marketRisk/index.html'"></div>
+            </panel-template>
+        </tab-template>
+    </div>
+
+    <hc-import-dlg id-name='"hcImportDlg"'></hc-import-dlg>
+    <div id="loadEle" ng-controller="portfolioPanelCtrl">
+        <div ng-controller="portfolioEditPanelCtrl" ng-include="LazyLoadUrl.accountGroupEdit"></div>
+        <div ng-controller="portfolioSelectPanelCtrl" ng-include="'src/account/accountDlg/accountGroup.html'"></div>
+    </div>
+    <div ng-controller="messageCenterCtrl">
+        <div class="message-panel" ng-style="paneStyle">
+            <h1 ng-click="openPanel()" class="switch text-center">
+                <span class="glyphicon glyphicon-circle-arrow-right" style="font-size: 18px;margin-bottom: 10px"
+                      ng-class="{ true: 'glyphicon-circle-arrow-right', false:'glyphicon-circle-arrow-left'}[paneStyle.right == '0px']"></span>
+                我的消息
+                <span class="badge num-span"
+                      ng-show="myMessage.unReadNum.total < 100">{{myMessage.unReadNum.total}}</span>
+                <span class="red-circle" ng-show="myMessage.unReadNum.total >= 100"> </span>
+            </h1>
+
+            <div style="margin-left: 20px">
+                <ul class="btn-li-group">
+                    <li ng-class="{true:'btn-li-group-active',false:'btn-li-group-default'}[isToday == 1]">
+                        <a href ng-click="switchDateType(1)">今日消息
+                            <span class="li-num-span" ng-show="myMessage.unReadNum.today < 100">{{myMessage.unReadNum.today}}</span>
+                            <span class="red-circle" ng-show="myMessage.unReadNum.today >= 100"> </span>
+                        </a>
+                    </li>
+                    <li ng-class="{true:'btn-li-group-active',false:'btn-li-group-default'}[isToday == 0]">
+                        <a href ng-click="switchDateType(0)">历史消息
+                            <span class="li-num-span" ng-show="myMessage.unReadNum.history < 100">{{myMessage.unReadNum.history}}</span>
+                            <span class="red-circle" ng-show="myMessage.unReadNum.history >= 100"> </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="message-list">
+                    <li ng-click="myMessage.onClick(msg)"
+                        ng-repeat="msg in messageList | filter: myMessage.dateFilter | filter :myMessage.inCurrentPage:$index track by $index"
+                        ng-class="{ true: 'important', false:''}[msg.is_read == 0]">
+                        <h5>{{msg.title}}</h5>
+
+                        <p style="overflow: hidden">
+                            <span style="display: block" ng-repeat="content in msg.contents">{{content}}</span>
+                            <span class="pull-right">{{msg.create_time.substring(5,16)}}</span>
+                        </p>
+                    </li>
+                </ul>
+                <div class="message-pagination text-center">
+                    <a href="" class="thread-font" ng-click="pagination.homePage()">首页</a>
+                    <a href="" class="thread-font" ng-click="pagination.lastPage()">上一页</a>
+                    <a href="" class="thread-font" ng-click="pagination.nextPage()">下一页</a>
+                    <a href="" class="thread-font" ng-click="pagination.endPage()">末页</a>
+                </div>
+            </div>
+
+            <div class="message-setting text-center">
+                <span class="btn glyphicon glyphicon-cog" data-toggle="modal" data-target="#remindSetDlg"></span>
+            </div>
+        </div>
+        <div ng-include="'src/account/otherDlg/cashFlowMessageDetail.html'"></div>
+    </div>
+
+    <div ng-include="'src/templates/bond-check.html'"></div>
+    <div ng-include="'src/templates/errorDetail.html'"></div>
+    <div ng-include="'src/account/accountDlg/createAccountDlg.html'"></div>
+    <div ng-include="'src/account/accountDlg/valuationMethodSetting.html'"></div>
+    <div ng-include="'src/account/dealDlg/dealInputDlg.html'"></div>
+    <div ng-include="'src/account/otherDlg/bankRepoPledgeBondsPage.html'"></div>
+    <div ng-include="'src/account/otherDlg/checkFailedPosition.html'"></div>
+    <div ng-include="'src/account/otherDlg/remindSetDlg.html'"></div>
+    <div ng-include="'src/account/otherDlg/loadShade.html'"></div>
+    <div ng-include="'src/account/otherDlg/pledgedBondsFilter.html'"></div>
+    <div ng-include="LazyLoadUrl.exportExcel"></div>
+    <div ng-include="LazyLoadUrl.importTemplate"></div>
+    <div id="transactBondPage" ng-include="'src/account/otherDlg/transactBondPage.html'" style="display: none"></div>
+    <div id="pledgeBondDetailPage" ng-include="'src/account/otherDlg/pledgeBondDetailDlg.html'"
+         style="display: none"></div>
+</div>
+
+<!--表格设置页面-->
+<div ng-include="'src/templates/chartSetting.html'"></div>
+<ul id="threadSetting" class="nav nav-stacked right-menu-nav" style="z-index: 12">
+    <li><a ng-click="showTableSetting(GridConfigService.gridName)">表格设置</a></li>
+    <li><a ng-click="resetTableSetting(GridConfigService.gridName)">完全重置</a></li>
+</ul>

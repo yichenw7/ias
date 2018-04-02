@@ -1,0 +1,30 @@
+﻿@import '~BaseLess/color.less';
+
+.md-panel.universal-add-edit-dialog {
+    md-dialog-content {
+        min-width: 360px;
+
+        form {
+
+            .form-row {
+                .form-label {
+                    text-align: right;
+
+                    &:after {
+                        content: ':';
+                        padding: 3px;
+                    }
+
+                    &.required-field:before{
+                        content: '*';
+                        color: @ssRequiredMarkColor;
+                    }
+                }
+
+                md-select {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

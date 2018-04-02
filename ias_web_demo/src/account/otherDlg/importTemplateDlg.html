@@ -1,0 +1,53 @@
+<div ng-controller="importTemplateCtrl">
+    <div class="modal fade" id="importTemplateDlg"  role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width:800px" role="document">
+            <div class="modal-content ias-modal-content" draggable style="position: relative;top:30px;">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">选择模板</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="ias-form-group">
+                        <span class="ias-left">请下载合适的模板并按格式录入台帐：</span>
+                        <span class="ias-right" style="float:right">使用模板导入流水，即可拥有强大分析功能</span>
+                    </div>
+                    <div class="ias-form-group" style="height:430px;">
+                        <div style="margin-bottom:20px;">
+                            <btn-li-group btn-group="templateTabs" ng-model="selectedTab"></btn-li-group>
+                        </div>
+                        <div style="width: 100%;">
+                            <ul>
+                                <li ng-repeat="temp in templates[selectedTab]" style="float: left;">
+                                    <div style="width:188px;height:200px;">
+                                        <label style="color:#ff900c;font-weight:bold;width:180px;text-align:center;margin-bottom:4px;">{{temp.template_title}}</label>
+                                        <div class="view-content-wrap" ng-mouseenter="temp.is_view = true" ng-mouseleave="temp.is_view = false">
+                                            <img ng-src="{{temp.template_imgs[0].url}}">
+                                            <div ng-show="!temp.is_view" style="position:absolute;width:100%;padding-left:5px;bottom:0;left:5px;border-bottom-left-radius:8px;border-bottom-right-radius:8px;color:#fff;height:50px;background-color: rgba(0,0,0,.5);">{{temp.template_desc}}</div>
+                                            <p ng-show="temp.is_view" ng-click="viewTemplateImg(temp.template_imgs,temp.template_url)"><span>预览</span></p>
+                                        </div>
+                                        <a download href="{{temp.template_url}}" class="download">模板下载</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button type="button"   ng-click="importTemplate()">开始导入</button>
+                    <button type="button" class="ias-dismiss-btn" ng-click="dismissImport()">取消</button>
+                </div>
+            </div>
+            <div class="ias-modal-content" style="width:1020px;height:650px;position: absolute;left: -110px;top: 35px; border:1px solid #FFA609;" ng-if="view_image">
+                <div style="margin-top:10px;cursor:pointer;" ng-click="closeSelf()"><img ng-src="{{view_image_url}}" style="width: 1000px;height: 560px;margin-left:10px;"></div>
+                <ul style="width: 1000px;background-color:#fff;height: 30px;padding-left:20px;margin-left:10px;">
+                    <li ng-repeat="img in big_img_url" style="float:left;" ng-click="showImg(img,$index)" ng-class="{import_tem_1:$index == selectedRow}">
+                        <label style="color: #333;line-height: 28px;padding: 0 20px;cursor: pointer;">{{img.name}}</label>
+                    </li>
+                </ul>
+                <div style="margin:10px auto;width: 115px;height: 24px;">
+                    <a download href="{{temp_url}}" class="download2">下载</a>
+                    <button type="button"   ng-click="closeShowImg(big_img_url)">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

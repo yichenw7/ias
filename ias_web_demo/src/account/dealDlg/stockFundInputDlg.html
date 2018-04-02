@@ -1,0 +1,59 @@
+<div>
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" is-disabled="!showBtnList" ng-model="trade.direction" change-btn="directionChanged(value)"></btn-li-group>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.is_edit_mode">
+        <label class="ias-control-label ias-required-field">标的：</label>
+        <angucomplete-alt id="stockSearchBox" placeholder="代码、简称或拼音" pause="100"
+                          selected-object="handleStockFundSelected"
+                          local-data="stockFundList"
+                          search-fields="code,name,pinyin"
+                          title-field="code,name"
+                          input-show-fields="code,name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">代码：</label>
+        <label class="ias-info-label">{{ trade.code }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">简称：</label>
+        <label class="ias-info-label">{{ trade.name }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">交易日：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" ng-disabled="!showBtnList && trade.account_id | isAccountSrcTypeValuation:'trade'"
+            datetimepicker config="timePickerConfig" ng-model="trade.trade_date" ng-change="handleTradeDateChanged()">
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">价格：</label>
+        <input limit-format-number number-point="2" output-number="trade.price">
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">金额(元)：</label>
+            <label class="ias-info-label">{{ trade.price*trade.volume | toFixed2 | thousandthNum }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">{{ 1 == trade.direction ? '买入' : '卖出' }}数量：</label>
+        <input limit-format-number regexp-str="\d*" output-number="trade.volume" change-value="volumeChanged()">
+
+        <div class="ias-offset-1-3" ng-if="-1 == trade.direction">
+            <label class="ias-control-label">可卖数量：</label>
+            <label class="ias-info-label">{{ trade.max_available | toWan | thousandthNum }} 万</label>
+        </div>
+    </div>
+</div>

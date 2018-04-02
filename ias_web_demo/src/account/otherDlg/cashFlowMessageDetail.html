@@ -1,0 +1,43 @@
+<div class="modal fade" id="cashFlowMsgDetailDlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div  class="modal-dialog" style="width: 700px;top: 200px" role="document">
+        <div class="modal-content ias-modal-content" draggable>
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title">现金流提醒</h5>
+            </div>
+
+            <div class="modal-body ias-modal-body">
+                <h5>{{cashFlowMsg.title}}
+                    <span class="pull-right">{{cashFlowMsg.create_time.substring(5,16)}}</span>
+                </h5>
+                <table class="ias-table">
+                    <thead style="background-color: #000000">
+                        <tr>
+                            <th width="120px">日期</th>
+                            <th width="120px">代码</th>
+                            <th width="150px">简称</th>
+                            <th width="130px" class="ias-text-right">金额</th>
+                            <th width="160px">描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="cashFlow in cashFlowMsg.detail.cash_flows track by $index">
+                        <td>{{ cashFlow.execute_date  }}</td>
+                        <td>{{ cashFlow.code }}</td>
+                        <td >{{ cashFlow.name }}</td>
+                        <td class="ias-text-right">{{ cashFlow.amount | toFixed2: true: true}}</td>
+                        <td>{{ cashFlow.desc }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p style="overflow: hidden;margin-top: 15px;padding-left: 2px">
+                    <span style="display: block;margin-bottom: 10px" ng-repeat="content in cashFlowMsg.contents">{{content}}</span>
+                </p>
+            </div>
+
+            <div class="modal-footer ias-modal-footer">
+                <button  type="button"  ng-click="closeCashFlowDlg()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

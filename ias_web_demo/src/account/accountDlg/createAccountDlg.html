@@ -1,0 +1,160 @@
+<div ng-controller="createAccountCtrl">
+    <div class="modal fade create-account" id="createAccountDlg" tabindex="-2" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 700px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">{{ account.title }}</h5>
+                </div>
+                <div class="ias-modal-body" >
+                    <ias-tabs style-name="ias-secondary-tabs" is-disabled="account.isEdit" panes="types">
+                        <ias-pane tab-title="资产账户">
+                            <div class="warning_tooltips" style="position: absolute;top:60px;" ng-style="{'left': account.errorLeft }" ng-show="account.isError">
+                                <span class="alert-icon">!</span>
+                                {{ account.errorMsg }}
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label ias-required-field">账户名称：</label>
+                                <input type="text" ng-model="account.name" ng-change="validateFun()">
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label ias-required-field">发生日期：</label>
+                                    <input readonly="readonly" type="text" class="ias-date-input"
+                                           datetimepicker config="startTimePickerConfig" ng-model="account.createDate">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">资金(万元)：</label>
+                                <input limit-format-number class="input-not-edit" output-number="account.cash">
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">
+                                        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[account.enableExitDate]">
+                                            <input style="opacity: 0" type="checkbox" ng-model="account.enableExitDate" ng-change="checkeExitDate(account)">
+                                        </label>
+                                        退出时间：
+                                    </label>
+                                    <input readonly="readonly" type="text" class="ias-date-input"
+                                           datetimepicker config="endTimePickerConfig" ng-model="account.exitDate" ng-disabled="!account.enableExitDate">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">资金到账日期：</label>
+                                <btn-li-group btn-group="timeToAccountGroup" ng-model="account.purchase"></btn-li-group>
+
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">目标收益(%)：</label>
+                                    <input type="text" limit-format-number output-number="account.targetCost">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label ias-required-field">是否有净值：</label>
+                                <btn-li-group is-disabled="true" btn-group="netValueGroup" ng-model="account.has_net_value" change-btn="account.handleNetValueChanged(value)"></btn-li-group>
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">收益计算方式：</label>
+                                    <select ng-model="account.yield_calculation"
+                                            ng-options="account.value as account.type for account in yieldCalculations">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">
+                                    {{ account.yield_calculation === 'share' ? '初始份额：' : '初始实收资本：'}}
+                                </label>
+                                <label>{{ (account.cash * 10000) | commafyConvert }}</label>
+                                <div class="ias-offset-1-2" ng-show="account.yield_calculation === 'share'">
+                                    <label class="ias-control-label">初始净值：</label>
+                                    <label>1.0000</label>
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label ias-required-field">债券成本计算规则：</label>
+                                <select ng-model="account.sellRule" ng-disabled="account.isEdit"
+                                    ng-options="sell.value as sell.label for sell in sellGroup">
+                                </select>
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">管理费(%)：</label>
+                                    <input type="text" limit-format-number output-number="account.managementFee">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">含权债计算规则：</label>
+                                <select ng-model="account.optionValuation"
+                                    ng-options="optionValuation.value as optionValuation.label for optionValuation in optionValuationGroup">
+                                </select>
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">托管费(%)：</label>
+                                    <input type="text" limit-format-number output-number="account.trusteeFee">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">自动计算备付金：</label>
+                                <btn-li-group btn-group="autoReserveTypes" ng-model="account.auto_reserve"></btn-li-group>
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">渠道费(%)：</label>
+                                    <input type="text" limit-format-number output-number="account.channelFee">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">账户类型：</label>
+                                <select ng-disabled="account.isEdit" ng-model="account.type"
+                                        ng-options="account.value as account.type for account in accountTypes">
+                                </select>
+                                <div class="ias-offset-1-2">
+                                    <label class="ias-control-label">基础费(万)：</label>
+                                    <input type="text" limit-format-number output-number="account.baseFee">
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">估值表账套：</label>
+                                <select ng-model="account.subject_suit_id"
+                                        ng-options="account.value as account.type for account in subjectSuitTypes">
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label ias-required-field">数据来源：</label>
+                                <button style="display: inline-flex; align-items: center;" ng-click="toggle()">详情
+                                    <i style="margin-left: 5px;" class="expanded-icon" ng-class="{true:'down'}[STATUS.is_show_data_source]"></i>
+                                </button>
+                            </div>
+                            <div class="form-group data-src-list" ng-show="STATUS.is_show_data_source">
+                                <div>
+                                    <label class="ias-control-label">资产持仓：</label>
+                                    <select ng-change="changeSourceTypePosition()" ng-model="account.source_type_position"
+                                            ng-options="option.value as option.label for option in source_type_positions">
+                                    </select>
+                                </div>
+                                <div style="margin-left: 30px;">
+                                    <label class="ias-control-label">成交流水：</label>
+                                    <select ng-model="account.source_type_trade" ng-disabled="STATUS.is_disable"
+                                            ng-options="option.value as option.label for option in source_type_trades">
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="ias-control-label">现金流：</label>
+                                    <select ng-model="account.source_type_cashflow" ng-disabled="STATUS.is_disable"
+                                            ng-options="option.value as option.label for option in source_type_cashflows">
+                                    </select>
+                                </div>
+                                <div style="margin-left: 30px;">
+                                    <label class="ias-control-label">业绩归因：</label>
+                                    <select ng-model="account.source_type_performance" ng-disabled="STATUS.is_disable"
+                                            ng-options="option.value as option.label for option in source_type_performances">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ias-form-group">
+                                <label class="ias-control-label">估值法：</label>
+                                <button ng-click="valuationMethodSetting()">参数设置</button>
+                            </div>
+                        </ias-pane>
+                    </ias-tabs>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="clickSaveBtn('confirm')">确定</button>
+                    <button class="ias-dismiss-btn" ng-click="closeBeforeFunc()">取消</button>
+                    <button ng-click="clickSaveBtn('continue')" ng-hide="account.isEdit" style="position:absolute;width: auto;margin-left: 120px;">确定并继续</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

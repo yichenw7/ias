@@ -1,0 +1,92 @@
+@import '~BaseLess/color.less';
+
+@maskOpacity: 0.75;
+
+.md-panel.download-import-template-dialog {
+
+    md-dialog-content {
+        width: 720px;
+        height: 639px;
+
+        > *:focus {
+            outline: transparent auto 5px;
+        }
+    }
+
+    .template-icon-container {
+        padding: 8px;
+        align-self: flex-end;
+
+        template-icon {
+            width: 150px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+
+            > label {
+                color: @ssBtnWarningHoverBgColor;
+            }
+
+            > .content-wrap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                > img {
+                    width: 150px;
+                    height: 100px;
+                    border-radius: 8px;
+                }
+
+                > .mask,
+                > .mask-hover {
+                    transition: opacity 0.5s;
+                    width: 150px;
+                    height: 50px;
+                    margin-top: -50px;
+                    padding: 0 3px;
+                    opacity: @maskOpacity;
+                    border-radius: 0 0 8px 8px;
+                    color: white;
+                    background: black;
+                }
+
+                > .mask-hover {
+                    text-align: center;
+                    padding-top: 15px;
+                    opacity: 0;
+                }
+
+                &:hover {
+                    > .mask {
+                        opacity: 0;
+                    }
+
+                    > .mask-hover {
+                        opacity: @maskOpacity;
+                    }
+                }
+            }
+
+            > a {
+                color: #fff;
+                height: 26px;
+                line-height: 26px;
+                padding: 0 8px;
+                border-radius: 2px;
+                text-align: center;
+                background-color: @ssBtnGrayActiveBgColor;
+                text-decoration: none;
+                margin-top: 3px;
+            }
+        }
+    }
+}
+
+
+md-dialog.image-dialog {
+    md-dialog-content > .image-container {
+        display: inline-block;
+    }
+}

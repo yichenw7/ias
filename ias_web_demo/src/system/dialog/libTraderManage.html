@@ -1,0 +1,25 @@
+<modal-dialog id-name="'libTraderManageDlg'" title-name='"交易员信息管理"' width-class='"add-user-win"'
+              confirm-btn-name='"保存"' confirm-handler="confirmBtnClick()"
+              hidden-func="closeBeforeFunc()">
+    <div class="ias-form-group">
+        <label class="ias-control-label">机构：</label>
+        <label class="ias-info-label">{{institution}}</label>
+
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">交易员：</label>
+        <input type="text"  ng-model="trader.name" >
+
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">电话：</label>
+        <input type="text" ng-model="trader.tel">
+
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">职务：</label>
+        <input type="text" ng-model="trader.position">
+
+    </div>
+
+</modal-dialog>

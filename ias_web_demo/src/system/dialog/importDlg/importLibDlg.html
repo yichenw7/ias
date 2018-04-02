@@ -1,0 +1,92 @@
+<div >
+    <div class="modal fade" id='{{idName}}' role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" ng-class="import-dlg-win" style="width:800px;">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title" id="myModalLabel">导入</h5>
+                </div>
+                <div class="modal-body ias-modal-body" ng-transclude="">
+                    <div class="ias-form-group">
+                        <div class="form-group">
+                            <label style="color:#2BCBCB">将按模板格式制作的文件导入到对手库</label>
+                        </div>
+
+                        <div style="float:right">
+                            <button class="ias-preview" data-toggle="modal" data-target="#importLibTemplateDlg" ng-click="closeImportDlg()">
+                                <img class='template-library-icon' style="margin-right:5px;">对手库模板
+                            </button>
+
+                            <img class="setting-icon" ng-mouseenter="trade.setting_popover=true">
+                        </div>
+
+                        <div style="margin-left:600px;" class="relative" ng-mouseenter="trade.setting_popover=true" ng-mouseleave="trade.setting_popover=false">
+                            <div class="popover" style="border:0;padding:0; margin-top:-20px;" ng-style="{display: trade.setting_popover? 'block' : 'none'}">
+                                <div class="hover-content-import">
+                                    <div class="ias-form-group">
+                                        <label style="color:#C5A75E">重新导入文件的替换规则：</label>
+                                    </div>
+                                    <div class="ias-form-group">
+                                        <label ng-class="{'cover': 'radio-select', 'inc':'radio-normal'}[trade.cover_mode ]">
+                                            <input type="radio" name="optionsRadios" ng-model="trade.cover_mode" value="cover" ng-click="onCoverClicked()">完全替换
+                                        </label>
+                                    </div>
+                                    <div class="ias-form-group">
+                                        <label ng-class="{'cover': 'radio-normal', 'inc':'radio-select'}[trade.cover_mode]">
+                                            <input type="radio" name="optionsRadios" ng-model="trade.cover_mode" value="inc">增量更新
+                                        </label>
+
+                                        <label style="color:#C0C0C0; margin-left:20px; font-size:10px">保留已导入的数据</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group">
+
+                        <div ng-if="!trade.multi_loading" class="select-file-btn input-file"
+                             nv-file-drop="" uploader="multi_uploader" filters="queueLimit, customFilter">
+                            <span>选择文件</span>
+                            <input class="file" type="file" nv-file-select="" uploader="multi_uploader" />
+                        </div>
+
+                        <!--<label class="finish-import" ng-if="trade.load_finished">导入完成！</label>-->
+                        <!--<div class="progress ias-progress" style="width:120px;margin-left:10px" ng-if="loading">-->
+                        <!--<div class="progress-bar ias-progress-bar" role="progressbar"-->
+                        <!--ng-style="{ 'width': position_uploader.progress + '%' }"></div>-->
+                        <!--</div>-->
+                        <div ng-if="trade.multi_loading" class="colorful-pulse" style="margin-top:2px;margin-left:10px;">
+                            <span class="item-1"></span>
+                            <span class="item-2"></span>
+                            <span class="item-3"></span>
+                            <span class="item-4"></span>
+                            <span class="item-5"></span>
+                        </div>
+
+                        <button ng-if="trade.multi_loading" class="  import-module" ng-click="onStopMultiClicked()">停止</button>
+
+                        <div ng-if="!trade.multi_loading">
+                            <label class="finish-load-msg">{{ trade.multi_message }}</label>
+                        <span ng-if="!isEmpty(trade.multi_detail)" class="btn btn-xs" ng-mouseenter="trade.multi_popover=true"
+                              ng-mouseleave="trade.multi_popover=false" style="border:0px; margin-top:-10px"><img src="./images/warning.png">
+                        </span>
+
+                            <div ng-if="!isEmpty(trade.multi_detail)" class="relative">
+                                <div class="popover" style="border:0px" ng-style="{display: trade.multi_popover? 'block' : 'none'}">
+                                    <div class="hover-content">
+                                        {{ trade.multi_detail }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button type="button"   ng-click="confirm()">后台运行</button>
+                    <button type="button" class="ias-dismiss-btn" ng-click="dismiss()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

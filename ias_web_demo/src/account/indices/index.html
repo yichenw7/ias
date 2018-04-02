@@ -1,0 +1,66 @@
+<div ng-controller="returnIndicesCtrl">
+    <div ng-include="'src/account/indices/indicesLibSetting.html'"></div>
+    <div ng-include="'src/account/indices/benchmarkIndicesSetting.html'"></div>
+    <div ng-include="'src/account/indices/fundsIndicesSetting.html'"></div>
+    <div style="margin: 10px 0;">
+        <label class="ias-control-label">日期区间：</label>
+        <input readonly="readonly" class="ias-date-input" datetimepicker config="datetimePickerConfig" ng-change="getRiskReturnIndices()"
+                ng-model="indicatorQuery.startDate">
+        <label>至</label>
+        <input readonly="readonly" class="ias-date-input" datetimepicker config="datetimePickerConfig" ng-change="getRiskReturnIndices()"
+                ng-model="indicatorQuery.endDate">
+        <label class="ias-required-field" style="margin-left: 30px;" title="此处无风险利率（%）设定与 Sharpe Ratio, Treynor Ratio, Sortino Ratio计算相关">无风险利率(%)：</label>
+        <input style="width: 65px" limit-format-number output-number="indicatorQuery.rfRate">
+        <button ng-click="getRiskReturnIndices()">确定</button>
+        <button style="margin-left: 20px;" ng-click="showBenchmarkIndicesSettingDlg()">基准指数设置</button>
+        <button ng-click="showFundsIndicesSettingDlg()">对比基金设置</button>
+        <button ng-click="showIndicatorsBaseSettingDlg()">指标库设置</button>
+        <button class="ias-btn" ng-csv-utf8="onExportData()" filename="{{fileName}}" csv-header="getCsvHeader()" lazy-load="true" add-bom="true"
+                style="float:right;margin-right:10px;">导出</button>
+    </div>
+    <div class="indicator-absolute-page" style="padding: 0 30px;">
+        <table class="ias-table has-caption" style="width: initial;">
+            <caption ng-click="isShowTable = !isShowTable">
+                绩效分析表
+                <i class="expanded-icon-table down" ng-class="{true:'up',false:'down'}[isShowTable]"></i>
+            </caption>
+            <thead ng-show="!isShowTable">
+            <tr>
+                <th style="width: 200px">绩效分析指标</th>
+                <th style="min-width: 100px;text-align: right; padding-right: 10px;"
+                    ng-repeat="account in accounts track by $index">
+                    {{ account.name }}
+                </th>
+                <th style="min-width: 100px;text-align: right; padding-right: 10px;"
+                    ng-repeat="fund in funds track by $index">
+                    {{ fund.name }}
+                </th>
+            </tr>
+            </thead>
+            <tbody ng-show="!isShowTable">
+            <tr ng-repeat="indicator in indicators" ng-if="indicator.isChecked">
+                <td>{{ indicator.name }}</td>
+                <td ng-repeat="account in accounts" style="text-align: right; padding-right: 10px;">
+                    {{ indicator.isNotPercent ? (indicatorQuery.accountsData[account.id][indicator.field] | commafyConvert) : (indicatorQuery.accountsData[account.id][indicator.field] | toPercent) }}
+                </td>
+                <td ng-repeat="fund in funds" style="text-align: right; padding-right: 10px;">
+                    {{ indicator.isNotPercent ? (indicatorQuery.fundsData[fund.id][indicator.field] | commafyConvert) : (indicatorQuery.fundsData[fund.id][indicator.field] | toPercent) }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="ias-table has-caption" style="width: 100%; margin: 15px 0;">
+            <caption ng-click="isShowChart = !isShowChart">
+                收益对比图
+                <i class="expanded-icon-table" ng-class="{true:'up',false:'down'}[!isShowChart]"></i>
+            </caption>
+            <tbody ng-show="isShowChart">
+                <tr style="background-color: #232628 !important;">
+                    <td style="padding: 0">
+                        <div id="unitAssetsContrastChart" style="width: 100%; min-height: 350px;margin: 15px 0;"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

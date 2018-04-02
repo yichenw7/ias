@@ -1,0 +1,25 @@
+<ias-tabs style-name="ias-third-tabs" style="margin-top:3px">
+    <ias-pane-component tab-title="表">
+        <cashflow-table account-lists="winStatus.cur_account_list"></cashflow-table>
+    </ias-pane-component>
+    <ias-pane-component tab-title="图">
+        <div class="cashflow-header" ng-controller="cashflowCtrl">
+            <div>
+                <label>频率：</label>
+                <radio-group
+                    ng-model="period.selected"
+                    items="period.groups"
+                    on-change="period.handleChanged()">
+                </radio-group>
+                <label class="ias-control-label">类型：</label>
+                <radio-group
+                    ng-model="chartType.selected"
+                    items="chartType.groups"
+                    on-change="chartType.handleChanged()">
+                </radio-group>
+            </div>
+            <button ng-csv-utf8="onExportData('chart')" csv-header="getCsvHeader()" filename="{{fileName}}" lazy-load="true" add-bom="true">导出</button>
+        </div>
+        <div id="cashflowChart" class="chart-wrap absolute-panel cashflow-chart-panel"></div>
+    </ias-pane-component>
+</ias-tabs>

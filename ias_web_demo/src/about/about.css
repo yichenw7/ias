@@ -1,0 +1,133 @@
+html,
+body {
+    height: auto !important;
+    overflow: auto !important;
+}
+
+.mainpage {
+    background-image: url('../images/about/bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.intro {
+    margin: 20px 0 40px;
+    color: #fff;
+    width: 960px;
+}
+
+.intro>hr {
+    color: #ffebc8;
+}
+
+.corp {
+    color: #fff;
+    font-size: 20px;
+}
+
+.pagetop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tryout-info {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#tryout {
+    font-size: 24px;
+    color: #121212;
+    background-image: linear-gradient(-90deg, #ffaa00 3%, #ff9f00 100%);
+    border: none;
+    border-radius: 5px;
+    height: 60px;
+    width: 250px;
+}
+
+#tryoutInfo {
+    font-size: 16px;
+    margin: 0;
+}
+
+.title {
+    font-size: 120px;
+}
+
+.apply {
+    font-size: 24px;
+    color: #ffebc8;
+}
+
+.feature {
+    display: inline-block;
+    padding: 10px;
+    font-size: 20px;
+    color: bisque;
+    background: #E36000;
+    margin: 5px 5px 0 0;
+    border-radius: 8px;
+}
+
+.details {
+    width: 960px;
+}
+
+.card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 110px;
+    width: 960px;
+    background-image: linear-gradient(-90deg, #136c5e 0%, #014b3f 100%);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
+    color: #f9c152;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.line {
+    height: 70%;
+}
+
+.line > hr {
+    margin: 0;
+    height: 100%;
+    color: #f9c152;
+}
+
+.pic {
+    display: block;
+    width: 60px;
+}
+
+.word {
+    display: block;
+    width: 140px;
+}
+
+.card>p {
+    display: block;
+    width: 500px;
+}
+
+.empty {
+    padding-top: 30%;
+}
+
+p {
+    display: inline-block;
+    color: #ffebc8;
+    font-size: 20px;
+    margin: 0;
+}

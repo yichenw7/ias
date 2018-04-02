@@ -1,0 +1,26 @@
+<div class="ias-multi-select" ng-style="{ width: width }">
+    <ul class="selector-container clearfix"
+        ng-class="{'true':'focus', 'false':''}[isShowDrop]"
+        ng-click="toggle()">
+        <li class="search-choice" ng-repeat="option in options" ng-show="option.isSelected">
+            {{ option.name }}
+            <span class="close-icon" ng-click="deleteSelectedOption(option);$event.stopPropagation()"></span>
+        </li>
+        <!--<li class="choice-number">已选: {{ selectedNum }}</li>-->
+    </ul>
+    <ul class="selector-drop" ng-show="isShowDrop" click-outside="handleClickOutside()">
+        <li>
+            <ias-checkbox name="'全选'" ng-hide="canSelectAll" ng-model="isAllSelect" ng-change="selectAll()"></ias-checkbox>
+        </li>
+        <li>
+            <ias-search ng-model="filterName" width="100%"></ias-search>
+        </li>
+        <li>
+            <ul>
+                <li ng-repeat="option in options | filter: { name: filterName }">
+                    <ias-checkbox name="option.name" ng-model="option.isSelected"></ias-checkbox>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,7 @@
+<ul ng-class="navTabStyle">
+    <li ng-repeat="btn in btnGroup" ng-class="{true:'tab-tip-group-active',false:'tab-tip-group-default'}[select.index == btn.index]" ng-hide="btn.isHide">
+        <a href="" ng-click="selectBtn(btn)">
+            {{::btn.label}}<span ng-show="hasNumber">({{ btn.num }}{{ hasSum ? ('/' + btn.sum) : '' }})</span>
+        </a>
+    </li>
+</ul>

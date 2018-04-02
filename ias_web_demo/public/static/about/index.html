@@ -1,0 +1,157 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IAS - 投资分析管理系统</title>
+    <script src="./address.js"></script>
+    <link rel="stylesheet" href="./about.css">
+</head>
+<body>
+    <div class="mainpage">
+        <div class="intro">
+            <span class="corp">Sumscope</span>
+            <div class="pagetop">
+                <span class="title">IAS</span>
+                <div class="tryout-info">
+                    <a id="tryout" href="#dialog">申请试用</a>
+                    <p id="tryoutInfo" style="display:none;">谢谢您的申请，我们将于1个工作日内联系您（客服电话400-6091322）</p>
+                </div>
+            </div>
+            <span class="apply">适用于银行、券商、私募、资管、基金、保险等机构</span>
+            <hr/>
+            <span class="feature">投顾委外业务</span>
+            <span class="feature">资产管理业务</span>
+            <span class="feature">模拟交易试算</span>
+        </div>
+        <div class="details">
+            <div class="card">
+                <img src="./images/datavalue.svg">
+                <span class="word">数据价值</span>
+                <hr color="#f9c152">
+                <p>一键导入流水或估值表，IAS就开始为您服务，海量底层数据支持轻松生成分析台账及周报，创造数据价值</p>
+            </div>
+            <div class="card">
+                <img src="./images/流动性管理.svg">
+                <span class="word">流动性管理</span>
+                <hr color="#f9c152">
+                <p>日常资金情况全跟踪，帮助投资经理更好地安排现金头寸、可用券以及产品发行节奏</p>
+            </div>
+            <div class="card">
+                <img src="./images/业绩归因.svg">
+                <span class="word">业绩归因</span>
+                <hr color="#f9c152">
+                <p>分解展示资产收益来源，准确衡量投资绩效，指导投资决策</p>
+            </div>
+            <div class="card">
+                <img src="./images/绩效评估.svg">
+                <span class="word">绩效评估</span>
+                <hr color="#f9c152">
+                <p>对比公开基金和各指数业绩基准，提供专业绩效评估体系，分析超额收益及组合风险</p>
+            </div>
+            <div class="card">
+                <img src="./images/市场风险.svg">
+                <span class="word">市场风险</span>
+                <hr color="#f9c152">
+                <p>VaR值、敏感度分析、情景分析多方法科学地计量和预测市场有效冲击</p>
+            </div>
+            <div class="card">
+                <img src="./images/风控提醒.svg">
+                <span class="word">风控提醒</span>
+                <hr color="#f9c152">
+                <p>合规指标自动检测，评级异动提醒，动态追踪合规要求及监管指标，锁定每一个风险点</p>
+            </div>
+            <div class="card">
+                <img src="./images/行情联动.svg">
+                <span class="word">行情联动</span>
+                <hr color="#f9c152">
+                <p>提供全市场最齐全的行情报价、成交数据，联动持仓更有效地帮助投资经理实时盯盘，快人一步应对市场变化</p>
+            </div>
+            <div class="card">
+                <img src="./images/镜像功能.svg">
+                <span class="word">镜像功能</span>
+                <hr color="#f9c152">
+                <p>支持管理方有针对性地分享信息给资方，为资管双方带来更加优质的客户体验、更大的成本节省、及更多渠道业务推广</p>
+            </div>
+            <div class="card">
+                <img src="./images/投资工具.svg">
+                <span class="word">投资工具</span>
+                <hr color="#f9c152">
+                <p>excel插件、自动排券等工具提升分析效率，更有移动端实时同步行情及仓位数据，让您随时随地掌握账户动态</p>
+            </div>
+        </div>
+    </div>
+    <div id="dialog">
+        <div>
+            <div class="dialog-header">
+                <span>信息填写</span>
+                <a href="#" title="Close" class="close">X</a>
+            </div>
+            <div class="dialog-body">
+                <p style="font-size: 16px;color: #F9C152;line-height: 16px;padding-left:50px;">请确认以下信息</p>
+                <div class="row">
+                    <label for="QBAccount">Q B 账号：</label>
+                    <span type="text" id="QBAccount" style="color: #F9C152;"></span>
+                </div>
+                <div class="row">
+                    <label for="contact">联系方式：</label>
+                    <input type="text" id="contact"></input>
+                    <span id="error" class="error" style="display: none;">输入有误</span>
+                </div>
+                <div class="row">
+                    <label for="size">资产规模：</label>
+                    <select name="size" id="size">
+                        <option value="50亿以下">50亿以下</option>
+                        <option value="50-100亿">50-100亿</option>
+                        <option value="100亿以上">100亿以上</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="occupation">职位级别：</label>
+                    <select name="occupation" id="occupation">
+                        <option value="投资总监">投资总监</option>
+                        <option value="投资经理">投资经理</option>
+                        <option value="交易员">交易员</option>
+                        <option value="风控">风控</option>
+                        <option value="研究">研究</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="used">曾使用过：</label>
+                    <select name="used" id="used">
+                        <option value="Excel">Excel</option>
+                        <option value="中汇Comstar">中汇Comstar</option>
+                        <option value="万得AMS">万得AMS</option>
+                        <option value="恒生O32">恒生O32</option>
+                        <option value="衡泰">衡泰</option>
+                        <option value="海益">海益</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="service">期望服务：</label>
+                    <select name="service" id="service">
+                        <option value="管理台账">管理台账</option>
+                        <option value="管理估值表">管理估值表</option>
+                        <option value="实时盯盘">实时盯盘</option>
+                        <option value="管理流动性">管理流动性</option>
+                        <option value="生成周报">生成周报</option>
+                        <option value="业绩归因">业绩归因</option>
+                        <option value="模拟试算">模拟试算</option>
+                        <option value="交易培训">交易培训</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <p>以上资料可以协助我们为您提供更优质的服务</p>
+                <a href="#" id="confirm">确认</a>
+                <a href="#" id="cancel">取消</a>
+            </div>
+        </div>
+    </div>
+    <script src="./about.js"></script>
+</body>
+</html>

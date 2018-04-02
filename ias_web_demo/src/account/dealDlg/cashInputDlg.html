@@ -1,0 +1,257 @@
+<div>
+    <div class="ias-form-group" ng-show="trade.show_alert">
+        <label class="ias-warning">{{ trade.alert_content }}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">方向：</label>
+        <btn-li-group btn-group="directionGroup" is_disabled="!showBtnList" ng-model="trade.direction" change-btn="choiceBtn(value)"></btn-li-group>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.cash_edit_mode">
+        <label class="ias-control-label ias-required-field">标的：</label>
+        <angucomplete-alt id="bondSearchBox" placeholder="代码、简称或拼音" pause="100"
+                          selected-object="bondSelectFun"
+                          local-data="bondList"
+                          search-fields="bond_id,short_name,pin_yin,pin_yin_full"
+                          title-field="bond_id,short_name"
+                          input-show-fields="bond_id,short_name"
+                          input-class="ias-angucomplete-input"
+                          match-result-length="10"
+                          minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+    </div>
+    <div class="inquiry-details" ng-if="!trade.cash_edit_mode">
+        <div>
+            <label class="ias-control-label">代码：</label>
+            <label class="ias-info-label">{{ trade.bond_code }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">简称：</label>
+            <label class="ias-info-label">{{ trade.short_name }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">剩余期限：</label>
+            <label class="ias-info-label">{{ trade.ttm }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">主体评级：</label>
+            <label class="ias-info-label">{{ trade.issuer_rating_current }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值收益率：</label>
+            <label class="ias-info-label">{{ trade.val_yield }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值净价：</label>
+            <label class="ias-info-label">{{ trade.val_clean_price }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">久期：</label>
+            <label class="ias-info-label">{{ trade.val_duration }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">内部评分：</label>
+            <label class="ias-info-label">{{ trade.internal_rating }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">评分有效期：</label>
+            <label class="ias-info-label">{{ trade.expiry_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">行权日：</label>
+            <label class="ias-info-label">{{ trade.option_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">票面利率：</label>
+            <label class="ias-info-label">{{ trade.coupon_rate_current }}</label>
+        </div>
+    </div>
+    <div class="edit-details" ng-if="trade.cash_edit_mode">
+        <div>
+            <label class="ias-control-label">代码：</label>
+            <label class="ias-info-label">{{ trade.bond_code }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">简称：</label>
+            <label class="ias-info-label">{{ trade.short_name }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">剩余期限：</label>
+            <label class="ias-info-label">{{ trade.ttm }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">主体评级：</label>
+            <label class="ias-info-label">{{ trade.issuer_rating_current }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值收益率：</label>
+            <label class="ias-info-label">{{ trade.val_yield }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">估值净价：</label>
+            <label class="ias-info-label">{{ trade.val_clean_price }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">久期：</label>
+            <label class="ias-info-label">{{ trade.val_duration }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">内部评分：</label>
+            <label class="ias-info-label">{{ trade.internal_rating }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">评分有效期：</label>
+            <label class="ias-info-label">{{ trade.expiry_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">行权日：</label>
+            <label class="ias-info-label">{{ trade.option_date }}</label>
+        </div>
+        <div>
+            <label class="ias-control-label">票面利率：</label>
+            <label class="ias-info-label">{{ trade.coupon_rate_current }}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">交易日：</label>
+        <input readonly="readonly" type="text" class="ias-date-input" ng-disabled="trade.cash_edit_mode && trade.account_id | isAccountSrcTypeValuation:'trade'"
+            datetimepicker config="timePickerConfig" ng-model="trade.trade_date" ng-change="tradeDateChanged()">
+        <label class="ias-warning" style="text-align:left"> {{ trade.errorMsg }}</label>
+        <div class="ias-offset-1-2">
+            <label class="ias-control-label">交易发起方：</label>
+            <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.trade_mode == '0']">
+                <input type="radio" name="tradeMode" value="0" ng-model="trade.trade_mode">我方发交易
+            </label>
+            <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[trade.trade_mode == '1']">
+                <input type="radio" name="tradeMode" value="1" ng-model="trade.trade_mode">对方发交易
+            </label>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-if="1 == trade.direction">
+        <label class="ias-control-label">估值法：</label>
+        <btn-li-group btn-group="valuationTypeGroup" ng-model="trade.valuation_method" no-selected="true"></btn-li-group>
+        <div class="ias-offset-1-2">
+            <label class="ias-control-label">成本收益率：</label>
+            <btn-li-group btn-group="costYieldTypeGroup" ng-model="trade.cost_yield_type"></btn-li-group>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">对手账户：</label>
+        <input type="text" ng-model="trade.counter_party_account" ng-if="!trade.enable_internal_account">
+        <select class="ias-163-select" ng-model="trade.counter_party_account" ng-if="trade.enable_internal_account"
+                ng-options="account.name as account.name for account in myAccounts">
+        </select>
+        <label class="checkbox-normal" ng-class="internalAccountChecked(trade.enable_internal_account)">
+            <input style="opacity: 0" type="checkbox"  ng-checked="trade.enable_internal_account" ng-model="trade.enable_internal_account">内部账户
+        </label>
+        <div class="ias-offset-1-2">
+            <label class="ias-control-label">交易员：</label>
+            <input type="text" ng-model="trade.counter_party_trader">
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">本方账户：</label>
+        <select class="ias-163-select" ng-model="trade.account_id" ng-disabled="!showBtnList"
+                ng-options="account.id as account.name for account in myAccounts  | filter:getEditAccount"
+                ng-change="accountChanged(trade.account_id)">
+        </select>
+        <div class="ias-offset-1-2">
+            <label class="ias-control-label">交易员：</label>
+            <input type="text" ng-model="trade.trader">
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">结算方式：</label>
+        <btn-li-group btn-group="settleTypeGroup" ng-model="trade.settlement_days" change-btn="settleTypeChange(trade.settlement_days)"></btn-li-group>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.is_convert_bond">
+        <label class="ias-control-label ias-required-field">净价：</label>
+        <input type="text" class="ias-rate-input"  ng-focus="trade.current_select = 'clean_price'" limit-format-number  output-number="trade.clean_price"  change-value="cleanPriceChanged()">
+        <span ng-show="trade.current_select == 'clean_price'" class="circle"></span>
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">行权收益率：</label>
+            <input type="text" class="ias-rate-input"  ng-disabled="trade.has_option == '不含权'" ng-focus="trade.current_select = 'ytcp'"  limit-format-number  output-number="trade.ytcp"  change-value="ytcpChanged()" required>
+            <span ng-show="trade.current_select == 'ytcp'" class="circle"></span>
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">到期收益率：</label>
+            <input type="text" class="ias-rate-input"  ng-focus="trade.current_select = 'ytm'" limit-format-number  output-number="trade.ytm"  change-value="ytmChanged()" required>
+            <span ng-show="trade.current_select == 'ytm'" class="circle"></span>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-if="!trade.is_convert_bond">
+        <label class="ias-control-label">全价：</label>
+        <input type="text" class="ias-rate-input"  ng-focus="trade.current_select = 'dirty_price'"  limit-format-number  output-number="trade.dirty_price"  change-value="dirtyPriceChanged()" required>
+        <span ng-show="trade.current_select == 'dirty_price'" class="circle"></span>
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">净价偏离度：</label>
+            <label class="ias-info-label">{{ trade.clean_price_deviation }}%</label>
+            <img src="./images/warning_danger.png" style="margin-top:3px;" ng-show="trade.clean_price_deviation>1">
+        </div>
+
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">{{maxLabel}}：</label>
+            <label class="ias-info-label">{{ trade.max_available | commafyConvert}}</label>
+        </div>
+    </div>
+    <div class="ias-form-group" ng-if="trade.is_convert_bond">
+        <label class="ias-control-label ias-required-field">全价：</label>
+        <input type="text" class="ias-rate-input"  limit-format-number  output-number="trade.dirty_price"  change-value="noCalcDirtyPriceChanged()" >
+
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label">{{maxLabel}}：</label>
+            <label class="ias-info-label">{{ trade.max_available | commafyConvert}}</label>
+        </div>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label ias-required-field">量(张)：</label>
+        <input limit-format-number  regexp-str="\d*" class="ias-amount-input" output-number="trade.volume" change-value="volumeChanged()"
+               ng-disabled="trade.sell_rule == 'specify' && trade.direction == -1">
+        <div class="ias-offset-1-3">
+            <label class="ias-control-label ias-required-field">面额(万元)：</label>
+            <input limit-format-number number-point="2" class="ias-amount-input" output-number="trade.denomination" change-value="parChanged()"
+                   ng-disabled="trade.sell_rule == 'specify' && trade.direction == -1">
+        </div>
+        <div class="ias-offset-2-3">
+            <label class="ias-control-label">金额(元)：</label>
+            <label class="ias-info-label">{{trade.volume*trade.accurate_dirty_price | numberDot : 2}}</label>
+        </div>
+    </div>
+    <div class="form-group" ng-if="trade.sell_rule == 'specify' && trade.direction == -1">
+        <div class="ias-ui-grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-selection style="height:150px;margin:0 30px 0 20px;"></div>
+    </div>
+    <div class="form-group">
+        <label class="ias-control-label" style="float: left">账户信息：</label>
+        <table class="ias-table" style="border: 0; width: 66%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>组合票面</th>
+                    <th>组合久期</th>
+                    <th>组合收益率(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>编辑前</td>
+                    <td>{{ trade.coupon_rate | toFixed4 }}</td>
+                    <td>{{ trade.duration | toFixed4  }}</td>
+                    <td>{{ trade.yield_rate | toYield }}</td>
+                </tr>
+                <tr>
+                    <td>编辑后</td>
+                    <td>{{ trade.new_coupon_rate | toFixed4 }}</td>
+                    <td>{{ trade.new_duration | toFixed4  }}</td>
+                    <td>{{ trade.new_yield_rate | toYield }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ias-form-group ias-note-wrap">
+        <label class="ias-control-label">备注：</label>
+        <textarea type="text" class="ias-note-input" ng-model="trade.comment"></textarea>
+        <div class="ias-offset-2-5">
+            <label class="ias-control-label">标识：</label>
+            <btn-li-group btn-group="accountingTypeGroup" ng-model="trade.accounting_type"></btn-li-group>
+        </div>
+    </div>
+</div>

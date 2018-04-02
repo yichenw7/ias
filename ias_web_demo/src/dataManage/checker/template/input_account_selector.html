@@ -1,0 +1,83 @@
+<md-input-container>
+    <md-select ng-if="!$ctrl.multiple"
+               ng-model="$ctrl.vm.selectedAccount"
+               ng-change="$ctrl.onSelectChange()"
+               md-on-close="$ctrl.onClearSearchTerm()"
+               data-md-container-class="input-account-selector"
+               md-on-open="$ctrl.querySearchAccount()"
+               md-selected-text="$ctrl.vm.selectedAccount.name"
+               aria-label="NotAria">
+        <md-select-header class="input-account-selector">
+            <div class="search-input-container" layout="row" layout-align="start center">
+                <span class="ss-icon ss-icon-search-normal search-icon"></span>
+                <md-autocomplete class="search-input input-account-selector" md-items="item in []"
+                                 md-select-on-focus
+                                 md-search-text="$ctrl.accountSearchText"
+                                 ng-keydown="$ctrl.onSearchAccountKeydowm($event)" />
+            </div>
+        </md-select-header>
+        <md-optgroup label="account" layout="column" layout-align>
+            <md-content flex>
+                <md-option ng-value="account" ng-repeat="account in $ctrl.accountList | filter:$ctrl.accountListFilter:$ctrl.accountSearchText">
+                    <div layout="row" layout-align="start center">
+                        <span class="icon-container" flex="initial">
+                            <img ng-if="account.valuation_dates && account.valuation_dates.length > 0" ng-src="{{$ctrl.valuationAccountIcon}}">
+                        </span>
+                        <span class="item-title" flex>
+                            <span class="ss-text-secondary"> {{account.name}} </span>
+                        </span>
+                        <span class="item-metadata" flex="initial">
+                            <span>
+                                <span class="ss-text-secondary">{{account.isMirrorAccount?'镜像':'本地'}}</span>
+                            </span>
+                            <span>
+                                <span class="ss-text-secondary">{{account.forks}}</span>
+                            </span>
+                        </span>
+                    </div>
+                </md-option>
+            </md-content>
+        </md-optgroup>
+    </md-select>
+    <md-select ng-if="$ctrl.multiple"
+               ng-model="$ctrl.vm.selectedAccount"
+               ng-change="$ctrl.onSelectChange()"
+               md-on-close="$ctrl.onClearSearchTerm()"
+               data-md-container-class="input-account-selector"
+               md-on-open="$ctrl.querySearchAccount()"
+               md-selected-text="$ctrl.getDisplayNameForSelectedAccount($ctrl.vm.selectedAccount)"
+               multiple
+               aria-label="NotAria">
+        <md-select-header class="input-account-selector">
+            <div class="search-input-container" layout="row" layout-align="start center">
+                <span class="ss-icon ss-icon-search-normal search-icon"></span>
+                <md-autocomplete class="search-input input-account-selector" md-items="item in []"
+                                 md-select-on-focus
+                                 md-search-text="$ctrl.accountSearchText"
+                                 ng-keydown="$ctrl.onSearchAccountKeydowm($event)" />
+            </div>
+        </md-select-header>
+        <md-optgroup label="account" layout="column" layout-align>
+            <md-content flex>
+                <md-option ng-value="account" ng-repeat="account in $ctrl.accountList | filter:$ctrl.accountListFilter:$ctrl.accountSearchText">
+                    <div layout="row" layout-align="start center">
+                        <span class="icon-container" flex="initial">
+                            <img ng-if="account.valuation_dates && account.valuation_dates.length > 0" ng-src="{{$ctrl.valuationAccountIcon}}">
+                        </span>
+                        <span class="item-title" flex>
+                            <span class="ss-text-secondary"> {{account.name}} </span>
+                        </span>
+                        <span class="item-metadata" flex="initial">
+                            <span>
+                                <span class="ss-text-secondary">{{account.isMirrorAccount?'镜像':'本地'}}</span>
+                            </span>
+                            <span>
+                                <span class="ss-text-secondary">{{account.forks}}</span>
+                            </span>
+                        </span>
+                    </div>
+                </md-option>
+            </md-content>
+        </md-optgroup>
+    </md-select>
+</md-input-container>

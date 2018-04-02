@@ -1,0 +1,30 @@
+<div class="dropdown custom-select traders-multi-select-wrap" click-outside="handleClickOutside()">
+    <div class="input-group traders-multi-select-input-wrap">
+        <input readonly type="text" class="ias-drop-input" ng-model="selectedTxt" ng-click="dropdown = !dropdown" ng-disabled="disabledInput">
+    </div>
+    <div class="dropdown-menu collapse traders-multi-select-dropdown-wrap" ng-class="{in: dropdown}">
+        <table class="traders-multi-select-table">
+            <tbody>
+                <tr ng-click="selectAll()">
+                    <td class="traders-multi-select-table-first-cell">
+                        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[selectAllCheck]">
+                            <input type="checkbox" ng-checked="selectAllCheck">
+                        </label>
+                    </td>
+                    <td><label>全部</label></td>
+                </tr>
+                <tr ng-repeat="trader in traders | filter:getEditAccount" ng-click="updateSelectedTraders(trader)">
+                    <td class="traders-multi-select-table-first-cell">
+                        <label class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[trader.ichecked]">
+                            <input type="checkbox" ng-checked="trader.ichecked">
+                        </label>
+                    </td>
+                    <td style="white-space: nowrap"><img ng-show="trader.source_type_position=='position'" src="./images/valuation_account.png">
+                                                    <label>{{ trader.name }}</label>
+                                                    <md-tooltip style="margin-left:-10px;margin-top:-5px">{{ trader.name }}</md-tooltip>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

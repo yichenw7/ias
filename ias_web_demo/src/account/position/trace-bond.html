@@ -1,0 +1,48 @@
+<div ng-controller="traceBondCtrl">
+    <div class="modal fade traceBond"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 1080px;" role="document">
+            <div class="modal-content ias-modal-content">
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">债券</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="bond-detail">
+                        <div class="bond-basic">
+                            <div class="bond-title">
+                                <div class="bond-name"><input type="text" value="{{bondName}}" class="ant-input" readonly>
+                                </div>
+                                <span>{{issuerName}}</span></div>
+                            <div class="bond-info">
+                                <div class="info"><label style="width: 60px;">剩余期限</label><span
+                                    class="info-content">{{bondInformation.ttm | toNotApplicable}}</span></div>
+                                <div class="info"><label style="width: 60px;">票面利率</label><span
+                                    class="info-content">{{bondInformation.coupon_rate_current | toNotApplicable}}</span></div>
+                                <div class="info"><label style="width: 60px;">主体评级</label><span
+                                    class="info-content">{{bondInformation.issuer_rating_current | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 60px;">债项评级</label><span
+                                    class="info-content">{{bondInformation.rating_current | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 30px;">中债</label>
+                                    <span class="info-content">{{bondInformation.cdcYield | toNotApplicable}}</span>
+                                </div>
+                                <div class="info"><label style="width: 30px;">中证</label>
+                                    <span class="info-content">{{bondInformation.csiYield | toNotApplicable}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bond-history">
+                            <div class="card bond-history-chart">
+                                <!--图标区域-->
+                                <div style="height: 400px; width: 100%">
+                                    <div id="BondHistoryChart" style="height: 400px; width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

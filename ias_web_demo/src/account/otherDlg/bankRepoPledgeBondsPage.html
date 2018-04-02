@@ -1,0 +1,22 @@
+<div id="bankRepoPledgeBonds" style="width:650px; border: 8px solid #383B44;display: none;">
+    <table class="ias-table" style="border:0;">
+        <thead style="background-color: #000000">
+            <tr>
+                <th width="130px">代码</th>
+                <th width="130px">简称</th>
+                <th width="130px">质押量</th>
+                <th width="130px">质押价格</th>
+                <th width="130px">主体评级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in bank_repo_pledge_list">
+                <td>{{ ::item.bond_code }}</td>
+                <td>{{ ::item.short_name }}</td>
+                <td>{{ ::item.pledge_volume | commafyConvert }}</td>
+                <td>{{ ::item.pledge_price }}</td>
+                <td>{{ ::item.issuer_rating_current }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

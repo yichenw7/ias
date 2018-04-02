@@ -1,0 +1,5 @@
+<ul class="btn-li-group">
+    <li ng-repeat="btn in btnGroup" ng-class="{true:'btn-li-group-active',false:'btn-li-group-default'}[modelObj == btn.value]">
+        <a href="" ng-click="selectBtn(btn)">{{::btn.label}}</a>
+    </li>
+</ul>

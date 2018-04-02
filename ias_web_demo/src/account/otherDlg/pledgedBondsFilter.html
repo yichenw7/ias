@@ -1,0 +1,98 @@
+<div ng-controller="pledgedBondsFilterCtrl">
+    <div class="modal fade" id="pledgedBondsFilterDlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:800px;">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">自动排券</h5>
+                </div>
+                <div class="modal-body ias-modal-body">
+                    <div class="ias-form-group">
+                        <label class="ias-control-label">本方账户：</label>
+                        <select ng-model="filter.account_id" class="ias-163-select"
+                                ng-options="account.id as account.name for account in myAccounts | filter: getEditAccount">
+                        </select>
+                        <div class="ias-offset-1-2">
+                            <label class="ias-control-label">日期：</label>
+                            <label>{{ filter.date }}</label>
+                        </div>
+                    </div>
+                    <div class="ias-form-group">
+                        <label class="ias-control-label">交易金额：</label>
+                        <input limit-format-number number-point="2" output-number="filter.amount" style="width: 100px;">
+                        <label class="ias-info-label">&nbsp;万元</label>
+                        <div class="ias-offset-1-2">
+                            <label class="ias-control-label">折算要求：</label>
+                            <select ng-model="filter.price_type" style="margin-right: 5px;"
+                                    ng-options="type.value as type.label for type in priceTypes">
+                            </select>
+                            <select ng-model="filter.price_operator" ng-show="filter.price_type === 'cdc'" style="margin-right: 5px;"
+                                    ng-options="type.value as type.label for type in priceOperators">
+                            </select>
+                            <input limit-format-number number-point="2" output-number="filter.price_val" style="width: 60px;">
+                            <label class="ias-info-label" ng-show="filter.price_type === 'cdc' && filter.price_operator === '*'">&nbsp;%</label>
+                        </div>
+                    </div>
+                    <div class="ias-form-group">
+                        <label class="ias-control-label">债券范围：</label>
+                        <radio-group
+                            ng-model="filter.trust"
+                            items="trustTypeGroups">
+                        </radio-group>
+                        <div class="ias-offset-1-2">
+                            <label class="ias-control-label">排序：</label>
+                            <select ng-model="filter.sort_by">
+                                <option value="gap_small_first">整量优先</option>
+                                <option value="gap_large_first">散量优先</option>
+                                <option value="bond_code">债券代码</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ias-form-group">
+                        <label class="ias-control-label">主体评级：</label>
+                        <select
+                            ng-model="filter.issuer_rating_current"
+                            ng-options="rating.value as rating.label for rating in ratings">
+                        </select>
+
+                        <div class="ias-offset-1-2">
+                            <label class="ias-control-label">债项评级：</label>
+                            <select
+                                ng-model="filter.rating_current"
+                                ng-options="rating.value as rating.label for rating in ratings">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ias-form-group clearfix" style="height: auto !important">
+                        <label class="ias-control-label">债券类型：</label>
+                        <multi-select
+                            ng-model="filter.bond_type"
+                            options="bondTypes"
+                            width="'270px'">
+                        </multi-select>
+                        <div class="ias-offset-1-2">
+                            <label class="ias-control-label">发行主体：</label>
+                            <multi-select
+                                ng-model="filter.enterprise_type"
+                                options="enterpriseTypes"
+                                width="'270px'">
+                            </multi-select>
+                        </div>
+                    </div>
+
+                    <div class="ias-form-group" style="margin-bottom: 5px;">
+                        <button ng-click="autoFilter()">自动排券</button>
+                        <button ng-click="exportPledgedBonds()" style="float: right">导出</button>
+                    </div>
+
+                    <div class="ias-ui-grid" style="height:250px;" ui-grid="pledgedBondsGridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-exporter>
+                        <div class="ui-grid-watermark" ng-show="!pledgedBondsGridOptions.data.length">暂无数据</div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="confirm()">确定</button>
+                    <button class="ias-dismiss-btn" ng-click="dismiss()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

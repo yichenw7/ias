@@ -1,0 +1,43 @@
+<div ng-controller="fundsIndicesSettingCtrl">
+    <div class="modal fade" id="fundsIndicesSetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 500px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">对比基金设置</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <angucomplete-alt id="fundSearchBox" placeholder="代码、简称或拼音" pause="100"
+                                      selected-object="selectFund"
+                                      local-data="fundList"
+                                      search-fields="fund_code,fundsname,chi_abbr"
+                                      title-field="fund_code,fundsname"
+                                      input-show-fields="fund_code,fundsname"
+                                      input-class="ias-angucomplete-input"
+                                      match-result-length="10"
+                                      clear-selected="true"
+                                      minlength="1" auto-match="true" focus-first="true"></angucomplete-alt>
+                    <table class="ias-table" style="margin: 10px 0; border-top: 0;">
+                        <thead>
+                        <tr>
+                            <th>基金代码</th>
+                            <th>基金名称</th>
+                            <th style="width: 70px;text-align: center; padding: 0;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="fund in funds">
+                            <td>{{fund.id}}</td>
+                            <td>{{fund.name}}</td>
+                            <td><button ng-click="deleteFund($index)" class="ias-delete-btn">删除</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="save()">确定</button>
+                    <button class="ias-dismiss-btn" ng-click="close()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

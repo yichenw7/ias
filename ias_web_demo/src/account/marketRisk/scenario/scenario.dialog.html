@@ -1,0 +1,51 @@
+<div ng-controller="scenarioDialogCtrl">
+    <div class="modal fade" id="scenarioDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 360px" role="document">
+            <div class="modal-content ias-modal-content" draggable>
+                <div class="modal-header ias-modal-header">
+                    <h5 class="modal-title ias-modal-title">收益率曲线变动设置</h5>
+                </div>
+                <div class="ias-modal-body">
+                    <div class="ias-form-group">
+                        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[yieldCurveShifts.type === 'all']">
+                            <input type="radio" value="all" ng-model="yieldCurveShifts.type" ng-change="handleTypeChanged()">收益率曲线平移
+                        </label>
+                        <input style="width: 50px;"
+                            limit-format-number
+                            output-number="yieldCurveShifts.value"
+                            can-negative="true"
+                            regexp-str="^(-)?[1-9]\d*"
+                            ng-disabled="yieldCurveShifts.type !== 'all'">
+                        <label>&nbsp;BP</label>
+                    </div>
+                    <div class="ias-form-group">
+                        <label class="ias-info-label" ng-class="{ true: 'radio-select', false:'radio-normal'}[yieldCurveShifts.type === 'keyTerm']">
+                            <input type="radio" value="keyTerm" ng-model="yieldCurveShifts.type" ng-change="handleTypeChanged()">关键期限收益率变化
+                        </label>
+                    </div>
+                    <div style="display:flex; flex-wrap: wrap; text-align:center;">
+                        <span style="width:25%;color:#7b8082">期限</span>
+                        <span style="width:25%;color:#7b8082">变化BP</span>
+                        <span style="width:25%;color:#7b8082">期限</span>
+                        <span style="width:25%;color:#7b8082">变化BP</span>
+                        <div ng-repeat="item in yieldCurveShifts.list" style="width:50%; margin: 4px 0;display: inline-flex;">
+                            <div style="width:50%;text-align:center;">{{ item.name }}</div>
+                            <div style="width:50%;text-align:center;">
+                                <input style="width: 50px;"
+                                    limit-format-number
+                                    output-number="item.value"
+                                    can-negative="true"
+                                    regexp-str="^(-)?[1-9]\d*"
+                                    ng-disabled="yieldCurveShifts.type !== 'keyTerm'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ias-modal-footer">
+                    <button ng-click="save()">保存</button>
+                    <button class="ias-dismiss-btn" ng-click="close()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<md-dialog md-theme="ssAvalonUi" class="ias-modal-content ss_bg_secondary" aria-label="dialog" role="dialog" ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h5>选择模板</h5>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content layout="column" layout-padding layout-align="start stretch">
+
+        <div layout="row">
+            <span>请下载合适的模板并按格式录入台帐：</span>
+            <div flex></div>
+            <span>使用模板导入流水，即可拥有强大分析功能</span>
+        </div>
+
+        <div layout="row" layout-align="start center">
+            <btn-group-switcher ng-model="$ctrl.selectedTab" item-source="$ctrl.category" />
+        </div>
+
+        <div layout="row" layout-align="start stretch" layout-wrap>
+            <div class="template-icon-container" flex="25" ng-repeat="temp in $ctrl.tempList" ng-if="!temp.category || $ctrl.selectedTab === temp.category">
+                <template-icon>
+                    <label>{{temp.template_title}}</label>
+                    <div class="content-wrap" ng-click="$ctrl.openImgDialog($event)">
+                        <img ng-src="{{temp.template_imgs[0].url}}">
+                        <div class="mask">{{temp.template_desc}}</div>
+                        <span class="mask-hover">预览</span>
+                    </div>
+                    <a href="{{temp.template_url}}" class="">模板下载</a>
+                    <span ng-if="!temp.is_transform">（建议选用完全替换）</span>
+                </template-icon>
+            </div>
+        </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="column" layout-align="center stretch">
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickOk($event)">开始导入</md-button>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.$onClickCancel($event)">取消</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>
+
+<!--<div ng-if="false" class="modal fade" role="dialog" aria-labelledby="myModalLabel">
+    <div class="ias-modal-content" style="width:1020px;height:650px;position: absolute;left: -110px;top: 35px; border:1px solid #FFA609;" ng-if="view_image">
+        <div style="margin-top:10px;cursor:pointer;" ng-click="closeSelf()"><img ng-src="{{view_image_url}}" style="width: 1000px;height: 560px;margin-left:10px;"></div>
+        <ul style="width: 1000px;background-color:#fff;height: 30px;padding-left:20px;margin-left:10px;">
+            <li ng-repeat="img in big_img_url" style="float:left;" ng-click="showImg(img,$index)" ng-class="{import_tem_1:$index == selectedRow}">
+                <label style="color: #333;line-height: 28px;padding: 0 20px;cursor: pointer;">{{img.name}}</label>
+            </li>
+        </ul>
+        <div style="margin:10px auto;width: 115px;height: 24px;">
+            <a download href="{{temp_url}}" class="download2">下载</a>
+            <button type="button" ng-click="closeShowImg(big_img_url)">关闭</button>
+        </div>
+    </div>
+</div>-->

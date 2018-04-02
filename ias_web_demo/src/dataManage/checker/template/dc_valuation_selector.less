@@ -1,0 +1,22 @@
+
+dc-valuation-selector {
+    border: 1px solid black;
+
+    md-list.tree-view-list {
+
+        > *[selected=selected].tree-row {
+            > *:last-child:after {
+                /*content: url(.././images/list_fold.png);*/
+                padding-left: 5px;
+            }
+        }
+
+        .icon-column{
+            width: 22px;
+        }
+
+        .tree-row.issue-data {
+            background-color: rgb(84, 32, 35);
+        }
+    }
+}

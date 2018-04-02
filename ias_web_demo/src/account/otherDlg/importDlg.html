@@ -1,0 +1,122 @@
+<div class="modal fade" id='{{idName}}' role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width:870px">
+        <div class="modal-content ias-modal-content" draggable ng-style="dlg_height">
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title" id="myModalLabel">导入</h5>
+            </div>
+            <div class="modal-body ias-modal-body">
+                <div class="ias-form-group">
+                    <div class="form-group">
+                        <label style="color:#2BCBCB">将按模板格式制作的台账文件导入到账户</label>
+                    </div>
+
+                    <div style="float:right">
+                        <button class="ias-preview" data-toggle="modal" data-target="#importTemplateDlg" ng-click="closeImportDlg()">
+                            <img class='template-library-icon' style="margin-right:5px;">台账模板
+                        </button>
+
+                        <img class="setting-icon" ng-mouseenter="trade.setting_popover=true">
+                    </div>
+
+                    <div style="margin-left:600px;" class="relative" ng-mouseenter="trade.setting_popover=true" ng-mouseleave="trade.setting_popover=false">
+                        <div class="popover" style="border:0;padding:0; margin-top:-20px;" ng-style="{display: trade.setting_popover? 'block' : 'none'}">
+                            <div class="hover-content-import">
+                                <div class="ias-form-group">
+                                    <label style="color:#C5A75E">重新导入文件的替换规则：</label>
+                                </div>
+                                <div class="ias-form-group">
+                                    <label ng-class="{'cover': 'radio-select', 'inc':'radio-normal'}[trade.cover_mode ]">
+                                        <input type="radio" name="optionsRadios" ng-model="trade.cover_mode" value="cover" ng-click="onCoverClicked()">完全替换
+                                    </label>
+                                </div>
+                                <div class="ias-form-group">
+                                    <label ng-class="{'cover': 'radio-normal', 'inc':'radio-select'}[trade.cover_mode]">
+                                        <input type="radio" name="optionsRadios" ng-model="trade.cover_mode" value="inc">增量更新
+                                    </label>
+
+                                    <label style="color:#C0C0C0; margin-left:20px; font-size:10px">保留已导入的数据</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ias-form-group">
+                    <label class="ias_import_label">账户:</label>
+                    <account-multi-select selected-val="trade.account_list" ng-model="trade.account_clears"></account-multi-select>
+                    <label style="margin-left:20px;">本地文件:</label>
+                    <div class="select-file-btn input-file" nv-file-drop="" uploader="multi_uploader"
+                         filters="queueLimit, customFilter, accountFilter" ng-show="!trade.multi_loading" style="border-radius: 2px;">
+                        <span>选择</span>
+                        <input class="file" ng-disabled="trade.multi_loading" type="file" nv-file-select="" uploader="multi_uploader"
+                               multiple=""  accept=".xls, .xlsx"/>
+                    </div>
+                    <div ng-show="trade.multi_loading" class="select-file-btn input-file select-file-btn_disabled">
+                        <span>选择</span>
+                    </div>
+                </div>
+
+                <table class="ias-table" style="border-top:0">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px">序号</th>
+                            <th style="width: 330px">文件名</th>
+                            <th style="width: 80px" ng-show="multi_uploader.isHTML5">大小</th>
+                            <th style="width: 110px" ng-show="multi_uploader.isHTML5">导入进度</th>
+                            <th style="width: 100px">状态</th>
+                            <th>动作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="overflow-y: auto;margin-bottom: 15px;display: block" ng-style="table_style">
+                    <table style="border: 0px" class="ias-table">
+                        <tbody>
+                        <tr ng-repeat="item in multi_uploader.queue track by $index">
+                            <td style="width: 50px" >{{ $index + 1}}</td>
+                            <td style="width: 330px" tooltip data-toggle="tooltip" data-placement="right" data-original-title="{{item.file.name}}">{{ item.file.name | strLengthLimit: 23}}</td>
+                            <td style="width: 80px" ng-show="multi_uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                            <td style="width: 110px" ng-show="multi_uploader.isHTML5">
+                                <div class="progress" style="margin: 0 10px 0 0;background-color: #424445">
+                                    <div class="progress-bar" style="background-color: #02a16d;" role="progressbar" ng-style="{ 'width': item.progress_percent + '%' }"></div>
+                                </div>
+                            </td>
+                            <td style="width: 100px;" ng-click="showErrorDetail(item.error)">
+                                <label ng-style="item.msg_style" style="font-weight: bold">{{ item.message }}</label>
+                                <span class="glyphicon glyphicon-warning-sign" ng-style="item.msg_style"
+                                      ng-show="item.error" tooltip data-toggle="tooltip" data-placement="top"
+                                      data-original-title="点击展开详情"></span>
+                            </td>
+                            <td nowrap>
+                                <button   ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                    <span class="glyphicon glyphicon-upload"></span> 导入
+                                </button>
+                                <button class="ias-delete-btn" ng-click="item.remove()">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ias-form-group">
+                    <label style="margin-right: 25px">文件个数： {{ multi_uploader.queue.length }} / 20</label>
+                    <label style="margin-right: 10px">导入进度：</label>
+                    <div class="progress" style="width: 290px;left: 80px;margin: 1px 25px 0 0;background-color: #424445">
+                        <div class="progress-bar" style="float: none;background-color: #02a16d;" role="progressbar" ng-style="{ 'width': multi_uploader.progress + '%' }"></div>
+                    </div>
+
+                    <button type="button" ng-click="multi_uploader.uploadAll()" ng-disabled="!multi_uploader.getNotUploadedItems().length" style="margin-right: 20px">
+                        <span class="glyphicon glyphicon-upload"></span> 全部导入
+                    </button>
+                    <button type="button" class="ias-delete-btn" ng-click="multi_uploader.clearQueue()" ng-disabled="!multi_uploader.queue.length" style="margin-right: 20px">
+                        <span class="glyphicon glyphicon-trash"></span> 全部删除
+                    </button>
+
+                    <button type="button" ng-click="showCheckDlg()" ng-disabled="!need_check">校对</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

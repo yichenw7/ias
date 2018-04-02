@@ -1,0 +1,14 @@
+<!--<div class="side-tabs-wrap" ng-class="{false:'side-tabs-wrap-inner'}[isOut]">-->
+<div class="side-tabs-wrap">
+    <!--<ul ng-show="isOut" click-outside="handleClickOutside()">-->
+    <ul>
+        <li ng-repeat="tab in tabs" ng-class="{true:'active-tab',false:'default-tab'}[tab.isSelected]" ng-if="!tab.isHide">
+            <a href="" ng-click="changeSelectTab($event, tab)">{{ tab.label }}</a>
+        </li>
+    </ul>
+    <div class="tab-fold-icon-wrap">
+        <div class="list-fold-icon-box">
+            <span class="list-fold-icon"></span>
+        </div>
+    </div>
+</div>

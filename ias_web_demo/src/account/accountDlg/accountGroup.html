@@ -1,0 +1,159 @@
+<div class="modal fade" id="accountGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+    <div class="modal-dialog push-win" role="document"  style="width: 506px;margin:40px 0 0 15px">
+        <div class="modal-content ias-modal-content"  style="position: relative; cursor: pointer; top: 0px; left: 0px;">
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title" style="font-weight: bold">组合账户</h5>
+            </div>
+            <div class="modal-body ias-modal-body">
+                <div style="text-align: center;">
+                    <btn-li-group btn-group="tabGroup" ng-model="tabIndex" change-btn="settlementDaysChange(value)"></btn-li-group>
+                </div>
+                <div ng-show="tabIndex==0" id="groupDlg1">
+                    <div>
+                        <div class="has-feedback" style="margin: 5px 5px 5px 45px">
+                            <span class="glyphicon glyphicon-search form-control-feedback ias-angucomplete-search" aria-hidden="true">
+                            </span>
+                            <input style="padding-left: 20px; width: 300px" ng-model="filterTexts[0]" type="text" placeholder=""/>
+                        </div>
+
+                        <table class="ias-table ias-word-break">
+                            <thead style="display: block">
+                                <tr>
+                                    <th width="155px" ng-click="changeOrder($event,'name',0,'groupDlg1')">名称<span><i  class="ui-grid-icon-down-dir"></i> </span></th>
+                                    <th width="155px">账户个数</th>
+                                    <th width="155px" ng-click="changeOrder($event,'update_time',0,'groupDlg1')">录入时间<span><i  class="ui-grid-icon-down-dir" style="display: none"></i> </span></th>
+                                </tr>
+                            </thead>
+                            <tbody style="display: block;max-height: 350px; overflow: auto">
+                                <tr ng-repeat="bond in accountFactory.groupSet | orderBy :orderByStrs[0]:reverse track by $index" ng-show="filterFun(bond.name,0)" ng-class="onSelect[$index]" ng-click="clickRow('groupDlg1',$index,bond)">
+                                    <td width="155px">{{bond.name}}</td>
+                                    <td width="155px">{{bond.accounts.length}}</td>
+                                    <td width="155px">{{bond.update_time.substring(5,16)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="modal-footer ias-modal-footer">
+                            <button ng-disabled="!accountPanelState.vars[1].confirm_po" type="button"   ng-click="groupSelect()" style="margin: 0 auto;display: block;">确定</button>
+                        </div>
+                    </div>
+                    <div class="ias-modal-content" style="width:385px;display: none;position: absolute;
+                            left: 480px;top: 100px; border:1px solid #FFA609; ">
+                        <div class="modal-header ias-modal-header">
+                            <h5 class="modal-title ias-modal-title">该组合下账户</h5>
+                        </div>
+                        <div style="height: 247px">
+                            <table class="ias-table ias-word-break">
+                                <thead style="display: block">
+                                    <tr>
+                                        <th width="40px"></th>
+                                        <th width="100px">名称</th>
+                                        <th width="100px">最后编辑时间</th>
+                                        <th width="50px">机构</th>
+                                        <th width="50px">权限</th>
+                                        <th>归属</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="height: 192px; display: block; overflow:auto;">
+                                    <tr ng-show="filterFun(bond_1.name,1)"  ng-repeat="bond_1 in accountFactory.accountSet | filter:accountFilter">
+                                        <td style="width: 40px">
+                                            <img ng-show="bond_1.valuation_dates && bond_1.valuation_dates.length > 0" src="./images/valuation_account.png">
+                                        </td>
+                                        <td width="100px">{{bond_1.name}}</td>
+                                        <td width="100px">{{bond_1.update_time.substring(5,16)}}</td>
+                                        <td width="50px">{{bond_1.agent_company_name?bond_1.agent_company_name:'本地'}}</td>
+                                        <td width="50px">{{bond_1.option | showAuthority}}</td>
+                                        <td><span class="btn btn-xs "><img src="./images/comment.png" title="{{'['+bond_1.account_groups.toString()+']'}}"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="tabIndex==1">
+                    <div>
+                        <div class="has-feedback" style="margin: 5px 5px 5px 45px">
+                            <span class="glyphicon glyphicon-search form-control-feedback ias-angucomplete-search" aria-hidden="true">
+                            </span>
+                            <input style="padding-left: 20px; width: 300px" ng-model="filterTexts[2]" type="text"/>
+                        </div>
+                        <div>
+                            <table class="ias-table ias-word-break">
+                                <thead style="display: block">
+                                    <tr>
+                                        <th style="width: 75px;">
+                                            <label style="display: inline" class="checkbox-normal" ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[accountPanelState.vars[1].isAll]">
+                                                <input style="opacity: 0" type="checkbox" ng-model="accountPanelState.vars[1].isAll"
+                                                    ng-click="allSelect(1,accountPanelState.vars[1].isAll)">
+                                                全选
+                                            </label>
+                                        </th>
+                                        <th style="width:100px;" ng-click="changeOrder($event,'name',1)">名称<span><i class="ui-grid-icon-down-dir"></i></span></th>
+                                        <th style="width:50px;">机构</th>
+                                        <th style="width:80px;">投资经理</th>
+                                        <th style="width:50px;">权限</th>
+                                        <th style="width:100px;" ng-click="changeOrder($event,'update_time',1)">
+                                            编辑时间<span><i class="ui-grid-icon-down-dir" style="display: none"></i> </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody style="display: block; max-height: 350px; overflow: auto">
+                                    <tr ng-repeat="bond in accountFactory.accountSet | orderBy :orderByStrs[1] | filter: {account_type:'!5'}"
+                                        ng-show="filterFun(bond.name,2)" ng-click="selectTr(1, bond)">
+                                        <td style="width: 75px;">
+                                            <label style="display: inline" class="checkbox-normal"
+                                                ng-class="{true:'checkbox-checked',false:'checkbox-normal'}[bond.checked]">
+                                                <input style="opacity: 0" type="checkbox"
+                                                    ng-click="selectTr(1);$event.stopPropagation()"
+                                                    ng-model="bond.checked">
+                                            </label>
+                                            <img ng-show="bond.valuation_dates && bond.valuation_dates.length > 0"
+                                                src="./images/valuation_account.png">
+                                        </td>
+                                        <td style="width:110px;">{{bond.name}}</td>
+                                        <td style="width:50px;">{{bond.agent_company_name?bond.agent_company_name:'本地'}}</td>
+                                        <td style="width:80px;">{{userMap[bond.manager].user_name}}</td>
+                                        <td style="width:50px;">{{bond.option | showAuthority}}</td>
+                                        <td style="width:100px;">{{bond.update_time.substring(5,16)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 10px;overflow-y: auto;max-height:120px">
+                            <label>已选{{accountPanelState.vars[1].count}}个账户：{{accountPanelState.vars[1].accountStr}}</label>
+                        </div>
+                        <div class="modal-footer ias-modal-footer">
+                            <button ng-disabled="!accountPanelState.vars[1].confirm_ac" type="button" ng-click="accountSelect()" style="width:auto">
+                                确定
+                            </button>
+                            <button ng-disabled="!accountPanelState.vars[1].confirm_ac" type="button" data-toggle="modal" data-target="#addGroupDlg"  style=" width:auto">
+                                根据当前选择新建组合
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style id='accountSetStyle'></style>
+
+<div class="modal fade" id="addGroupDlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+    <div class="modal-dialog push-win" role="document"  style="width: 250px;margin:300px 0 0 225px">
+        <div class="modal-content ias-modal-content" style="position: relative; cursor: pointer; top: 0px; left: 0px;">
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title ">新建组合</h5>
+            </div>
+            <div class="modal-body ias-modal-body" style="text-align: center">
+                <label>请输入组合名称:</label>
+                <input type="text" ng-model="newPortfolioObj.name">
+            </div>
+            <div class="modal-footer ias-modal-footer">
+                <button type="button"   ng-click="newGroup()" data-dismiss="modal">确定</button>
+                <button type="button" class="ias-dismiss-btn" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ias">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>IAS{{title}}</title>
+
+    <link rel="stylesheet" href="angular-ui-grid/ui-grid.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/datetimepicker/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="lib/onoff-switch/css/jquery.onoff.css">
+    <link rel="stylesheet" href="lib/amcharts/style.css">
+    <link rel="stylesheet" href="lib/avalon-ui-2/avalon-ui-2.css" />
+    <link rel="stylesheet" href="lib/avalon-ui-2/avalon-ui-icon.css" />
+
+    <script src="lib/JQuery/jquery.min.js"></script>
+    <script src="lib/JQuery/jquery.mousewheel.js"></script>
+    <script src="lib/JQuery/jQuery.Hz2Py-min.js"></script>
+    <script src="lib/file-saver/FileSaver.min.js"></script>
+    <script src="lib/onoff-switch/js/jquery.onoff.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/bootstrap/datetimepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="lib/bootstrap/datetimepicker/js/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="angular-animate/angular-animate.min.js"></script>
+    <script src="angular-aria/angular-aria.min.js"></script>
+    <script src="angular-route/angular-route.min.js"></script>
+    <script src="angular-resource/angular-resource.min.js"></script>
+    <script src="angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script src="angular-clipboard/angular-clipboard.js"></script>
+    <script src="angular-ui-grid/ui-grid.min.js"></script>
+    <script src="angular-material/angular-material.min.js"></script>
+    <script src="oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src="ng-csv/build/ng-csv.min.js"></script>
+    <script src="lib/ngAutoComplete/angucomplete-alt.js"></script>
+    <script src="lib/amcharts/amcharts.js"></script>
+    <script src="lib/amcharts/serial.js"></script>
+    <script src="lib/amcharts/pie.js"></script>
+    <script src="lib/amcharts/amstock.js"></script>
+    <script src="lib/amcharts/themes/iasTheme.js"></script>
+    <script src="lib/ammap/ammap/ammap.js"></script>
+    <script src="lib/ammap/ammap/maps/js/chinaLow.js"></script>
+    <script src="lib/socket_io_client/socket.io.js"></script>
+    <script src="lib/avalon-ui-2/avalon-ui-2.js"></script>
+</head>
+<body ng-controller="appCtrl" ng-cloak>
+    <div ng-view class="ias-wrapper"></div>
+    <div ng-include="'src/templates/loading.html'" ng-if="!user.isLogin"></div>
+    <div ng-include="'src/templates/messageAlert.html'"></div>
+    <script src="app_config.js" defer></script>
+</body>
+</html>

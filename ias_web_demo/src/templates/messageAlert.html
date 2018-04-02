@@ -1,0 +1,22 @@
+<div class="modal fade" id='iasAlert' role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog message-win" role="document">
+        <div class="modal-content ias-modal-content" draggable>
+            <div class="modal-header ias-modal-header">
+                <h5 class="modal-title ias-modal-title" id="myModalLabel">{{messageObj.title}}</h5>
+            </div>
+            <div class="modal-body ias-modal-body">
+                <div class="ias-form-group" ng-style="messageLabelHeight" style="padding-left: 40px">
+                    <i class="ias-icon" ng-class="messageObj.type.icon" style="position: absolute; left:0;"></i>
+                    <label ng-repeat="content in messageObj.contents track by $index" style="width: 330px;" ng-style="$index == 0 && {'margin-bottom': '10px'}">{{content}}</label>
+                </div>
+            </div>
+            <div class="modal-footer ias-modal-footer" ng-if="messageObj.type.value == CONFIRM_TYPE">
+                <button type="button" ng-click="messageObj.confirmFunc()">确定</button>
+                <button type="button" class="ias-dismiss-btn" ng-click="messageObj.closeFunc()">取消</button>
+            </div>
+            <div class="modal-footer ias-modal-footer" ng-if="messageObj.type.value != CONFIRM_TYPE">
+                <button type="button" ng-click="messageObj.closeFunc()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

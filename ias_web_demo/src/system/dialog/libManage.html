@@ -1,0 +1,21 @@
+<modal-dialog id-name="'libManageDlg'" title-name='"对手库信息管理"' width-class='"add-user-win"'
+              confirm-btn-name='"保存"' confirm-handler="confirmBtnClick()"
+              hidden-func="closeBeforeFunc()">
+    <div  class="ias-form-group">
+        <label class="ias-control-label">机构：</label>
+        <input type="text" ng-if="!isEdit" ng-model="organization.name" ng-maxlength="128" style="width:200px;">
+        <label class="ias-info-label" ng-if="isEdit"> {{organization.name}}</label>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">类型名称：</label>
+        <!--<label class="ias-info-label" ng-if="isEdit"> {{organization.type}}</label>-->
+        <select ng-model="organization.type" ng-options="type for type in types"></select>
+    </div>
+    <div class="ias-form-group">
+        <label class="ias-control-label">备注：</label>
+        <input type="text" style="width:200px;" ng-model="organization.remarks">
+        <label style="margin-left: 10px">(可选)</label>
+
+    </div>
+
+</modal-dialog>

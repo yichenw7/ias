@@ -1,0 +1,46 @@
+<div class="performance-attribution-table-wrap">
+    <table class="ias-table has-caption">
+        <caption>{{ title }}</caption>
+        <thead>
+            <tr>
+                <th rowspan="2" class="ias-text-center">类型</th>
+                <th colspan="3" class="ias-text-center">比重(%)</th>
+                <th colspan="7" class="ias-text-center">收益(%)</th>
+            </tr>
+            <tr>
+                <th>期初</th>
+                <th>期末</th>
+                <th>变动</th>
+                <th>利息收益</th>
+                <th>买卖价差</th>
+                <th>到期收益</th>
+                <th>摊销收益</th>
+                <th>浮动盈亏</th>
+                <th>总收益</th>
+                <th>收益贡献</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="d in data">
+                <td>
+                    <a ng-class="{true:'total-asset',false:'total-header-nomal'}[d.type == 'total']">
+                        {{ d.type | isTotal | typeTranslate }}
+                    </a>
+                </td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.percentage_start | toPercent:true}}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.percentage_end | toPercent:true }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">
+                    <a href ng-click="showDetail({value:d.position_ids})" class="total-header-nomal">{{ d.percentage_change | toPercent:true }}</a>
+                </td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.ai_yild | toYield }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.capital_yild | toYield }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.maturity_yild | toYield }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.convergence_yild | toYield }}</td>
+                <!-- <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.realized_yild | toYield }}</td> -->
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.floating_yild | toYield }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.yild | toYield }}</td>
+                <td ng-class="{true:'total-asset'}[d.type == 'total']">{{ d.yild_contribution | toPercent:true }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

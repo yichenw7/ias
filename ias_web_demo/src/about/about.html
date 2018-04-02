@@ -1,0 +1,139 @@
+<div class="mainpage">
+    <div class="intro">
+        <span class="corp">Sumscope</span>
+        <div class="pagetop">
+            <span class="title">IAS</span>
+            <div class="tryout-info">
+                <button id="tryout">申请试用</button>
+                <p id="tryoutInfo" style="display:none;">谢谢您的申请，我们将于1个工作日内联系您（客服电话400-6091322）</p>
+            </div>
+        </div>
+        <span class="apply">适用于银行、券商、私募、资管、基金、保险等机构</span>
+        <hr/>
+        <span class="feature">投顾委外业务</span>
+        <span class="feature">资产管理业务</span>
+        <span class="feature">模拟交易试算</span>
+    </div>
+    <div class="details">
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/datavalue.svg"> </span>
+            <span class="word">数据价值</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>一键导入流水或估值表，IAS就开始为您服务，海量底层数据支持轻松生成分析台账及周报，创造数据价值</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/流动性管理.svg"> </span>
+            <span class="word">流动性管理</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>日常资金情况全跟踪，帮助投资经理更好地安排现金头寸、可用券以及产品发行节奏</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/业绩归因.svg"> </span>
+            <span class="word">业绩归因</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>分解展示资产收益来源，准确衡量投资绩效，指导投资决策</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/绩效评估.svg"> </span>
+            <span class="word">绩效评估</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>对比公开基金和各指数业绩基准，提供专业绩效评估体系，分析超额收益及组合风险</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/市场风险.svg"> </span>
+            <span class="word">市场风险</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>VaR值、敏感度分析、情景分析多方法科学地计量和预测市场有效冲击</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/风控提醒.svg"> </span>
+            <span class="word">风控提醒</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>合规指标自动检测，评级异动提醒，动态追踪合规要求及监管指标，锁定每一个风险点</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/行情联动.svg"> </span>
+            <span class="word">行情联动</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152">
+            </div>
+            <p>提供全市场最齐全的行情报价、成交数据，联动持仓更有效地帮助投资经理实时盯盘，快人一步应对市场变化</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/镜像功能.svg">
+            </span>
+            <span class="word">镜像功能</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152"> </div>
+            <p>支持管理方有针对性地分享信息给资方，为资管双方带来更加优质的客户体验、更大的成本节省、及更多渠道业务推广</p>
+            <div class="empty"></div>
+        </div>
+        <div class="card">
+            <span class="pic">
+                <img src="./images/about/投资工具.svg">
+            </span>
+            <span class="word">投资工具</span>
+            <div class="line">
+                <hr size=100 width="1" color="#f9c152">
+            </div>
+            <p>excel插件、自动排券等工具提升分析效率，更有移动端实时同步行情及仓位数据，让您随时随地掌握账户动态</p>
+            <div class="empty"></div>
+        </div>
+    </div>
+    <script>
+        // 此页面可能会脱离QB试用，因此不使用 angular
+        var tryout = document.getElementById('tryout');
+        var tryoutInfo = document.getElementById('tryoutInfo');
+        tryout.onclick = function() {
+            postTryout();
+        }
+
+        function postTryout() {
+            var xml = new XMLHttpRequest();
+            xml.open('POST', "/api/tryout", false);
+            xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xml.onload = function() {
+                if (xml.readyState == XMLHttpRequest.DONE && xml.status == 200) {
+                    var res = JSON.parse(xml.responseText);
+                    if (res.data) {
+                        tryout.innerHTML = "已申请";
+                        tryout.style.backgroundImage = "linear-gradient(-90deg, #817d7d 3%, #817d7d 100%)";
+                        tryout.disabled = true;
+                        tryoutInfo.style.display = "block";
+                    } else {
+                        tryout.innerHTML = "申请试用失败";
+                    }
+                } else {
+                    tryout.innerHTML = "申请试用失败";
+                }
+            }
+            xml.send(`qb_user_name=${getUserName()}`);
+        }
+
+        function getUserName() {
+            var length = "#/about?username=".length;
+            return window.location.hash.substring(length);
+        }
+    </script>
+</div>

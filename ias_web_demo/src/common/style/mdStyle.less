@@ -1,0 +1,489 @@
+@import './baseLess/color.less';
+
+.dismissButton() {
+    background-color: #294646;
+}
+
+md-nav-bar.md-ssAvalonUi-theme {
+    .md-button {
+        border-radius: 0;
+
+        &.md-ssAvalonUi-theme.md-accent {
+            color: @mdNavbarActiveFontColor;
+            background: @mdNavbarActiveBgColor;
+        }
+
+        &._md-nav-button.md-unselected {
+            color: @mdNavbarFontColor;
+            background: transparent;
+        }
+
+        &._md-nav-button {
+            border-radius: 0px;
+        }
+    }
+
+    md-nav-ink-bar {
+        color: @mdNavbarActiveBgColor;
+        background: @mdNavbarActiveBgColor;
+    }
+}
+
+md-tabs.md-ssAvalonUi-theme {
+
+    .md-tab {
+        color: @mdNavbarFontColor;
+
+        &.md-active,
+        &.md-active md-icon,
+        &.md-focused,
+        &.md-focused md-icon {
+            color: @mdNavbarActiveFontColor;
+            background: @mdNavbarActiveBgColor;
+        }
+    }
+}
+
+md-content {
+    /*border-radius: 5px;*/
+    &.md-ssAvalonUi-theme {
+        color: @ssTextSndColor;
+    }
+
+    animation-duration: 1s;
+}
+
+md-dialog {
+    color: @ssTextSndColor;
+    overflow: hidden;
+
+    form {
+        overflow-x: hidden;
+    }
+
+    md-toolbar {
+        min-height: 0;
+        border: 1px solid #318e8e;
+        border-bottom: none;
+    }
+
+    .md-toolbar-tools {
+        height: 28px;
+        padding: 0px 3px 0px 12px;
+
+        h1,
+        h2,
+        h3 {
+            color: @ssTextSndColor;
+            font-size: 0.875rem;
+        }
+    }
+
+    .dialog-add-price-item .layout-wrap {
+        flex-wrap: nowrap;
+    }
+
+    .spilt-line-landscape {
+        border-top: 2px solid @ssBgPmrColor;
+        text-align: center;
+    }
+
+    .dialog-add-price .dialog-item {
+        div.layout-row > label {
+            min-width: 100px;
+            text-align: right;
+        }
+    }
+
+    .dialog-add-price-item .content-tips {
+        color: #7b8082;
+        margin: 6px 0;
+    }
+
+    &[role=dialog],
+    &[role=alertdialog] {
+        color: @ssTextSndColor;
+
+        .md-title {
+            color: @ssTextPmrColor;
+        }
+
+        button.md-confirm-button {
+            background-color: @ssBtnGrayActiveBgColor;
+        }
+    }
+
+    input-label {
+        label {
+            line-height: 42px;
+        }
+
+        input {
+            margin: 8px 6px;
+        }
+    }
+
+    drop-label {
+        label {
+            line-height: 42px;
+        }
+
+        md-input-container {
+            margin: 8px 6px;
+        }
+    }
+
+    md-dialog-actions {
+
+        button.md-button {
+            margin: 8px;
+
+            &.md-confirm-button {
+                order: -1;
+            }
+        }
+
+        button.md-button.md-ssAvalonUi-theme.md-primary {
+            :not([disabled]):hover,
+            .md-raised:not([disabled]):hover,
+            .md-fab:not([disabled]):hover,
+            .md-raised:not([disabled]):hover,
+            .md-raised.md-raised:not([disabled]):hover,
+            .md-fab.md-raised:not([disabled]):hover,
+            .md-fab:not([disabled]):hover,
+            .md-raised.md-fab:not([disabled]):hover,
+            .md-fab.md-fab:not([disabled]):hover,
+            :hover,
+            .md-raised:hover,
+            .md-fab:hover,
+            &,
+            .md-raised,
+            .md-fab {
+                &.md-cancel-button {
+                    .dismissButton()
+                }
+            }
+        }
+    }
+}
+
+.md-panel {
+    md-dialog {
+        opacity: 1;
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+md-toolbar {
+    &.md-ssAvalonUi-theme:not(.md-menu-toolbar) {
+        background-color: @ssBtnGrayActiveBgColor;
+    }
+}
+
+md-icon {
+    min-height: 20px;
+    min-width: 20px;
+}
+
+md-chips {
+    .md-chips {
+        font-family: inherit;
+        font-size: 14px;
+        padding: 0;
+
+        md-chip {
+            border-radius: 3px;
+
+            .md-chip-remove {
+                &:hover {
+                    border-bottom-right-radius: 3px;
+                    border-top-right-radius: 3px;
+                }
+            }
+        }
+    }
+
+    &.md-ssAvalonUi-theme .md-chips .md-chip-input-container input {
+        background: @ssInputBgColor;
+        color: @ssInputColor;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        padding: 0 3px;
+
+        &:hover {
+            background: @ssInputHoverBgColor;
+            border-color: @ssInputHoverBorderColor;
+        }
+
+        &:focus {
+            background: @ssInputFocusBgColor;
+            border: 1px solid @ssInputFocusBorderColor;
+            outline: 1px solid transparent;
+        }
+
+        &[disabled] {
+            background: @ssInputDisabledBgColor;
+        }
+    }
+}
+
+.md-autocomplete-suggestions-container.md-ssAvalonUi-theme {
+
+    li {
+        color: @ssInputColor;
+
+        .highlight {
+            color: @ssTextWarningColor;
+        }
+    }
+}
+
+md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-ssAvalonUi-theme .md-select-value.md-select-placeholder {
+    color: transparent;
+}
+
+md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-ssAvalonUi-theme .md-select-value {
+    color: @ssInputColor;
+}
+
+md-select-menu {
+    &.md-ssAvalonUi-theme {
+        color: @ssInputColor;
+
+        md-content {
+            color: @ssInputColor;
+            background: @ssInputFocusBgColor;
+            min-width: 10px;
+
+            md-option {
+                height: 24px;
+                line-height: 24px;
+                padding: 0px 10px;
+                color: @ssInputColor;
+
+                &[selected],
+                &[selected]:focus {
+                    color: @ssInputColor;
+                }
+
+                &:not([disabled]):focus .md-select-value {
+                    color: @ssInputColor;
+                    border-bottom-color: transparent;
+                }
+
+                &:hover {
+                    background: @ssInputHoverBgColor;
+                    border-color: @ssInputHoverBorderColor;
+                }
+
+                &:focus {
+                    background: @ssInputFocusBgColor;
+                    border: 1px solid @ssInputFocusBorderColor;
+                    outline: 1px solid transparent;
+                }
+
+                &[disabled] {
+                    background: @ssInputDisabledBgColor;
+                }
+            }
+        }
+    }
+}
+
+.md-autocomplete-container {
+    .search-icon {
+        margin-right: -25px;
+        margin-left: 5px;
+        z-index: 100;
+    }
+
+    md-autocomplete.md-ssAvalonUi-theme.search-input md-autocomplete-wrap > input {
+        padding-left: 25px;
+    }
+}
+
+md-autocomplete.md-ssAvalonUi-theme {
+
+    &,
+    input:not(.md-input),
+    md-autocomplete-wrap,
+    .md-show-clear-button button {
+        height: 24px;
+    }
+
+    color: @ssInputColor;
+    background: @ssInputBgColor;
+
+    md-autocomplete-wrap {
+        > input {
+            border-radius: 2px;
+            color: @ssInputColor;
+            width: 200px;
+            padding-left: 30px;
+            line-height: inherit;
+
+            &:hover {
+                background: @ssInputHoverBgColor;
+                border-color: @ssInputHoverBorderColor;
+            }
+
+            &:focus {
+                background: @ssInputFocusBgColor;
+                border: 1px solid @ssInputFocusBorderColor;
+                outline: 1px solid transparent;
+            }
+
+            &.ng-not-empty {
+                // border-right: 0px;
+                width: 170px;
+            }
+
+            &:focus + button {
+                background: @ssInputFocusBgColor;
+                border: 1px solid @ssInputFocusBorderColor;
+                border-left: 0px;
+                outline: 1px solid transparent;
+            }
+        }
+
+        button {
+            border-radius: 0px;
+            margin: 0px 0px 0px -1px;
+        }
+    }
+}
+
+md-datepicker.md-ssAvalonUi-theme {
+
+    input {
+        padding-left: 5px;
+    }
+
+    &,
+    md-icon,
+    input,
+    .md-datepicker-input {
+        color: @ssTextSndColor;
+
+        &::-webkit-input-placeholder {
+            color: @ssTextExtColor;
+        }
+    }
+
+    &.md-datepicker-open .md-datepicker-input-container {
+        background-color: @ssInputFocusBgColor;
+    }
+
+    .md-datepicker-triangle-button.md-button.md-icon-button,
+    .md-datepicker-triangle-button.md-button.md-icon-button:focus {
+        background-color: transparent;
+    }
+
+    .md-datepicker-triangle-button .md-datepicker-expand-triangle {
+        border-top-color: @ssBtnGrayActiveBgColor;
+    }
+
+    .md-datepicker-triangle-button {
+        right: 5px;
+    }
+}
+
+.md-datepicker-calendar-pane {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+
+    .md-datepicker-input-mask {
+        //width: 308px;
+    }
+
+    .md-datepicker-input-mask-opaque {
+        border-radius: 2px;
+    }
+
+    .md-ssAvalonUi-theme .md-calendar-day-header {
+        background-color: @ssBgSndColor;
+        color: @ssTextExtColor;
+    }
+
+    .md-calendar {
+        background-color: @ssBgSndColor;
+        color: @ssTextSndColor;
+    }
+
+    .md-calendar-scroll-mask {
+        //height: 250px;
+        //margin-bottom: -3px;
+    }
+
+    .md-calendar-scroll-container {
+        //width: 308px;
+    }
+
+    md-icon {
+        color: @ssTextExtColor;
+    }
+
+    .md-calendar-date-selection-indicator:hover {
+        background-color: @ssBtnGrayActiveBgColor;
+    }
+
+    .md-calendar-date:first-child,
+    .md-calendar-day-header th:first-child {
+        //padding-left: 0px;
+    }
+
+    .md-calendar-date:last-child,
+    .md-calendar-day-header th:last-child {
+        //padding-right: 0px;
+    }
+
+    .md-calendar-date.md-focus .md-calendar-date-selection-indicator {
+        background-color: @ssBtnGrayActiveBgColor;
+    }
+}
+
+md-tooltip {
+    font-size: 14px;
+}
+
+md-tooltip.tooltip .md-content {
+    background-color: #323639;
+}
+
+.md-panel.md-tooltip {
+    color: @ssTextSndColor;
+    background-color: @ssTooltipBgColor;
+}
+.md-tooltip {
+    opacity: 1;
+    border: 1px solid @ssTooltipBorderColor;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    border-radius: 2px;
+    height: 24px;
+    line-height: 24px;
+}
+
+md-menu-content.md-ssAvalonUi-theme {
+    background-color: #191b1c;
+    padding: 0px 5px;
+}
+
+md-menu-content.md-ssAvalonUi-theme md-menu-item.grid-mobile-item {
+    color: @ssTextSndColor;
+    padding: 1px 3px;
+    min-height: 20px;
+    height: 20px;
+    background-color: #191b1c;
+}
+
+.layout-no-padding.layout-padding,
+.layout-padding > *.layout-no-padding,
+.layout-padding > .flex.layout-no-padding {
+    padding: 0;
+}
+
+@media (max-height: 768px) {
+    .quote-dialog md-dialog-content {
+        max-height: 400px;
+    }
+}

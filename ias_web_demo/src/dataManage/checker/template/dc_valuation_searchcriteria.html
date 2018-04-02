@@ -1,0 +1,17 @@
+<div layout="row" flex layout-align="start center" layout-wrap>
+    <div style="margin: 10px;">
+        <input-account-selector multiple="true" ng-model="$ctrl.vm.selectedAccount"></input-account-selector>
+    </div>
+
+    <div style="margin-right: 10px;" layout="row" layout-align="start center">
+        <label>日期区间：</label>
+        <md-datepicker md-open-on-focus ng-model="$ctrl.vm.startDate" md-placeholder="起始日期" />
+        <label>至</label>
+        <md-datepicker md-open-on-focus ng-model="$ctrl.vm.endDate" md-placeholder="结束日期" />
+    </div>
+
+    <md-input-container>
+        <md-checkbox ng-model="$ctrl.vm.filterIssueData" aria-label="仅显示差异">仅显示差异</md-checkbox>
+    </md-input-container>
+    <md-button aria-label="导出表格" class="ss-btn md-raised md-primary" ng-click="$ctrl.onClickSearch($event)">查询</md-button>
+</div>

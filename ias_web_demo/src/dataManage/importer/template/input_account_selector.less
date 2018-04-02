@@ -1,0 +1,50 @@
+.search-input-style(){
+    .search-icon {
+            margin-right: -22px;
+            margin-left: 5px;
+            z-index: 100;
+        }
+
+        .search-input {
+            background-color: transparent;
+            width: 98%;
+        }
+
+        md-autocomplete.md-ssAvalonUi-theme.search-input md-autocomplete-wrap > input {
+            padding-left: 25px;
+        }
+}
+
+input-account-selector {
+    > md-input-container{
+        width: 100%;
+    }    
+}
+
+
+.md-select-menu-container.input-account-selector{
+
+    background: #161819;
+
+    .search-input-container {
+        .search-input-style();
+    }
+
+    md-optgroup {
+        min-height: 0;
+
+        md-option .md-text {
+            width: 100%;
+
+            .icon-container {
+                min-width: 24px;
+            }
+
+            .item-title {
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                padding-right: 3px;
+            }
+        }
+    }
+}
