@@ -334,7 +334,7 @@ angular.module('ias.dataCenter')
     .factory('loadPageData', function (investableBondR, stockFundDetail, accountFactory, returnIndicesLib, returnIndices,
                                        accounts, accountGroups, QBUserList, user, loadTaskData, $window,fundOtcDetail, fundExchangeDetail,
                                        marketDataClass, dataCenter, systemAdminData, accountAuthorityRequest,
-                                       bondsRequest, $timeout, AccountsBondPositions, RiskConditions, RiskConditionService) {
+                                       bondsRequest, $timeout, AccountsBondPositions) {
         var setErrorMsg = function (message) {
             if (user.errorMsg != null) {
                 user.errorMsg +=  '\n' + message;
@@ -577,21 +577,21 @@ angular.module('ias.dataCenter')
                 });
             })
         }
-        function getRiskConditions() {
-            return new Promise((resolve, reject) => {
-                RiskConditions.get({
-                    company_id: user.company_id
-                }, function success(response) {
-                    if (response.code && response.code === '0000') {
-                        RiskConditionService.data = response.data;
-                        resolve();
-                    }
-                }, function failed() {
-                    user.errorMsg += '获取风控指标库失败！';
-                    reject('获取风控指标库失败！')
-                });
-            })
-        }
+        // function getRiskConditions() {
+        //     return new Promise((resolve, reject) => {
+        //         RiskConditions.get({
+        //             company_id: user.company_id
+        //         }, function success(response) {
+        //             if (response.code && response.code === '0000') {
+        //                 RiskConditionService.data = response.data;
+        //                 resolve();
+        //             }
+        //         }, function failed() {
+        //             user.errorMsg += '获取风控指标库失败！';
+        //             reject('获取风控指标库失败！')
+        //         });
+        //     })
+        // }
         return {
             account: function () {
                 return Promise.all([
@@ -604,7 +604,7 @@ angular.module('ias.dataCenter')
                     accountFundOtcDetail(),
                     accountAuthority(),
                     getUserReturnIndicesSetting(),
-                    getRiskConditions(),
+                    // getRiskConditions(),
                 ]);
             },
             QBSystem: function () {

@@ -8,6 +8,5 @@ angular.module('ias', [
     'ias.dataManage',
     'ias.home',
     'ias.manager',
-    'ias.risk',
     'ias.system',
 ]);

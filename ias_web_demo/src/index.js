@@ -11,5 +11,4 @@ import './account';
 import './dataManage';
 import './manager';
 import './system';
-import './risk';
 import './home';
