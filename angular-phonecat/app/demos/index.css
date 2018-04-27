@@ -1,0 +1,20 @@
+.box {
+    width: 100%;
+    height: 300px;
+    background: #dff0d8;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*flex-flow:row nowrap;*/
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+.item{
+    /*order:1;*/
+    /*flex-grow:0;*/
+    /*flex-shrink:1;*/
+    /*flex-basis:auto;*/
+    /*flex: 0 1 auto;*/
+    align-self:auto;
+}
