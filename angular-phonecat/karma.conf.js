@@ -1,9 +1,6 @@
-//jshint strict: false
 module.exports = function(config) {
   config.set({
-
     basePath: './app',
-
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -27,6 +24,5 @@ module.exports = function(config) {
       'karma-firefox-launcher',
       'karma-jasmine'
     ]
-
   });
 };

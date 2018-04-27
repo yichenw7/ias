@@ -232,7 +232,7 @@ app/                     --> all the source code of the app (along with unit tes
   core/                  --> all the source code of the core module (stuff used throughout the app)
     checkmark/...        --> files for the `checkmark` filter, including JS source code, specs
     phone/...            --> files for the `core.phone` submodule, including JS source code, specs
-    core.module.js       --> the core module
+    core.demos.module.js       --> the core module
   img/...                --> image files
   phone-detail/...       --> files for the `phoneDetail` module, including JS source code, HTML templates, specs
   phone-list/...         --> files for the `phoneList` module, including JS source code, HTML templates, specs
@@ -241,7 +241,7 @@ app/                     --> all the source code of the app (along with unit tes
   app.animations.js      --> hooks for running JS animations with `ngAnimate`
   app.config.js          --> app-wide configuration of Angular services
   app.css                --> default stylesheet
-  app.module.js          --> the main app module
+  app.demos.module.js          --> the main app module
   index.html             --> app layout file (the main HTML template file of the app)
 
 e2e-tests/               --> config and source files for e2e tests

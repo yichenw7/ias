@@ -130,6 +130,9 @@ IASRootModule.config(function($routeProvider, $httpProvider, apiAddress) {
         redirectTo: function() {
             window.location = apiAddress.replace('/api', '/about');
         },
+    }).when('/demo', {
+        templateUrl:'src/demo/index.html',
+        controller:'demoCtrl',
     }).otherwise({
         redirectTo: '/',
     });

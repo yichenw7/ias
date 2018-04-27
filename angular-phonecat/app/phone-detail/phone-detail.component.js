@@ -12,6 +12,7 @@ angular.
           self.setImage(phone.images[0]);
         });
 
+
         self.setImage = function setImage(imageUrl) {
           self.mainImageUrl = imageUrl;
         };
