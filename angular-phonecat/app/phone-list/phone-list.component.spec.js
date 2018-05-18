@@ -31,6 +31,8 @@ describe('phoneList', function() {
                   .respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
 
       ctrl = $componentController('phoneList');
+      console.log($httpBackend, '---------------------------------------$httpBackend');
+      console.log(ctrl, '---------------------------------------ctrl');
     }));
 
     it('should create a `phones` property with 2 phones fetched with `$http`', function() {
